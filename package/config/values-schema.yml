@@ -1,0 +1,59 @@
+#@data/values-schema
+---
+
+#@schema/desc "The namespace where to install Knative Serving"
+namespace: knative-serving
+
+#! DOMAIN
+#! See https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/#configure-dns
+
+#@schema/desc "DNS configuration"
+domain:
+  #@schema/desc "Type of DNS configuration"
+  #@schema/validation one_of=["real", "nip.io", "sslip.io"]
+  type: nip.io
+  #@schema/desc "Your own domain name if type real or empty if type sslip.io or nip.io"
+  name: ""
+  #@schema/desc "The domain template to use when creating new services"
+  url_template: "{{.Name}}.{{.Namespace}}.{{.Domain}}"
+
+#! INGRESS
+#! Only contour is supported. See https://knative.dev/docs/install/install-serving-with-yaml/#install-a-networking-layer
+#! If you want to separate external and internal services, provide the namespace of the internal and external contour ingress controller,
+#! otherwise use the same for both, the namespace where contour has been installed.
+
+#@schema/desc "Ingress configuration"
+ingress:
+  #@schema/desc "Configuration for the external Ingress controller"
+  external:
+    #@schema/desc "The namespace where the external Ingress controller is installed"
+    namespace: projectcontour
+  #@schema/desc "Configuration for the internale Ingress controller"
+  internal:
+    #@schema/desc "The namespace where the internal Ingress controller is installed"
+    namespace: projectcontour
+
+#! TLS
+#! See https://knative.dev/docs/serving/using-auto-tls/
+#! Currently only cert-manager is supported.
+
+#@schema/desc "Configuration for automatic TLS certificates"
+tls:
+  #@schema/desc "Configuration for integrating with cert-manager for certificate issuing"
+  certmanager:
+    #@schema/desc "Provide a cluster issuer if you want to enable auto-TLS"
+    clusterissuer: "" #! Provide a cluster issuer name if you want, or leave empty
+
+#@schema/desc "Configuration for the Knative autoscaler"
+scaling:
+  #! This value must be greater than 0 unless allow-zero-initial-scale is true.
+  #@schema/desc "The initial target scale of a revision after creation"
+  initial_scale: "1"
+  #@schema/desc "The minimum scale of a revision"
+  min_scale: "0"
+  #@schema/desc "The maximum scale of a revision. If set to 0, the revision has no maximum scale."
+  max_scale: "0"
+  #@schema/desc "Whether either the initial_scale config or the 'autoscaling.knative.dev/initial-scale' annotation can be set to 0"
+  allow_zero_initial_scale: "true"
+  #@schema/desc "The amount of time that must pass at reduced concurrency before a scale down decision is applied. If 0s, no delay."
+  scale_down_delay: "0s"

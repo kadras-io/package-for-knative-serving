@@ -1,0 +1,154 @@
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: knative-serving.packages.kadras.io.0.0.0
+spec:
+  licenses:
+  - Apache 2.0
+  refName: knative-serving.packages.kadras.io
+  releaseNotes: https://github.com/knative/serving/releases
+  releasedAt: null
+  template:
+    spec:
+      deploy:
+      - kapp: {}
+      fetch:
+      - git: {}
+      template:
+      - ytt:
+          paths:
+          - config
+      - kbld: {}
+  valuesSchema:
+    openAPIv3:
+      additionalProperties: false
+      properties:
+        domain:
+          additionalProperties: false
+          description: DNS configuration
+          properties:
+            name:
+              default: ""
+              description: Your own domain name if type real or empty if type sslip.io
+                or nip.io
+              type: string
+            type:
+              default: nip.io
+              description: Type of DNS configuration
+              type: string
+            url_template:
+              default: '{{.Name}}.{{.Namespace}}.{{.Domain}}'
+              description: The domain template to use when creating new services
+              type: string
+          type: object
+        ingress:
+          additionalProperties: false
+          description: Ingress configuration
+          properties:
+            external:
+              additionalProperties: false
+              description: Configuration for the external Ingress controller
+              properties:
+                namespace:
+                  default: projectcontour
+                  description: The namespace where the external Ingress controller
+                    is installed
+                  type: string
+              type: object
+            internal:
+              additionalProperties: false
+              description: Configuration for the internale Ingress controller
+              properties:
+                namespace:
+                  default: projectcontour
+                  description: The namespace where the internal Ingress controller
+                    is installed
+                  type: string
+              type: object
+          type: object
+        namespace:
+          default: knative-serving
+          description: The namespace where to install Knative Serving
+          type: string
+        scaling:
+          additionalProperties: false
+          description: Configuration for the Knative autoscaler
+          properties:
+            allow_zero_initial_scale:
+              default: "true"
+              description: Whether either the initial_scale config or the 'autoscaling.knative.dev/initial-scale'
+                annotation can be set to 0
+              type: string
+            initial_scale:
+              default: "1"
+              description: The initial target scale of a revision after creation
+              type: string
+            max_scale:
+              default: "0"
+              description: The maximum scale of a revision. If set to 0, the revision
+                has no maximum scale.
+              type: string
+            min_scale:
+              default: "0"
+              description: The minimum scale of a revision
+              type: string
+            scale_down_delay:
+              default: 0s
+              description: The amount of time that must pass at reduced concurrency
+                before a scale down decision is applied. If 0s, no delay.
+              type: string
+          type: object
+        tls:
+          additionalProperties: false
+          description: Configuration for automatic TLS certificates
+          properties:
+            certmanager:
+              additionalProperties: false
+              description: Configuration for integrating with cert-manager for certificate
+                issuing
+              properties:
+                clusterissuer:
+                  default: ""
+                  description: Provide a cluster issuer if you want to enable auto-TLS
+                  type: string
+              type: object
+          type: object
+  version: 0.0.0
+
+---
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: PackageMetadata
+metadata:
+  creationTimestamp: null
+  name: knative-serving.packages.kadras.io
+spec:
+  categories:
+  - serverless
+  - deployment
+  displayName: knative-serving
+  longDescription: Knative Serving builds on Kubernetes to support deploying and serving
+    of applications and functions as serverless containers
+  maintainers:
+  - name: Thomas Vitale
+  providerName: Arktonix
+  shortDescription: Serverless platform on Kubernetes
+
+---
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  annotations:
+    kctrl.carvel.dev/local-fetch-0: .
+  creationTimestamp: null
+  name: knative-serving
+spec:
+  packageRef:
+    refName: knative-serving.packages.kadras.io
+    versionSelection:
+      constraints: 0.0.0
+  serviceAccountName: kadras-install-sa
+status:
+  conditions: null
+  friendlyDescription: ""
+  observedGeneration: 0
