@@ -113,7 +113,7 @@ For documentation specific to Knative Serving, check out [knative.dev](https://k
 
 ## References
 
-This package is a fork of the [Knative Serving](https://github.com/vmware-tanzu/community-edition/tree/main/addons/packages/knative-serving) package used in Tanzu Community Edition, but not supported anymore.
+This package is based on the original [Knative Serving](https://github.com/vmware-tanzu/community-edition/tree/main/addons/packages/knative-serving) package used in Tanzu Community Edition before its retirement.
 
 ## Supply Chain Security
 
