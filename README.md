@@ -44,7 +44,7 @@ Either way, you can then install the Knative Serving package using [`kctrl`](htt
 ```shell
 kctrl package install -i knative-serving \
     -p knative-serving.packages.kadras.io \
-    -v 1.7.1 \
+    -v 1.8.0 \
     -n carvel-packages
 ```
 
@@ -102,7 +102,7 @@ Then, reference it from the `kctrl` command when installing or upgrading the pac
 ```shell
 kctrl package install -i knative-serving \
     -p knative-serving.packages.kadras.io \
-    -v 1.7.1 \
+    -v 1.8.0 \
     -n carvel-packages \
     --values-file values.yml
 ```
@@ -113,7 +113,7 @@ For documentation specific to Knative Serving, check out [knative.dev](https://k
 
 ## References
 
-This package is based on the original [Knative Serving](https://github.com/vmware-tanzu/community-edition/tree/main/addons/packages/knative-serving) package used in Tanzu Community Edition before its retirement.
+This package is based on the original Knative Serving package used in [Tanzu Community Edition](https://github.com/vmware-tanzu/community-edition) before its retirement.
 
 ## Supply Chain Security
 

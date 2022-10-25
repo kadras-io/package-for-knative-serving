@@ -21,7 +21,7 @@ metadata:
     app: "default-domain"
     app.kubernetes.io/component: default-domain-job
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.7.1"
+    app.kubernetes.io/version: "1.8.0"
 spec:
   template:
     metadata:
@@ -31,14 +31,14 @@ spec:
         app: "default-domain"
         app.kubernetes.io/component: default-domain-job
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.7.1"
+        app.kubernetes.io/version: "1.8.0"
     spec:
       serviceAccountName: controller
       containers:
         - name: default-domain
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/default-domain@sha256:9adef8f840213765a85d1cf668a822e32c7a439d5a0f374e0aa1e9393eb7acc6
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/default-domain@sha256:2b3e4074f951dd6b6fa5018047e97a5cb10b6a6ecbb554ed77c9a8dc01011f3b
           args: ["-magic-dns=sslip.io"]
           ports:
             - name: http
@@ -61,6 +61,11 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
           env:
             - name: POD_NAME
               valueFrom:
@@ -82,7 +87,7 @@ metadata:
     app: default-domain
     app.kubernetes.io/component: default-domain-job
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.7.1"
+    app.kubernetes.io/version: "1.8.0"
 spec:
   selector:
     app: default-domain

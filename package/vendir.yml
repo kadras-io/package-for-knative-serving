@@ -4,7 +4,7 @@ directories:
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative/serving
-      tag: knative-v1.7.1
+      tag: knative-v1.8.0
     includePaths:
     - serving-crds.yaml
     - serving-core.yaml
@@ -13,14 +13,14 @@ directories:
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative-sandbox/net-contour
-      tag: knative-v1.7.0
+      tag: knative-v1.8.0
     includePaths:
     - net-contour.yaml
     path: contour
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative-sandbox/net-certmanager
-      tag: knative-v1.7.0
+      tag: knative-v1.8.0
     includePaths:
     - net-certmanager.yaml
     path: cert-manager
