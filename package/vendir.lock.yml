@@ -8,10 +8,10 @@ directories:
   - githubRelease:
       tag: knative-v1.8.0
       url: https://api.github.com/repos/knative-sandbox/net-contour/releases/80157473
-    path: contour
+    path: net-contour
   - githubRelease:
       tag: knative-v1.8.0
       url: https://api.github.com/repos/knative-sandbox/net-certmanager/releases/80187300
-    path: cert-manager
+    path: net-cert-manager
   path: config/upstream
 kind: LockConfig

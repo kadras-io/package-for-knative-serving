@@ -9,6 +9,7 @@ directories:
     - serving-crds.yaml
     - serving-core.yaml
     - serving-default-domain.yaml
+    - serving-hpa.yaml
     path: serving
   - githubRelease:
       disableAutoChecksumValidation: true
@@ -16,14 +17,14 @@ directories:
       tag: knative-v1.8.0
     includePaths:
     - net-contour.yaml
-    path: contour
+    path: net-contour
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative-sandbox/net-certmanager
       tag: knative-v1.8.0
     includePaths:
     - net-certmanager.yaml
-    path: cert-manager
+    path: net-cert-manager
   path: config/upstream
 kind: Config
 minimumRequiredVersion: ""

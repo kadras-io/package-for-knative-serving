@@ -44,7 +44,7 @@ Either way, you can then install the Knative Serving package using [`kctrl`](htt
 ```shell
 kctrl package install -i knative-serving \
     -p knative-serving.packages.kadras.io \
-    -v 1.8.0 \
+    -v 1.8.0+kadras.1 \
     -n carvel-packages
 ```
 
@@ -102,7 +102,7 @@ Then, reference it from the `kctrl` command when installing or upgrading the pac
 ```shell
 kctrl package install -i knative-serving \
     -p knative-serving.packages.kadras.io \
-    -v 1.8.0 \
+    -v 1.8.0+kadras.1 \
     -n carvel-packages \
     --values-file values.yml
 ```

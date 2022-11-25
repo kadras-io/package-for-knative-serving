@@ -1,0 +1,118 @@
+#@ load("@ytt:data", "data")
+
+---
+apiVersion: kapp.k14s.io/v1alpha1
+kind: Config
+
+minimumRequiredVersion: 0.50.0
+
+#! Rebase rules explicitly define how kapp should merge resources during an update.
+#! See more about the resource merge method: https://carvel.dev/kapp/docs/latest/merge-method.
+rebaseRules:
+
+#! If enabled, the HorizontalPodAutoscaler updates the replicas on Deployments
+#! and we want to keep them between upgrades.
+- path: [spec, replicas]
+  type: copy
+  sources: [new, existing]
+  resourceMatchers:
+  - apiVersionKindMatcher: {apiVersion: apps/v1, kind: Deployment}
+
+#! Some Secrets are created empty and populated at install time by Knative Serving with TLS certificates.
+- paths:
+  - [data, ca-cert.pem]
+  - [data, server-cert.pem]
+  - [data, server-key.pem]
+  type: copy
+  sources: [new, existing]
+  resourceMatchers:
+  - andMatcher:
+      matchers:
+      - apiVersionKindMatcher: {apiVersion: v1, kind: Secret}
+      - hasNamespaceMatcher:
+          names:
+          - #@ data.values.namespace
+
+#! These Secrets are created empty and populated by Knative Serving when internal-encryption is enabled.
+- path: [data]
+  type: copy
+  sources: [new, existing]
+  resourceMatchers:
+  - kindNamespaceNameMatcher:
+      kind: Secret
+      namespace: #@ data.values.namespace
+      name: knative-serving-certs
+  - kindNamespaceNameMatcher:
+      kind: Secret
+      namespace: #@ data.values.namespace
+      name: serving-certs-ctrl-ca
+
+#! By default, the changes applied by users to the ConfigMaps used by Knative Serving
+#! are persisted between upgrades.
+- path: [data]
+  type: copy
+  sources: [existing, new]
+  resourceMatchers:
+  - andMatcher:
+      matchers:
+      - apiVersionKindMatcher: {apiVersion: v1, kind: ConfigMap}
+      - hasNamespaceMatcher:
+          names:
+          - #@ data.values.namespace
+
+#! The 'visibility' property in the 'config-contour' ConfigMap is configurable via overlay,
+#! so we want to use the new values and discard any change applied by users directly to the cluster.
+- path: [data, visibility]
+  type: remove
+  resourceMatchers:
+  - kindNamespaceNameMatcher:
+      kind: ConfigMap
+      namespace: #@ data.values.namespace
+      name: config-contour
+- path: [data, visibility]
+  type: copy
+  sources: [new]
+  resourceMatchers:
+  - kindNamespaceNameMatcher:
+      kind: ConfigMap
+      namespace: #@ data.values.namespace
+      name: config-contour
+
+#! When upgrading, we persist the changes applied to the ConfigMaps used by Knative Serving,
+#! but we want to get the new examples applied from the new version.
+- path: [data, _example]
+  type: remove
+  resourceMatchers:
+  - apiVersionKindMatcher: {apiVersion: v1, kind: ConfigMap}
+- path: [data, _example]
+  type: copy
+  sources: [new]
+  resourceMatchers:
+  - apiVersionKindMatcher: {apiVersion: v1, kind: ConfigMap}
+
+#! This webhook configuration is populated by Knative Serving.
+#! We want to persist those changes between upgrades.
+- paths:
+  - [spec, conversion, webhook, clientConfig, service, path]
+  - [spec, conversion, webhook, clientConfig, service, port]
+  type: copy
+  sources: [new, existing]
+  resourceMatchers:
+  - apiVersionKindMatcher: {apiVersion: apiextensions.k8s.io/v1, kind: CustomResourceDefinition}
+
+#! These webhook configurations are populated by Knative Serving.
+#! By default, we want to persist those changes between upgrades.
+- paths:
+  - [webhooks, {allIndexes: true}, clientConfig, service, path]
+  - [webhooks, {allIndexes: true}, clientConfig, service, port]
+  - [webhooks, {allIndexes: true}, matchPolicy]
+  - [webhooks, {allIndexes: true}, namespaceSelector]
+  - [webhooks, {allIndexes: true}, objectSelector]
+  - [webhooks, {allIndexes: true}, reinvocationPolicy]
+  - [webhooks, {allIndexes: true}, rules]
+  - [webhooks, {allIndexes: true}, sideEffects]
+  type: copy
+  sources: [new, existing]
+  resourceMatchers:
+  - apiVersionKindMatcher: {apiVersion: admissionregistration.k8s.io/v1, kind: MutatingWebhookConfiguration}
+  - apiVersionKindMatcher: {apiVersion: admissionregistration.k8s.io/v1, kind: ValidatingWebhookConfiguration}

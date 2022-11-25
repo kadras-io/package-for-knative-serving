@@ -1,13 +1,12 @@
-#@ load("@ytt:overlay", "overlay")
 #@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
 
 #@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata": {"name": "config-network"}})
 ---
-metadata:
-  annotations:
-    #@overlay/match missing_ok=True
-    kapp.k14s.io/update-strategy: skip
 data:
   #@overlay/match missing_ok=True
   #@yaml/text-templated-strings
   domain-template: #@ data.values.domain.url_template
+  
+  #@overlay/match missing_ok=True
+  ingress.class: contour.ingress.networking.knative.dev
