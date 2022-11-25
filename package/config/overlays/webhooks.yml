@@ -1,0 +1,39 @@
+#@ load("@ytt:overlay", "overlay")
+
+#! Knative Serving overwrites the rules for the following webhooks.
+#! We remove the rules from the manifests since they are not used.
+#! The main reason is to prevent kapp from continously synchronizing unnecessary changes.
+
+#@ mutating_webhook_knative = overlay.subset({"kind":"MutatingWebhookConfiguration", "metadata":{"name":"webhook.serving.knative.dev"}})
+#@ validating_webhook_knative = overlay.subset({"kind":"ValidatingWebhookConfiguration", "metadata":{"name":"validation.webhook.serving.knative.dev"}})
+
+#@ mutating_webhook_domainmapping = overlay.subset({"kind":"MutatingWebhookConfiguration", "metadata":{"name":"webhook.domainmapping.serving.knative.dev"}})
+#@ validating_webhook_domainmapping = overlay.subset({"kind": "ValidatingWebhookConfiguration", "metadata":{"name":"validation.webhook.domainmapping.serving.knative.dev"}})
+
+#@overlay/match by=mutating_webhook_knative
+---
+webhooks:
+#@overlay/match by=overlay.subset({"name": "webhook.serving.knative.dev"})
+- #@overlay/remove
+  rules:
+
+#@overlay/match by=validating_webhook_knative
+---
+webhooks:
+#@overlay/match by=overlay.subset({"name": "validation.webhook.serving.knative.dev"})
+- #@overlay/remove
+  rules:
+
+#@overlay/match by=mutating_webhook_domainmapping
+---
+webhooks:
+#@overlay/match by=overlay.subset({"name": "webhook.domainmapping.serving.knative.dev"})
+- #@overlay/remove
+  rules:
+
+#@overlay/match by=validating_webhook_domainmapping
+---
+webhooks:
+#@overlay/match by=overlay.subset({"name": "validation.webhook.domainmapping.serving.knative.dev"})
+- #@overlay/remove
+  rules:
