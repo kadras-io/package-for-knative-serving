@@ -1,8 +1,9 @@
 #@ load("@ytt:data", "data")
 #@ load("@ytt:overlay", "overlay")
 
-#! When deploying the Knative Serving webhooks on AKS, we disable the AKS Admission Enforcer
-#! so that AKS doesn't interfere with it.
+#! On AKS, we disable the Admissions Enforcer so that it doesn't interfer with the Knative Eventing webhooks.
+#! See: https://github.com/knative/pkg/issues/1590
+#! See: https://github.com/knative/serving/issues/12474
 #! See: https://learn.microsoft.com/en-us/azure/aks/faq#can-admission-controller-webhooks-impact-kube-system-and-internal-aks-namespaces
 
 #@ mutating_webhook = overlay.subset({"apiVersion": "admissionregistration.k8s.io/v1", "kind": "MutatingWebhookConfiguration"})

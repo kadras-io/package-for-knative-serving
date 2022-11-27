@@ -23,7 +23,7 @@ kapp deploy -a test-dependencies -f test/test-dependencies -y
 echo -e "📦 Deploying Carvel package...\n"
 
 cd package
-ytt -f ../test/test-config -f package-resources.yml | kctrl dev -f-  --local -y
+ytt -f ../test/test-config -f package-resources.yml | kctrl dev -f- --local -y
 cd ..
 
 echo -e "🎮 Verifying package..."
