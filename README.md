@@ -1,5 +1,7 @@
 # Knative Serving
 
+<a href="https://slsa.dev/spec/v0.1/levels"><img src="https://slsa.dev/images/gh-badge-level3.svg" alt="The SLSA Level 3 badge"></a>
+
 This project provides a [Carvel package](https://carvel.dev/kapp-controller/docs/latest/packaging) for [Knative Serving](https://knative.dev/docs/serving), a solution built on Kubernetes to support deploying and serving of applications and functions as serverless containers.
 
 ## Prerequisites
@@ -140,6 +142,6 @@ This package is based on the original Knative Serving package used in [Tanzu Com
 
 ## Supply Chain Security
 
-This project is compliant with level 2 of the [SLSA Framework](https://slsa.dev).
+This project is compliant with level 3 of the [SLSA Framework](https://slsa.dev).
 
-<img src="https://slsa.dev/images/SLSA-Badge-full-level2.svg" alt="The SLSA Level 2 badge" width=200>
+<img src="https://slsa.dev/images/SLSA-Badge-full-level3.svg" alt="The SLSA Level 3 badge" width=200>
