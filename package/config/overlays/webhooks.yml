@@ -1,8 +1,8 @@
 #@ load("@ytt:overlay", "overlay")
 
-#! Knative Serving overwrites the rules for the following webhooks.
-#! We remove the rules from the manifests since they are not used.
-#! The main reason is to prevent kapp from continously synchronizing unnecessary changes.
+#! Knative Serving overwrites the rules for the following webhooks at install time.
+#! We remove the rules from the manifests since they are not used and prevent kapp
+#! from continously synchronizing unnecessary changes.
 
 #@ mutating_webhook_knative = overlay.subset({"kind":"MutatingWebhookConfiguration", "metadata":{"name":"webhook.serving.knative.dev"}})
 #@ validating_webhook_knative = overlay.subset({"kind":"ValidatingWebhookConfiguration", "metadata":{"name":"validation.webhook.serving.knative.dev"}})

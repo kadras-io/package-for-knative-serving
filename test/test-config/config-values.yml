@@ -1,9 +1,0 @@
-#@ load("@ytt:overlay", "overlay")
-
-#@overlay/match by=overlay.subset({"metadata":{"name":"knative-serving"}, "kind":"PackageInstall"})
----
-spec:
-  #@overlay/match missing_ok=True
-  values:
-    - secretRef:
-        name: knative-serving-values
