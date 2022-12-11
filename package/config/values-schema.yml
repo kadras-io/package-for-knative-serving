@@ -9,18 +9,15 @@ namespace: knative-serving
 
 #@schema/desc "DNS configuration"
 domain:
-  #@schema/desc "Type of DNS configuration"
-  #@schema/validation one_of=["real", "nip.io", "sslip.io"]
-  type: nip.io
-  #@schema/desc "Your own domain name if type real or empty if type sslip.io or nip.io"
-  name: ""
+  #@schema/desc "Your own domain name"
+  name: "127.0.0.1.sslip.io"
   #@schema/desc "The domain template to use when creating new services"
   url_template: "{{.Name}}.{{.Namespace}}.{{.Domain}}"
 
 #! INGRESS
-#! Only contour is supported. See https://knative.dev/docs/install/install-serving-with-yaml/#install-a-networking-layer
-#! If you want to separate external and internal services, provide the namespace of the internal and external contour ingress controller,
-#! otherwise use the same for both, the namespace where contour has been installed.
+#! Only Contour is supported. See https://knative.dev/docs/install/install-serving-with-yaml/#install-a-networking-layer
+#! If you want to separate external and internal services, provide the namespace where the the internal and external
+#! Contour Ingress controller is installed, otherwise use the same for both.
 
 #@schema/desc "Ingress configuration"
 ingress:
@@ -35,7 +32,7 @@ ingress:
 
 #! TLS
 #! See https://knative.dev/docs/serving/using-auto-tls/
-#! Currently only cert-manager is supported.
+#! Only cert-manager is supported.
 
 #@schema/desc "Configuration for automatic TLS certificates"
 tls:

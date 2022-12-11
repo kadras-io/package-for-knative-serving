@@ -6,7 +6,7 @@
 metadata:
   name: #@ data.values.namespace
 
-#@overlay/match by=overlay.subset({"metadata": {"namespace": "knative-serving"}}), expects=[41,43,45]
+#@overlay/match by=overlay.subset({"metadata": {"namespace": "knative-serving"}}), expects="43+"
 ---
 metadata:
   namespace: #@ data.values.namespace

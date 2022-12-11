@@ -36,7 +36,7 @@ Then, install the Knative Serving package.
   ```shell
   kctrl package install -i knative-serving \
     -p knative-serving.packages.kadras.io \
-    -v 1.8.0+kadras.3 \
+    -v 1.8.2 \
     -n kadras-packages
   ```
 
@@ -63,7 +63,16 @@ The Knative Serving package has the following configurable properties.
 | Config | Default | Description |
 |-------|-------------------|-------------|
 | `namespace` | `knative-serving` | The namespace where to install Knative Serving. |
-| `domain.type` | `nip.io` | Type of DNS resolution to use for the Knative services. If `real` DNS is chosen, you need to provide a `domain.name` or else use `sslip.io` or `nip.io`. |
+| `domain.name` | `127.0.0.1.sslip.io` | Your domain name. Either a real DNS name or else use `sslip.io` or `nip.io` for local installations. |
+| `domain.template` | `{{.Name}}.{{.Namespace}}.{{.Domain}}` | The domain template to use when generating the DNS name for new services. |
+| `ingress.external.namespace` | `projectcontour` | The namespace where the external Contour Ingress controller is installed. If you have only one, configure the same namespace for both external and internal. |
+| `ingress.internal.namespace` | `projectcontour` | The namespace where the internal Contour Ingress controller is installed. If you have only one, configure the same namespace for both external and internal. |
+| `tls.certmanager.clusterissuer` | `""` | Provide a Cert Manager `ClusterIssuer` if you want to enable auto-TLS. Optional. |
+| `scaling.initial_scale` | `1` | The initial target scale of a revision after creation. |
+| `scaling.min_scale` | `0` | The minimum scale of a revision. |
+| `scaling.max_scale` | `0` | The maximum scale of a revision. If set to 0, the revision has no maximum scale. |
+| `scaling.allow_zero_initial_scale` | `true` | Whether either the initial_scale config or the 'autoscaling.knative.dev/initial-scale' annotation can be set to 0. |
+| `scaling.scale_down_delay` | `0s` | The amount of time that must pass at reduced concurrency before a scale down decision is applied. If 0s, no delay. |
 
 You can define your configuration in a `values.yml` file.
 
@@ -71,8 +80,7 @@ You can define your configuration in a `values.yml` file.
   namespace: knative-serving
 
   domain:
-    type: nip.io
-    name: ""
+    name: 127.0.0.1.sslip.io
     url_template: "{{.Name}}.{{.Namespace}}.{{.Domain}}"
 
   ingress:
@@ -98,7 +106,7 @@ Then, reference it from the `kctrl` command when installing or upgrading the pac
   ```shell
   kctrl package install -i knative-serving \
     -p knative-serving.packages.kadras.io \
-    -v 1.8.0+kadras.3 \
+    -v 1.8.2 \
     -n kadras-packages \
     --values-file values.yml
   ```
