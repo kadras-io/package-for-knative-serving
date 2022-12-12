@@ -20,7 +20,7 @@ kapp deploy -a kadras-repo -y \
 
 kapp deploy -a test-dependencies -f test/test-dependencies -y
 
-echo -e "📦 Deploying Carvel package...\n"
+echo -e "📦 Deploying and verifying Carvel package...\n"
 
 cd package
 kctrl dev -f package-resources.yml --local -y
@@ -31,8 +31,11 @@ echo -e "🎮 Verifying package..."
 status=$(kapp inspect -a knative-serving.app --status --json | jq '.Lines[1]' -)
 if [[ '"Succeeded"' == ${status} ]]; then
     echo -e "✅ The package has been installed successfully.\n"
-    exit 0
 else
     echo -e "🚫 Something wrong happened during the installation of the package.\n"
     exit 1
 fi
+
+echo -e "🏎️ Deploying and verifying Knative Service..."
+
+kapp deploy -a hello -f test/test-application -y

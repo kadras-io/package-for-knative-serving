@@ -14,26 +14,30 @@
 ---
 webhooks:
 #@overlay/match by=overlay.subset({"name": "webhook.serving.knative.dev"})
-- #@overlay/remove
+- 
+  #@overlay/remove
   rules:
 
 #@overlay/match by=validating_webhook_knative
 ---
 webhooks:
 #@overlay/match by=overlay.subset({"name": "validation.webhook.serving.knative.dev"})
-- #@overlay/remove
+- 
+  #@overlay/remove
   rules:
 
 #@overlay/match by=mutating_webhook_domainmapping
 ---
 webhooks:
 #@overlay/match by=overlay.subset({"name": "webhook.domainmapping.serving.knative.dev"})
-- #@overlay/remove
+- 
+  #@overlay/remove
   rules:
 
 #@overlay/match by=validating_webhook_domainmapping
 ---
 webhooks:
 #@overlay/match by=overlay.subset({"name": "validation.webhook.domainmapping.serving.knative.dev"})
-- #@overlay/remove
+- 
+  #@overlay/remove
   rules:

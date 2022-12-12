@@ -4,7 +4,7 @@ directories:
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative/serving
-      tag: knative-v1.8.2
+      tag: knative-v1.8.3
     includePaths:
     - serving-crds.yaml
     - serving-core.yaml
