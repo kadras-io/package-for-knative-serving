@@ -36,7 +36,7 @@ Then, install the Knative Serving package.
   ```shell
   kctrl package install -i knative-serving \
     -p knative-serving.packages.kadras.io \
-    -v 1.8.2 \
+    -v 1.8.3 \
     -n kadras-packages
   ```
 
@@ -106,7 +106,7 @@ Then, reference it from the `kctrl` command when installing or upgrading the pac
   ```shell
   kctrl package install -i knative-serving \
     -p knative-serving.packages.kadras.io \
-    -v 1.8.2 \
+    -v 1.8.3 \
     -n kadras-packages \
     --values-file values.yml
   ```
