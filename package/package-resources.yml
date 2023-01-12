@@ -127,7 +127,7 @@ spec:
     of applications and functions as serverless containers
   maintainers:
   - name: Thomas Vitale
-  providerName: Arktonix
+  providerName: Kadras
   shortDescription: Serverless platform on Kubernetes
 
 ---

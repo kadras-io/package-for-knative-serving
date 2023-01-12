@@ -18,7 +18,7 @@ kapp deploy -a kapp-controller -y \
   -f https://github.com/vmware-tanzu/carvel-kapp-controller/releases/latest/download/release.yml
 
 kapp deploy -a kadras-repo -y \
-  -f https://github.com/arktonix/kadras-packages/releases/latest/download/package-repository.yml
+  -f https://github.com/kadras-io/kadras-packages/releases/latest/download/package-repository.yml
 
 kapp deploy -a test-dependencies -f test/test-dependencies -y
 
