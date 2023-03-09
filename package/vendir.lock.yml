@@ -2,16 +2,16 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - githubRelease:
-      tag: knative-v1.8.3
-      url: https://api.github.com/repos/knative/serving/releases/85486775
+      tag: knative-v1.9.2
+      url: https://api.github.com/repos/knative/serving/releases/93916485
     path: serving
   - githubRelease:
-      tag: knative-v1.8.1
-      url: https://api.github.com/repos/knative-sandbox/net-contour/releases/85482713
+      tag: knative-v1.9.3
+      url: https://api.github.com/repos/knative-sandbox/net-contour/releases/93906924
     path: net-contour
   - githubRelease:
-      tag: knative-v1.8.1
-      url: https://api.github.com/repos/knative-sandbox/net-certmanager/releases/85500515
+      tag: knative-v1.9.2
+      url: https://api.github.com/repos/knative-sandbox/net-certmanager/releases/93907589
     path: net-cert-manager
   path: config/upstream
 kind: LockConfig

@@ -19,7 +19,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -54,6 +54,9 @@ spec:
                   type: array
                   items:
                     type: string
+                domain:
+                  description: Domain is the top level domain of the values for DNSNames.
+                  type: string
                 secretName:
                   description: SecretName is the name of the secret resource to store the SSL certificate in.
                   type: string
@@ -165,7 +168,7 @@ metadata:
   name: configurations.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
     duck.knative.dev/podspecable: "true"
 spec:
@@ -623,6 +626,18 @@ spec:
                                     description: The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
                                     type: integer
                                     format: int64
+                                  seccompProfile:
+                                    description: The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows.
+                                    type: object
+                                    required:
+                                      - type
+                                    properties:
+                                      localhostProfile:
+                                        description: localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must only be set if type is "Localhost".
+                                        type: string
+                                      type:
+                                        description: "type indicates which kind of seccomp profile will be applied. Valid options are: \n Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied."
+                                        type: string
                               terminationMessagePath:
                                 description: 'Optional: Path at which the file to which the container''s termination message will be written is mounted into the container''s filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated.'
                                 type: string
@@ -991,7 +1006,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -1055,7 +1070,7 @@ metadata:
   name: domainmappings.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
 spec:
   group: serving.knative.dev
@@ -1324,7 +1339,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -1584,7 +1599,7 @@ metadata:
   name: metrics.autoscaling.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
 spec:
   group: autoscaling.internal.knative.dev
@@ -1706,7 +1721,7 @@ metadata:
   name: podautoscalers.autoscaling.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
 spec:
   group: autoscaling.internal.knative.dev
@@ -1866,7 +1881,7 @@ metadata:
   name: revisions.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
 spec:
   group: serving.knative.dev
@@ -2303,6 +2318,18 @@ spec:
                             description: The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
                             type: integer
                             format: int64
+                          seccompProfile:
+                            description: The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows.
+                            type: object
+                            required:
+                              - type
+                            properties:
+                              localhostProfile:
+                                description: localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must only be set if type is "Localhost".
+                                type: string
+                              type:
+                                description: "type indicates which kind of seccomp profile will be applied. Valid options are: \n Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied."
+                                type: string
                       terminationMessagePath:
                         description: 'Optional: Path at which the file to which the container''s termination message will be written is mounted into the container''s filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated.'
                         type: string
@@ -2699,7 +2726,7 @@ metadata:
   name: routes.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
     duck.knative.dev/addressable: "true"
 spec:
@@ -2873,7 +2900,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -3039,7 +3066,7 @@ metadata:
   name: services.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
     duck.knative.dev/addressable: "true"
     duck.knative.dev/podspecable: "true"
@@ -3501,6 +3528,18 @@ spec:
                                     description: The UID to run the entrypoint of the container process. Defaults to user specified in image metadata if unspecified. May also be set in PodSecurityContext.  If set in both SecurityContext and PodSecurityContext, the value specified in SecurityContext takes precedence. Note that this field cannot be set when spec.os.name is windows.
                                     type: integer
                                     format: int64
+                                  seccompProfile:
+                                    description: The seccomp options to use by this container. If seccomp options are provided at both the pod & container level, the container options override the pod options. Note that this field cannot be set when spec.os.name is windows.
+                                    type: object
+                                    required:
+                                      - type
+                                    properties:
+                                      localhostProfile:
+                                        description: localhostProfile indicates a profile defined in a file on the node should be used. The profile must be preconfigured on the node to work. Must be a descending path, relative to the kubelet's configured seccomp profile location. Must only be set if type is "Localhost".
+                                        type: string
+                                      type:
+                                        description: "type indicates which kind of seccomp profile will be applied. Valid options are: \n Localhost - a profile defined in a file on the node should be used. RuntimeDefault - the container runtime default profile should be used. Unconfined - no profile should be applied."
+                                        type: string
                               terminationMessagePath:
                                 description: 'Optional: Path at which the file to which the container''s termination message will be written is mounted into the container''s filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated.'
                                 type: string
@@ -3929,7 +3968,7 @@ metadata:
   name: images.caching.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.8.3"
+    app.kubernetes.io/version: "1.9.2"
     knative.dev/crd-install: "true"
 spec:
   group: caching.internal.knative.dev
