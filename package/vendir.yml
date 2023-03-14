@@ -26,4 +26,4 @@ directories:
     path: net-cert-manager
   path: config/upstream
 kind: Config
-minimumRequiredVersion: ""
+minimumRequiredVersion: 0.32.0

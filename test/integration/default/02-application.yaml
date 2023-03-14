@@ -1,7 +1,9 @@
+---
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: hello
+  namespace: tests
 spec:
   template:
     spec:

@@ -1,10 +1,16 @@
 # Knative Serving
 
-<a href="https://slsa.dev/spec/v0.1/levels"><img src="https://slsa.dev/images/gh-badge-level3.svg" alt="The SLSA Level 3 badge"></a>
+![Test Workflow](https://github.com/kadras-io/package-for-knative-serving/actions/workflows/test.yml/badge.svg)
+![Release Workflow](https://github.com/kadras-io/package-for-knative-serving/actions/workflows/release.yml/badge.svg)
+[![The SLSA Level 3 badge](https://slsa.dev/images/gh-badge-level3.svg)](https://slsa.dev/spec/v0.1/levels)
+[![The Apache 2.0 license badge](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Follow us on Twitter](https://img.shields.io/static/v1?label=Twitter&message=Follow&color=1DA1F2)](https://twitter.com/kadrasIO)
 
-This project provides a [Carvel package](https://carvel.dev/kapp-controller/docs/latest/packaging) for [Knative Serving](https://knative.dev/docs/serving), a solution built on Kubernetes to support deploying and serving of applications and functions as serverless containers.
+A Carvel package for [Knative Serving](https://knative.dev/docs/serving), a solution built on Kubernetes to support deploying and serving of applications and functions as serverless containers.
 
-## Prerequisites
+## 🚀&nbsp; Getting Started
+
+### Prerequisites
 
 * Kubernetes 1.24+
 * Carvel [`kctrl`](https://carvel.dev/kapp-controller/docs/latest/install/#installing-kapp-controller-cli-kctrl) CLI.
@@ -12,53 +18,91 @@ This project provides a [Carvel package](https://carvel.dev/kapp-controller/docs
 
   ```shell
   kapp deploy -a kapp-controller -y \
-    -f https://github.com/vmware-tanzu/carvel-kapp-controller/releases/latest/download/release.yml
+    -f https://github.com/carvel-dev/kapp-controller/releases/latest/download/release.yml
   ```
 
-## Dependencies
+### Dependencies
 
-Knative Serving requires the Contour package to be already installed in your Kubernetes cluster. You can install it
-from the [Kadras package repository](https://github.com/kadras-io/kadras-packages).
+Knative Serving requires the [Contour](https://github.com/kadras-io/package-for-contour) ingress controller. You can install it from the [Kadras package repository](https://github.com/kadras-io/kadras-packages).
 
-## Installation
+### Installation
 
-First, add the [Kadras package repository](https://github.com/kadras-io/kadras-packages) to your Kubernetes cluster.
+Add the Kadras [package repository](https://github.com/kadras-io/kadras-packages) to your Kubernetes cluster:
 
   ```shell
   kubectl create namespace kadras-packages
-  kctrl package repository add -r kadras-repo \
+  kctrl package repository add -r kadras-packages \
     --url ghcr.io/kadras-io/kadras-packages \
     -n kadras-packages
   ```
 
-Then, install the Knative Serving package.
+<details><summary>Installation without package repository</summary>
+The recommended way of installing the Knative Serving package is via the Kadras <a href="https://github.com/kadras-io/kadras-packages">package repository</a>. If you prefer not using the repository, you can add the package definition directly using <a href="https://carvel.dev/kapp/docs/latest/install"><code>kapp</code></a> or <code>kubectl</code>.
+
+  ```shell
+  kubectl create namespace kadras-packages
+  kapp deploy -a knative-serving-package -n kadras-packages -y \
+    -f https://github.com/kadras-io/package-for-knative-serving/releases/latest/download/metadata.yml \
+    -f https://github.com/kadras-io/package-for-knative-serving/releases/latest/download/package.yml
+  ```
+</details>
+
+Install the Knative Serving package:
 
   ```shell
   kctrl package install -i knative-serving \
     -p knative-serving.packages.kadras.io \
-    -v 1.8.3+kadras.1 \
+    -v ${VERSION} \
     -n kadras-packages
   ```
 
-### Verification
+> **Note**
+> You can find the `${VERSION}` value by retrieving the list of package versions available in the Kadras package repository installed on your cluster.
+> 
+>   ```shell
+>   kctrl package available list -p knative-serving.packages.kadras.io -n kadras-packages
+>   ```
 
-You can verify the list of installed Carvel packages and their status.
+Verify the installed packages and their status:
 
   ```shell
   kctrl package installed list -n kadras-packages
   ```
 
-### Version
+## 📙&nbsp; Documentation
 
-You can get the list of Knative Serving versions available in the Kadras package repository.
+Documentation, tutorials and examples for this package are available in the [docs](docs) folder.
+For documentation specific to Knative Serving, check out [knative.dev](https://knative.dev/docs/serving).
 
-  ```shell
-  kctrl package available list -p knative-serving.packages.kadras.io -n kadras-packages
+## 🎯&nbsp; Configuration
+
+The Knative Serving package can be customized via a `values.yml` file.
+
+  ```yaml
+  config:
+    domain:
+      name: kadras.io
+  
+  tls:
+    certmanager:
+      clusterissuer: lets-encrypt-issuer
   ```
 
-## Configuration
+Reference the `values.yml` file from the `kctrl` command when installing or upgrading the package.
+
+  ```shell
+  kctrl package install -i knative-serving \
+    -p knative-serving.packages.kadras.io \
+    -v ${VERSION} \
+    -n kadras-packages \
+    --values-file values.yml
+  ```
+
+### Values
 
 The Knative Serving package has the following configurable properties.
+
+<details><summary>Configurable properties</summary>
 
 | Config | Default | Description |
 |-------|-------------------|-------------|
@@ -74,82 +118,12 @@ The Knative Serving package has the following configurable properties.
 | `scaling.allow_zero_initial_scale` | `true` | Whether either the initial_scale config or the 'autoscaling.knative.dev/initial-scale' annotation can be set to 0. |
 | `scaling.scale_down_delay` | `0s` | The amount of time that must pass at reduced concurrency before a scale down decision is applied. If 0s, no delay. |
 
-You can define your configuration in a `values.yml` file.
+</details>
 
-  ```yaml
-  namespace: knative-serving
+## 🛡️&nbsp; Security
 
-  domain:
-    name: 127.0.0.1.sslip.io
-    url_template: "{{.Name}}.{{.Namespace}}.{{.Domain}}"
+The security process for reporting vulnerabilities is described in [SECURITY.md](SECURITY.md).
 
-  ingress:
-    external:
-      namespace: projectcontour
-    internal:
-      namespace: projectcontour
+## 🖊️&nbsp; License
 
-  tls:
-    certmanager:
-      clusterissuer: ""
-
-  scaling:
-    initial_scale: "1"
-    min_scale: "0"
-    max_scale: "0"
-    allow_zero_initial_scale: "true"
-    scale_down_delay: "0s"
-  ```
-
-Then, reference it from the `kctrl` command when installing or upgrading the package.
-
-  ```shell
-  kctrl package install -i knative-serving \
-    -p knative-serving.packages.kadras.io \
-    -v 1.8.3+kadras.1 \
-    -n kadras-packages \
-    --values-file values.yml
-  ```
-
-## Upgrading
-
-You can upgrade an existing package to a newer version using `kctrl`.
-
-  ```shell
-  kctrl package installed update -i knative-serving \
-    -v <new-version> \
-    -n kadras-packages
-  ```
-
-You can also update an existing package with a newer `values.yml` file.
-
-  ```shell
-  kctrl package installed update -i knative-serving \
-    -n kadras-packages \
-    --values-file values.yml
-  ```
-
-## Other
-
-The recommended way of installing the Knative Serving package is via the [Kadras package repository](https://github.com/kadras-io/kadras-packages). If you prefer not using the repository, you can install the package by creating the necessary Carvel `PackageMetadata` and `Package` resources directly using [`kapp`](https://carvel.dev/kapp/docs/latest/install) or `kubectl`.
-
-  ```shell
-  kubectl create namespace kadras-packages
-  kapp deploy -a knative-serving-package -n kadras-packages -y \
-    -f https://github.com/kadras-io/package-for-knative-serving/releases/latest/download/metadata.yml \
-    -f https://github.com/kadras-io/package-for-knative-serving/releases/latest/download/package.yml
-  ```
-
-## Support and Documentation
-
-For support and documentation specific to Knative Serving, check out [knative.dev](https://knative.dev).
-
-## References
-
-This package is based on the original Knative Serving package used in [Tanzu Community Edition](https://github.com/vmware-tanzu/community-edition) before its retirement.
-
-## Supply Chain Security
-
-This project is compliant with level 3 of the [SLSA Framework](https://slsa.dev).
-
-<img src="https://slsa.dev/images/SLSA-Badge-full-level3.svg" alt="The SLSA Level 3 badge" width=200>
+This project is licensed under the **Apache License 2.0**. See [LICENSE](LICENSE) for more information.

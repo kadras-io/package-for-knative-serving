@@ -1,0 +1,44 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+
+#! AUTOSCALER
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":"autoscaler"}})
+---
+spec:
+  #@overlay/match missing_ok=True
+  replicas: #@ data.values.workloads.autoscaler.replicas
+
+#! CONTROLLER
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":"controller"}})
+---
+spec:
+  #@overlay/match missing_ok=True
+  replicas: #@ data.values.workloads.controller.replicas
+
+#! ACTIVATOR
+
+#@overlay/match by=overlay.subset({"kind":"HorizontalPodAutoscaler", "metadata":{"name":"activator"}})
+---
+spec:
+  minReplicas: #@ data.values.workloads.activator.minReplicas
+
+#@ if/end data.values.workloads.activator.minReplicas < 2:
+
+#@overlay/match by=overlay.subset({"kind":"PodDisruptionBudget", "metadata":{"name":"activator-pdb"}})
+#@overlay/remove
+---
+
+#! WEBHOOK
+
+#@overlay/match by=overlay.subset({"kind":"HorizontalPodAutoscaler", "metadata":{"name":"webhook"}})
+---
+spec:
+  minReplicas: #@ data.values.workloads.webhook.minReplicas
+
+#@ if/end data.values.workloads.webhook.minReplicas < 2:
+
+#@overlay/match by=overlay.subset({"kind":"PodDisruptionBudget", "metadata":{"name":"webhook-pdb"}})
+#@overlay/remove
+---

@@ -5,17 +5,11 @@
 
 #@overlay/match by=overlay.subset({"metadata":{"name":"config-certmanager"}})
 ---
+#@overlay/match-child-defaults missing_ok=True
 data:
-  #@overlay/match missing_ok=True
   #@yaml/text-templated-strings
   issuerRef: |
     kind: ClusterIssuer
     name: (@= data.values.tls.certmanager.clusterissuer @)
-
-#@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata": {"name": "config-network"}})
----
-data:
-  #@overlay/match missing_ok=True
-  autoTLS: Enabled
 
 #@ end

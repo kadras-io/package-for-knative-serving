@@ -1,0 +1,7 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata":{"name":"config-tracing"}})
+---
+#@overlay/match-child-defaults missing_ok=True
+data: #@ data.values.config["tracing"]

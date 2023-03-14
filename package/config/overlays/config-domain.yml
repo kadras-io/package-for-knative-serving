@@ -1,9 +1,9 @@
 #@ load("@ytt:data", "data")
 #@ load("@ytt:overlay", "overlay")
 
-#@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata": {"name": "config-domain"}})
+#@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata":{"name":"config-domain"}})
 ---
+#@overlay/match-child-defaults missing_ok=True
 data:
-  #@overlay/match missing_ok=True
   #@yaml/text-templated-strings
-  (@= data.values.domain.name @): ""
+  (@= data.values.config.domain.name @): ""
