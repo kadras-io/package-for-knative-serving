@@ -106,17 +106,54 @@ The Knative Serving package has the following configurable properties.
 
 | Config | Default | Description |
 |-------|-------------------|-------------|
-| `namespace` | `knative-serving` | The namespace where to install Knative Serving. |
-| `domain.name` | `127.0.0.1.sslip.io` | Your domain name. Either a real DNS name or else use `sslip.io` or `nip.io` for local installations. |
-| `domain.template` | `{{.Name}}.{{.Namespace}}.{{.Domain}}` | The domain template to use when generating the DNS name for new services. |
-| `ingress.external.namespace` | `projectcontour` | The namespace where the external Contour Ingress controller is installed. If you have only one, configure the same namespace for both external and internal. |
-| `ingress.internal.namespace` | `projectcontour` | The namespace where the internal Contour Ingress controller is installed. If you have only one, configure the same namespace for both external and internal. |
-| `tls.certmanager.clusterissuer` | `""` | Provide a Cert Manager `ClusterIssuer` if you want to enable auto-TLS. Optional. |
-| `scaling.initial_scale` | `1` | The initial target scale of a revision after creation. |
-| `scaling.min_scale` | `0` | The minimum scale of a revision. |
-| `scaling.max_scale` | `0` | The maximum scale of a revision. If set to 0, the revision has no maximum scale. |
-| `scaling.allow_zero_initial_scale` | `true` | Whether either the initial_scale config or the 'autoscaling.knative.dev/initial-scale' annotation can be set to 0. |
-| `scaling.scale_down_delay` | `0s` | The amount of time that must pass at reduced concurrency before a scale down decision is applied. If 0s, no delay. |
+| `ca_cert_data` | `""` | PEM-encoded certificate data to trust TLS connections with a custom CA. |
+| `policies.include` | `false` | Whether to include the out-of-the-box Kyverno policies to validate and secure the package installation. |
+
+Settings for the Knative Serving workloads.
+
+| Config | Default | Description |
+|-------|-------------------|-------------|
+| `workloads.activator.minReplicas` | `1` | The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1. |
+| `workloads.autoscaler.replicas` | `1` | The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1. |
+| `workloads.controller.replicas` | `1` | The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1. |
+| `workloads.webhook.minReplicas` | `1` | The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1. |
+
+Settings for the Knative Serving ConfigMaps.
+
+| Config | Default | Description |
+|-------|-------------------|-------------|
+| `config.domain.name` | `127.0.0.1.sslip.io` | Domain name for Knative Services. It must be a valid DNS name. |
+| `config.network.namespace-wildcard-cert-selector` | `""` | A LabelSelector which determines which namespaces should have a wildcard certificate provisioned. |
+| `config.network.domain-template` | `{{.Name}}.{{.Namespace}}.{{.Domain}}` | The golang text template string to use when constructing the Knative Service's DNS name. |
+| `config.network.http-protocol` | `"Enabled"` | Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS. |
+| `config.network.default-external-scheme` | `http` | Defines the scheme used for external URLs if autoTLS is not enabled. This can be used for making Knative report all URLs as `https`, for example, if you're fronting Knative with an external loadbalancer that deals with TLS termination and Knative doesn't know about that otherwise. |
+| `config.network.rollout-duration` | `0` | The minimal duration in seconds over which the Configuration traffic targets are rolled out to the newest revision. |
+| `config.tracing.backend` | `none` | The type of distributed tracing backend. Options: `none`, `zipkin`. |
+| `config.tracing.zipkin-endpoint` | `http://tempo.observability-system.svc.cluster.local:9411/api/v2/spans` | The Zipkin collector endpoint where traces are sent. |
+| `config.tracing.debug` | `false` | Enable the Zipkin debug mode. This allows all spans to be sent to the server bypassing sampling. |
+| `config.tracing.sample-rate` | `0.1` | The percentage (0-1) of requests to trace. |
+
+Settings for the Ingress controller.
+
+| Config | Default | Description |
+|-------|-------------------|-------------|
+| `ingress.contour.default-tls-secret` | `""` | If auto-TLS is disabled, fallback to this certificate. An operator is required to setup a TLSCertificateDelegation for this Secret to be used. |
+| `ingress.contour.external.namespace` | `projectcontour` | The namespace where the external Ingress controller is installed. |
+| `ingress.contour.internal.namespace` | `projectcontour` | The namespace where the internal Ingress controller is installed. |
+
+Settings for TLS certificates.
+
+| Config | Default | Description |
+|-------|-------------------|-------------|
+| `tls.certmanager.clusterissuer` | `""` | A reference to the ClusterIssuer to use if you want to enable autoTLS. |
+
+Settings for the proxy.
+
+| Config | Default | Description |
+|-------|-------------------|-------------|
+| `proxy.http_proxy` | `""` | The HTTP proxy URL. |
+| `proxy.https_proxy` | `""` | The HTTPS proxy URL. |
+| `proxy.no_proxy` | `""` | For which domains the proxy should not be used. |
 
 </details>
 

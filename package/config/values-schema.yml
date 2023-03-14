@@ -90,7 +90,7 @@ tls:
   #@schema/desc "Cert Manager configuration stored in the `config-certmanager` ConfigMap."
   certmanager:
     #@schema/desc "A reference to the ClusterIssuer to use if you want to enable autoTLS."
-    clusterissuer: "" #! Provide a cluster issuer name if you want, or leave empty
+    clusterissuer: ""
 
 #@schema/desc "Settings for the proxy."
 proxy:
