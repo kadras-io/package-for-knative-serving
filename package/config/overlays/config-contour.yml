@@ -3,13 +3,17 @@
 
 #@overlay/match by=overlay.subset({"metadata":{"name":"config-contour"}})
 ---
+#@overlay/match-child-defaults missing_ok=True
 data:
-  #@overlay/match missing_ok=True
+
+  #@ if/end data.values.ingress.contour["default-tls-secret"]:
+  default-tls-secret: #@ data.values.ingress.contour["default-tls-secret"]
+
   #@yaml/text-templated-strings
   visibility: |
     ExternalIP:
       class: contour
-      service: (@= data.values.ingress.external.namespace @)/envoy
+      service: (@= data.values.ingress.contour.external.namespace @)/envoy
     ClusterLocal:
       class: contour
-      service: (@= data.values.ingress.internal.namespace @)/envoy
+      service: (@= data.values.ingress.contour.internal.namespace @)/envoy

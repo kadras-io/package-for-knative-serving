@@ -1,0 +1,41 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+
+#@ ca_certs_directory = "/etc/custom-certs"
+#@ ca_certs_secret_name = "custom-certs"
+
+#@ if data.values.ca_cert_data:
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: #@ ca_certs_secret_name
+  namespace: knative-serving
+stringData:
+  #@yaml/text-templated-strings
+  ca.crt: |
+    (@= data.values.ca_cert_data @)
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":"controller"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+        #@overlay/match by="name"
+        - name: controller
+          #@overlay/match missing_ok=True
+          volumeMounts:
+            - name: custom-certs
+              mountPath: #@ ca_certs_directory
+          env:
+            - name: SSL_CERT_DIR
+              value: #@ ca_certs_directory
+      #@overlay/match missing_ok=True
+      volumes:
+        - name: custom-certs
+          secret:
+            secretName: #@ ca_certs_secret_name
+
+#@ end

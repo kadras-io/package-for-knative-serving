@@ -16,7 +16,8 @@ rebaseRules:
   type: copy
   sources: [existing, new]
   resourceMatchers:
-  - apiVersionKindMatcher: {apiVersion: apps/v1, kind: Deployment}
+  - kindNamespaceNameMatcher: {kind: Deployment, namespace: knative-serving, name: activator}
+  - kindNamespaceNameMatcher: {kind: Deployment, namespace: knative-serving, name: webhook}
 
 #! Some Secrets are created empty and populated at install time by Knative Serving with TLS certificates.
 #! We prefer the manifest configuration, but allow the one set on the cluster.
@@ -27,12 +28,8 @@ rebaseRules:
   type: copy
   sources: [new, existing]
   resourceMatchers:
-  - andMatcher:
-      matchers:
-      - apiVersionKindMatcher: {apiVersion: v1, kind: Secret}
-      - hasNamespaceMatcher:
-          names:
-          - #@ data.values.namespace
+  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: domainmapping-webhook-certs}
+  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: webhook-certs}
 
 #! These Secrets are created empty and populated by Knative Serving when internal-encryption is enabled.
 #! They don't follow the standard naming conventions for TLS certificates, so we need a dedicate rule for them.
@@ -40,47 +37,25 @@ rebaseRules:
   type: copy
   sources: [new, existing]
   resourceMatchers:
-  - kindNamespaceNameMatcher:
-      kind: Secret
-      namespace: #@ data.values.namespace
-      name: knative-serving-certs
-  - kindNamespaceNameMatcher:
-      kind: Secret
-      namespace: #@ data.values.namespace
-      name: serving-certs-ctrl-ca
+  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: knative-serving-certs}
+  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: serving-certs-ctrl-ca}
 
-#! By default, we want the changes applied on-cluster to the ConfigMaps
-#! to be persisted between upgrades.
+#! Changes applied by users to the ConfigMaps for which this package doesn't provide overlays
+#! are persisted between upgrades.
 - path: [data]
   type: copy
   sources: [existing, new]
   resourceMatchers:
-  - andMatcher:
-      matchers:
-      - apiVersionKindMatcher: {apiVersion: v1, kind: ConfigMap}
-      - hasNamespaceMatcher:
-          names:
-          - #@ data.values.namespace
+  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-autoscaler}
+  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-defaults}
+  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-deployment}
+  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-features}
+  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-gc}
+  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-leader-election}
+  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-logging}
+  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-observability}
 
-#! The 'visibility' property in the 'config-contour' ConfigMap is configurable via overlay,
-#! so we want to use the new values and discard any change applied directly to the cluster.
-- path: [data, visibility]
-  type: remove
-  resourceMatchers:
-  - kindNamespaceNameMatcher:
-      kind: ConfigMap
-      namespace: #@ data.values.namespace
-      name: config-contour
-- path: [data, visibility]
-  type: copy
-  sources: [new]
-  resourceMatchers:
-  - kindNamespaceNameMatcher:
-      kind: ConfigMap
-      namespace: #@ data.values.namespace
-      name: config-contour
-
-#! When upgrading, we prefer the changes applied to the ConfigMaps on the cluster by default,
+#! When upgrading one of the ConfigMaps above, we prefer the changes applied to the cluster,
 #! but we want to get the new example values from the new version.
 - path: [data, _example]
   type: remove
@@ -92,8 +67,8 @@ rebaseRules:
   resourceMatchers:
   - apiVersionKindMatcher: {apiVersion: v1, kind: ConfigMap}
 
-#! These webhook configurations are populated by Knative Serving at install time.
-#! We prefer the manifest configuration, but allow the one set on the cluster.
+#! These webhook configurations are populated by Knative Serving.
+#! We want to persist those changes between upgrades.
 - paths:
   - [webhooks, {allIndexes: true}, clientConfig, service, path]
   - [webhooks, {allIndexes: true}, clientConfig, service, port]
@@ -102,6 +77,7 @@ rebaseRules:
   - [webhooks, {allIndexes: true}, objectSelector]
   - [webhooks, {allIndexes: true}, reinvocationPolicy]
   - [webhooks, {allIndexes: true}, rules]
+  - [webhooks, {allIndexes: true}, timeoutSeconds]
   type: copy
   sources: [new, existing]
   resourceMatchers:

@@ -1,56 +1,102 @@
 #@data/values-schema
 ---
 
-#@schema/desc "The namespace where to install Knative Serving"
-namespace: knative-serving
+#@schema/desc "PEM-encoded certificate data to trust TLS connections with a custom CA."
+ca_cert_data: ""
 
-#! DOMAIN
-#! See https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/#configure-dns
+#@schema/desc "Settings for the Kyverno policies."
+policies:
+  #@schema/desc "Whether to include the out-of-the-box Kyverno policies to validate and secure the package installation."
+  include: false
 
-#@schema/desc "DNS configuration"
-domain:
-  #@schema/desc "Your own domain name"
-  name: "127.0.0.1.sslip.io"
-  #@schema/desc "The domain template to use when creating new services"
-  url_template: "{{.Name}}.{{.Namespace}}.{{.Domain}}"
+#@schema/desc "Settings for the Knative Serving workloads."
+workloads:
+  activator:
+    #@schema/desc "The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1."
+    #@schema/validation min=1, max=20
+    minReplicas: 1
+  autoscaler:
+    #@schema/desc "The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1."
+    #@schema/validation min=1
+    replicas: 1
+  controller:
+    #@schema/desc "The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1."
+    #@schema/validation min=1
+    replicas: 1
+  webhook:
+    #@schema/desc "The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1."
+    #@schema/validation min=1, max=5
+    minReplicas: 1
 
-#! INGRESS
-#! Only Contour is supported. See https://knative.dev/docs/install/install-serving-with-yaml/#install-a-networking-layer
-#! If you want to separate external and internal services, provide the namespace where the the internal and external
-#! Contour Ingress controller is installed, otherwise use the same for both.
+#@schema/desc "Settings for the Knative Serving ConfigMaps."
+config:
 
-#@schema/desc "Ingress configuration"
+  #@schema/desc "Domain configuration stored in the `config-domain` ConfigMap."
+  domain:
+    #@schema/desc "Domain name for Knative Services. It must be a valid DNS name."
+    #@schema/validation min_len=4
+    name: "127.0.0.1.sslip.io"
+
+  #@schema/desc "Network configuration stored in the `config-network` ConfigMap."
+  network:
+    #@schema/desc "A LabelSelector which determines which namespaces should have a wildcard certificate provisioned."
+    namespace-wildcard-cert-selector: ""
+    #@schema/desc "The golang text template string to use when constructing the Knative Service's DNS name."
+    domain-template: "{{.Name}}.{{.Namespace}}.{{.Domain}}"
+    #@schema/desc "Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS."
+    #@schema/validation one_of=["Enabled", "Redirected"]
+    http-protocol: "Enabled"
+    #@schema/desc "Defines the scheme used for external URLs if autoTLS is not enabled. This can be used for making Knative report all URLs as `https`, for example, if you're fronting Knative with an external loadbalancer that deals with TLS termination and Knative doesn't know about that otherwise."
+    #@schema/validation one_of=["http", "https"]
+    default-external-scheme: "http"
+    #@schema/desc "The minimal duration in seconds over which the Configuration traffic targets are rolled out to the newest revision."
+    #@schema/validation min=0
+    rollout-duration: 0
+  
+  #@schema/desc "Network configuration stored in the `config-tracing` ConfigMap."
+  tracing:
+    #@schema/desc "The type of distributed tracing backend."
+    #@schema/validation one_of=["zipkin", "none"]
+    backend: "none"
+    #@schema/desc "The Zipkin collector endpoint where traces are sent."
+    #@schema/validation min_len=24, when=lambda _, ctx: ctx.parent["backend"] == "zipkin"
+    zipkin-endpoint: "http://tempo.observability-system.svc.cluster.local:9411/api/v2/spans"
+    #@schema/desc "Enable the Zipkin debug mode. This allows all spans to be sent to the server bypassing sampling."
+    #@schema/validation one_of=["true", "false"]
+    debug: "false"
+    #@schema/desc "The percentage (0-1) of requests to trace."
+    #@schema/validation min_len=1, max_len=3
+    sample-rate: "0.1"
+
+#@schema/desc "Settings for the Ingress controller."
 ingress:
-  #@schema/desc "Configuration for the external Ingress controller"
-  external:
-    #@schema/desc "The namespace where the external Ingress controller is installed"
-    namespace: projectcontour
-  #@schema/desc "Configuration for the internale Ingress controller"
-  internal:
-    #@schema/desc "The namespace where the internal Ingress controller is installed"
-    namespace: projectcontour
+  #@schema/desc "Ingress configuration stored in the `config-contour` ConfigMap."
+  contour:
+    #@schema/desc "If auto-TLS is disabled, fallback to this certificate. An operator is required to setup a TLSCertificateDelegation for this Secret to be used."
+    default-tls-secret: ""
+    #@schema/desc "Configuration for the external Ingress controller"
+    external:
+      #@schema/desc "The namespace where the external Ingress controller is installed."
+      #@schema/validation min_len=1
+      namespace: projectcontour
+    #@schema/desc "Configuration for the internal Ingress controller"
+    internal:
+      #@schema/desc "The namespace where the internal Ingress controller is installed."
+      #@schema/validation min_len=1
+      namespace: projectcontour
 
-#! TLS
-#! See https://knative.dev/docs/serving/using-auto-tls/
-#! Only cert-manager is supported.
-
-#@schema/desc "Configuration for automatic TLS certificates"
+#@schema/desc "Settings for TLS certificates."
 tls:
-  #@schema/desc "Configuration for integrating with cert-manager for certificate issuing"
+  #@schema/desc "Cert Manager configuration stored in the `config-certmanager` ConfigMap."
   certmanager:
-    #@schema/desc "Provide a cluster issuer if you want to enable auto-TLS"
+    #@schema/desc "A reference to the ClusterIssuer to use if you want to enable autoTLS."
     clusterissuer: "" #! Provide a cluster issuer name if you want, or leave empty
 
-#@schema/desc "Configuration for the Knative autoscaler"
-scaling:
-  #! This value must be greater than 0 unless allow-zero-initial-scale is true.
-  #@schema/desc "The initial target scale of a revision after creation"
-  initial_scale: "1"
-  #@schema/desc "The minimum scale of a revision"
-  min_scale: "0"
-  #@schema/desc "The maximum scale of a revision. If set to 0, the revision has no maximum scale."
-  max_scale: "0"
-  #@schema/desc "Whether either the initial_scale config or the 'autoscaling.knative.dev/initial-scale' annotation can be set to 0"
-  allow_zero_initial_scale: "true"
-  #@schema/desc "The amount of time that must pass at reduced concurrency before a scale down decision is applied. If 0s, no delay."
-  scale_down_delay: "0s"
+#@schema/desc "Settings for the proxy."
+proxy:
+  #@schema/desc "The HTTP proxy URL."
+  http_proxy: ""
+  #@schema/desc "The HTTPS proxy URL."
+  https_proxy: ""
+  #@schema/desc "For which domains the proxy should not be used."
+  no_proxy: ""

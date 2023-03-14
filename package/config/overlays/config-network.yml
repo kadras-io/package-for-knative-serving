@@ -1,12 +1,31 @@
 #@ load("@ytt:data", "data")
 #@ load("@ytt:overlay", "overlay")
 
-#@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata": {"name": "config-network"}})
+#@ def get_auto_tls():
+#@   if data.values.tls.certmanager.clusterissuer:
+#@     return "Enabled"
+#@   else:
+#@     return "Disabled"
+#@   end
+#@ end
+
+#@ def get_external_scheme():
+#@   if data.values.ingress.contour["default-tls-secret"]:
+#@     return "https"
+#@   else:
+#@     return data.values.config.network["default-external-scheme"]
+#@   end
+#@ end
+
+#@overlay/match by=overlay.subset({"kind":"ConfigMap", "metadata":{"name":"config-network"}})
 ---
+#@overlay/match-child-defaults missing_ok=True
 data:
-  #@overlay/match missing_ok=True
-  #@yaml/text-templated-strings
-  domain-template: #@ data.values.domain.url_template
-  
-  #@overlay/match missing_ok=True
-  ingress.class: contour.ingress.networking.knative.dev
+  ingress-class: contour.ingress.networking.knative.dev
+  certificate-class: cert-manager.certificate.networking.knative.dev
+  namespace-wildcard-cert-selector: #@ data.values.config.network["namespace-wildcard-cert-selector"]
+  domain-template: #@ data.values.config.network["domain-template"]
+  auto-tls: #@ get_auto_tls()
+  http-protocol: #@ data.values.config.network["http-protocol"]
+  rollout-duration: #@ str(data.values.config.network["rollout-duration"])
+  default-external-scheme: #@ get_external_scheme()
