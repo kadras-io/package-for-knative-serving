@@ -6,7 +6,7 @@ When running Knative Serving behind a corporate proxy, you can configure the con
 proxy:
   http_proxy: "proxy.kadras.io"
   https_proxy: "proxy.kadras.io"
-  no_proxy: ""
+  no_proxy: ".svc, .cluster.local"
 ```
 
 For more information, check the Knative Serving documentation for [corporate proxy](https://knative.dev/docs/serving/tag-resolution/#corporate-proxy).
