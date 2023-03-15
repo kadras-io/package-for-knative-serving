@@ -1,6 +1,6 @@
 #@ load("@ytt:overlay", "overlay")
 
-#@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"namespace":"knative-serving"}}),expects="9+"
+#@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"namespace":"knative-serving"}}), expects="9+"
 ---
 spec:
   template:

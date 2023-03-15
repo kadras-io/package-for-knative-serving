@@ -6,4 +6,6 @@ metadata:
   namespace: tests
 stringData:
   values.yaml: |
-    # Default configuration
+    config:
+      domain:
+        name: "sslip.io"
