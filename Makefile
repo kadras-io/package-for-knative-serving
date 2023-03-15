@@ -20,7 +20,7 @@ clean:
 
 # Process the configuration manifests with ytt
 ytt:
-	ytt --file package/config --data-value config.domain.name=sslip.io
+	ytt --file package/config
 
 # Use ytt to generate an OpenAPI specification
 schema:
@@ -28,7 +28,7 @@ schema:
 
 # Check the ytt-annotated Kubernetes configuration and its validation
 test-config:
-	ytt -f package/config --data-value config.domain.name=sslip.io | kubeconform -ignore-missing-schemas -summary
+	ytt -f package/config | kubeconform -ignore-missing-schemas -summary
 
 # Run package integration tests
 test-integration: test/integration
