@@ -92,11 +92,11 @@ tls:
     #@schema/desc "A reference to the ClusterIssuer to use if you want to enable autoTLS."
     clusterissuer: ""
 
-#@schema/desc "Settings for the proxy."
+#@schema/desc "Settings for the corporate proxy."
 proxy:
-  #@schema/desc "The HTTP proxy URL."
-  http_proxy: ""
-  #@schema/desc "The HTTPS proxy URL."
+  #@schema/desc "The HTTPS proxy to use for network traffic"
   https_proxy: ""
-  #@schema/desc "For which domains the proxy should not be used."
+  #@schema/desc "The HTTP proxy to use for network traffic"
+  http_proxy: ""
+  #@schema/desc "A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy"
   no_proxy: ""

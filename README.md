@@ -147,13 +147,14 @@ Settings for TLS certificates.
 |-------|-------------------|-------------|
 | `tls.certmanager.clusterissuer` | `""` | A reference to the ClusterIssuer to use if you want to enable autoTLS. |
 
-Settings for the proxy.
+Settings for the corporate proxy.
 
 | Config | Default | Description |
 |-------|-------------------|-------------|
-| `proxy.http_proxy` | `""` | The HTTP proxy URL. |
-| `proxy.https_proxy` | `""` | The HTTPS proxy URL. |
-| `proxy.no_proxy` | `""` | For which domains the proxy should not be used. |
+| `proxy.http_proxy` | `""` | The HTTP proxy to use for network traffic. |
+| `proxy.https_proxy` | `""` | The HTTPS proxy to use for network traffic. |
+| `proxy.no_proxy` | `""` | A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy. |
+
 
 </details>
 
