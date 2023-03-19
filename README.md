@@ -155,7 +155,6 @@ Settings for the corporate proxy.
 | `proxy.https_proxy` | `""` | The HTTPS proxy to use for network traffic. |
 | `proxy.no_proxy` | `""` | A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy. |
 
-
 </details>
 
 ## 🛡️&nbsp; Security
@@ -165,3 +164,7 @@ The security process for reporting vulnerabilities is described in [SECURITY.md]
 ## 🖊️&nbsp; License
 
 This project is licensed under the **Apache License 2.0**. See [LICENSE](LICENSE) for more information.
+
+## 🙏&nbsp; Acknowledgments
+
+This package is inspired by the original Knative Serving package used in the [Tanzu Community Edition](https://github.com/vmware-tanzu/community-edition) project before its retirement.
