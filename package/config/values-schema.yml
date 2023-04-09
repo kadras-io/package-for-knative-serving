@@ -35,7 +35,7 @@ config:
   domain:
     #@schema/desc "Domain name for Knative Services. It must be a valid DNS name."
     #@schema/validation min_len=4
-    name: "127.0.0.1.sslip.io"
+    name: ""
 
   #@schema/desc "Network configuration stored in the `config-network` ConfigMap."
   network:
