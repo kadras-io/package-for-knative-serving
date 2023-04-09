@@ -9,6 +9,10 @@ policies:
   #@schema/desc "Whether to include the out-of-the-box Kyverno policies to validate and secure the package installation."
   include: false
 
+#@schema/desc "Domain name for Knative Services. It must be a valid DNS name. Stored in the `config-domain` ConfigMap."
+#@schema/validation min_len=4
+domain_name: ""
+
 #@schema/desc "Settings for the Knative Serving workloads."
 workloads:
   activator:
@@ -30,12 +34,6 @@ workloads:
 
 #@schema/desc "Settings for the Knative Serving ConfigMaps."
 config:
-
-  #@schema/desc "Domain configuration stored in the `config-domain` ConfigMap."
-  domain:
-    #@schema/desc "Domain name for Knative Services. It must be a valid DNS name."
-    #@schema/validation min_len=4
-    name: ""
 
   #@schema/desc "Network configuration stored in the `config-network` ConfigMap."
   network:

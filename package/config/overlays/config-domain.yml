@@ -6,4 +6,4 @@
 #@overlay/match-child-defaults missing_ok=True
 data:
   #@yaml/text-templated-strings
-  (@= data.values.config.domain.name @): ""
+  (@= data.values.domain_name @): ""

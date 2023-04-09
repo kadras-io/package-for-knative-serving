@@ -108,6 +108,7 @@ The Knative Serving package has the following configurable properties.
 |-------|-------------------|-------------|
 | `ca_cert_data` | `""` | PEM-encoded certificate data to trust TLS connections with a custom CA. |
 | `policies.include` | `false` | Whether to include the out-of-the-box Kyverno policies to validate and secure the package installation. |
+| `domain_name` | `""` | Domain name for Knative Services. It must be a valid DNS name. |
 
 Settings for the Knative Serving workloads.
 
@@ -122,7 +123,6 @@ Settings for the Knative Serving ConfigMaps.
 
 | Config | Default | Description |
 |-------|-------------------|-------------|
-| `config.domain.name` | `""` | Domain name for Knative Services. It must be a valid DNS name. |
 | `config.network.namespace-wildcard-cert-selector` | `""` | A LabelSelector which determines which namespaces should have a wildcard certificate provisioned. |
 | `config.network.domain-template` | `{{.Name}}.{{.Namespace}}.{{.Domain}}` | The golang text template string to use when constructing the Knative Service's DNS name. |
 | `config.network.http-protocol` | `"Enabled"` | Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS. |
