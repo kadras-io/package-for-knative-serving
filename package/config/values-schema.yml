@@ -13,6 +13,10 @@ policies:
 #@schema/validation min_len=4
 domain_name: ""
 
+#@schema/desc "A reference to the ClusterIssuer to use if you want to enable autoTLS. Stored in the `config-certmanager` ConfigMap."
+#@schema/examples ("Kadras private CA", "kadras-ca-issuer")
+ingress_issuer: ""
+
 #@schema/desc "Settings for the Knative Serving workloads."
 workloads:
   activator:
@@ -43,7 +47,7 @@ config:
     domain-template: "{{.Name}}.{{.Namespace}}.{{.Domain}}"
     #@schema/desc "Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS."
     #@schema/validation one_of=["Enabled", "Redirected"]
-    http-protocol: "Enabled"
+    http-protocol: "Redirected"
     #@schema/desc "Defines the scheme used for external URLs if autoTLS is not enabled. This can be used for making Knative report all URLs as `https`, for example, if you're fronting Knative with an external loadbalancer that deals with TLS termination and Knative doesn't know about that otherwise."
     #@schema/validation one_of=["http", "https"]
     default-external-scheme: "http"
@@ -82,13 +86,6 @@ ingress:
       #@schema/desc "The namespace where the internal Ingress controller is installed."
       #@schema/validation min_len=1
       namespace: projectcontour
-
-#@schema/desc "Settings for TLS certificates."
-tls:
-  #@schema/desc "Cert Manager configuration stored in the `config-certmanager` ConfigMap."
-  certmanager:
-    #@schema/desc "A reference to the ClusterIssuer to use if you want to enable autoTLS."
-    clusterissuer: ""
 
 #@schema/desc "Settings for the corporate proxy."
 proxy:

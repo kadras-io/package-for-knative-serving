@@ -1,11 +1,9 @@
 # Configuring auto-TLS with cert-manager
 
-Auto-TLS in Knative Serving can be enabled by providing the name of a cert-manager `ClusterIssuer`. If you installed [cert-manager](https://github.com/kadras-io/package-for-cert-manager) from the Kadras project, you can use the `kadras-ca-issuer` installed by the package via a self-signed certificate. Otherwise, you can reference the name of a `ClusterIssuer` created before installing the Knative Serving package.
+Auto-TLS in Knative Serving can be enabled by providing the name of a cert-manager `ClusterIssuer` that must be created in the cluster before installing the Knative Serving package.
 
 ```yaml
-tls:
-  certmanager:
-    clusterissuer: kadras-ca-issuer
+ingress_issuer: kadras-ca-issuer
 ```
 
 Optionally, you can also enable automatic redirect from HTTP to HTTPS.
