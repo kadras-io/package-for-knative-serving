@@ -1,7 +1,7 @@
 #@ load("@ytt:data", "data")
 #@ load("@ytt:overlay", "overlay")
 
-#@ if data.values.tls.certmanager.clusterissuer:
+#@ if data.values.ingress_issuer:
 
 #@overlay/match by=overlay.subset({"metadata":{"name":"config-certmanager"}})
 ---
@@ -10,6 +10,6 @@ data:
   #@yaml/text-templated-strings
   issuerRef: |
     kind: ClusterIssuer
-    name: (@= data.values.tls.certmanager.clusterissuer @)
+    name: (@= data.values.ingress_issuer @)
 
 #@ end

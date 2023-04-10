@@ -2,7 +2,7 @@
 #@ load("@ytt:overlay", "overlay")
 
 #@ def get_auto_tls():
-#@   if data.values.tls.certmanager.clusterissuer:
+#@   if data.values.ingress_issuer:
 #@     return "Enabled"
 #@   else:
 #@     return "Disabled"

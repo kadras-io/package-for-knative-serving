@@ -79,13 +79,8 @@ For documentation specific to Knative Serving, check out [knative.dev](https://k
 The Knative Serving package can be customized via a `values.yml` file.
 
   ```yaml
-  config:
-    domain:
-      name: kadras.io
-  
-  tls:
-    certmanager:
-      clusterissuer: lets-encrypt-issuer
+  domain_name: labs.thomasvitale.com
+  ingress_issuer: letsencrypt-issuer
   ```
 
 Reference the `values.yml` file from the `kctrl` command when installing or upgrading the package.
@@ -109,6 +104,7 @@ The Knative Serving package has the following configurable properties.
 | `ca_cert_data` | `""` | PEM-encoded certificate data to trust TLS connections with a custom CA. |
 | `policies.include` | `false` | Whether to include the out-of-the-box Kyverno policies to validate and secure the package installation. |
 | `domain_name` | `""` | Domain name for Knative Services. It must be a valid DNS name. |
+| `ingress_issuer` | `""` | A reference to the ClusterIssuer to use if you want to enable autoTLS. |
 
 Settings for the Knative Serving workloads.
 
@@ -125,7 +121,7 @@ Settings for the Knative Serving ConfigMaps.
 |-------|-------------------|-------------|
 | `config.network.namespace-wildcard-cert-selector` | `""` | A LabelSelector which determines which namespaces should have a wildcard certificate provisioned. |
 | `config.network.domain-template` | `{{.Name}}.{{.Namespace}}.{{.Domain}}` | The golang text template string to use when constructing the Knative Service's DNS name. |
-| `config.network.http-protocol` | `"Enabled"` | Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS. |
+| `config.network.http-protocol` | `"Redirected"` | Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS. |
 | `config.network.default-external-scheme` | `http` | Defines the scheme used for external URLs if autoTLS is not enabled. This can be used for making Knative report all URLs as `https`, for example, if you're fronting Knative with an external loadbalancer that deals with TLS termination and Knative doesn't know about that otherwise. |
 | `config.network.rollout-duration` | `0` | The minimal duration in seconds over which the Configuration traffic targets are rolled out to the newest revision. |
 | `config.tracing.backend` | `none` | The type of distributed tracing backend. Options: `none`, `zipkin`. |
@@ -140,12 +136,6 @@ Settings for the Ingress controller.
 | `ingress.contour.default-tls-secret` | `""` | If auto-TLS is disabled, fallback to this certificate. An operator is required to setup a TLSCertificateDelegation for this Secret to be used. |
 | `ingress.contour.external.namespace` | `projectcontour` | The namespace where the external Ingress controller is installed. |
 | `ingress.contour.internal.namespace` | `projectcontour` | The namespace where the internal Ingress controller is installed. |
-
-Settings for TLS certificates.
-
-| Config | Default | Description |
-|-------|-------------------|-------------|
-| `tls.certmanager.clusterissuer` | `""` | A reference to the ClusterIssuer to use if you want to enable autoTLS. |
 
 Settings for the corporate proxy.
 
