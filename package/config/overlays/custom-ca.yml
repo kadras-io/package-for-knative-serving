@@ -37,5 +37,4 @@ spec:
         - name: custom-certs
           secret:
             secretName: #@ ca_certs_secret_name
-
 #@ end

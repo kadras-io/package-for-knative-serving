@@ -3,9 +3,10 @@
 #@ if data.values.policies.include:
 ---
 apiVersion: kyverno.io/v1
-kind: ClusterPolicy
+kind: Policy
 metadata:
   name: knative-serving-verify-image
+  namespace: knative-serving
   annotations:
     policies.kyverno.io/title: Verify Image
     policies.kyverno.io/category: Software Supply Chain Security
