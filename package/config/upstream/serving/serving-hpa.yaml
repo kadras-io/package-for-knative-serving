@@ -21,20 +21,18 @@ metadata:
     autoscaling.knative.dev/autoscaler-provider: hpa
     app.kubernetes.io/component: autoscaler-hpa
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.9.3"
+    app.kubernetes.io/version: "1.10.2"
 spec:
   selector:
     matchLabels:
       app: autoscaler-hpa
   template:
     metadata:
-      annotations:
-        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
       labels:
         app: autoscaler-hpa
         app.kubernetes.io/component: autoscaler-hpa
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.9.3"
+        app.kubernetes.io/version: "1.10.2"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -51,7 +49,7 @@ spec:
         - name: autoscaler-hpa
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa@sha256:1d019396ba932740e377161fdec20b4023a5a05c96780c85a33b6fd1e5f9cffb
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa@sha256:eb612b929eaa57ef1573a04035a8d06c9ed88fd56e741c56bd909f5f49e4d732
           resources:
             requests:
               cpu: 30m
@@ -80,11 +78,27 @@ spec:
                 - ALL
             seccompProfile:
               type: RuntimeDefault
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: probes
+              scheme: HTTP
+            periodSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: probes
+              scheme: HTTP
+            periodSeconds: 5
+            failureThreshold: 5
           ports:
             - name: metrics
               containerPort: 9090
             - name: profiling
               containerPort: 8008
+            - name: probes
+              containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -94,7 +108,7 @@ metadata:
     autoscaling.knative.dev/autoscaler-provider: hpa
     app.kubernetes.io/component: autoscaler-hpa
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.9.3"
+    app.kubernetes.io/version: "1.10.2"
   name: autoscaler-hpa
   namespace: knative-serving
 spec:

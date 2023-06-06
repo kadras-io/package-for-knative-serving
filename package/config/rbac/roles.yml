@@ -1,0 +1,19 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: knative-serving-aggregate-app-view
+  labels:
+    platform.kadras.io/aggregate-to-app-view: "true"
+rules:
+  - apiGroups:
+      - serving.knative.dev
+    resources:
+      - configurations
+      - revisions
+      - routes
+      - services
+    verbs:
+      - get
+      - list
+      - watch
