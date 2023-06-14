@@ -114,7 +114,7 @@ Settings for the Knative Serving workloads.
 | `workloads.controller.replicas` | `1` | The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1. |
 | `workloads.webhook.minReplicas` | `1` | The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1. |
 
-Settings for the Knative Serving ConfigMaps.
+Configuration stored in the `config-deployment` ConfigMap.
 
 | Config | Default | Description |
 |-------|-------------------|-------------|
@@ -123,11 +123,21 @@ Settings for the Knative Serving ConfigMaps.
 | `config.deployment.queue-sidecar-cpu-limit` | `1000m` | The queue proxy's CPU limit. If omitted, no value is specified and the system default is used. |
 | `config.deployment.queue-sidecar-memory-request` | `50Mi` | The queue proxy's memory request. If omitted, no value is specified and the system default is used. |
 | `config.deployment.queue-sidecar-memory-limit` | `200Mi` | The queue proxy's memory limit. If omitted, no value is specified and the system default is used. |
+
+Configuration stored in the `config-network` ConfigMap.
+
+| Config | Default | Description |
+|-------|-------------------|-------------|
 | `config.network.namespace-wildcard-cert-selector` | `""` | A LabelSelector which determines which namespaces should have a wildcard certificate provisioned. |
 | `config.network.domain-template` | `{{.Name}}.{{.Namespace}}.{{.Domain}}` | The golang text template string to use when constructing the Knative Service's DNS name. |
 | `config.network.http-protocol` | `Redirected` | Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS. |
 | `config.network.default-external-scheme` | `http` | Defines the scheme used for external URLs if autoTLS is not enabled. This can be used for making Knative report all URLs as `https`, for example, if you're fronting Knative with an external loadbalancer that deals with TLS termination and Knative doesn't know about that otherwise. |
 | `config.network.rollout-duration` | `0` | The minimal duration in seconds over which the Configuration traffic targets are rolled out to the newest revision. |
+
+Configuration stored in the `config-tracing` ConfigMap.
+
+| Config | Default | Description |
+|-------|-------------------|-------------|
 | `config.tracing.backend` | `none` | The type of distributed tracing backend. Options: `none`, `zipkin`. |
 | `config.tracing.zipkin-endpoint` | `http://tempo.observability-system.svc.cluster.local:9411/api/v2/spans` | The Zipkin collector endpoint where traces are sent. |
 | `config.tracing.debug` | `false` | Enable the Zipkin debug mode. This allows all spans to be sent to the server bypassing sampling. |
