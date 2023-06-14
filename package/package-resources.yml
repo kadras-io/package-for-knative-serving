@@ -4,6 +4,11 @@ metadata:
   creationTimestamp: null
   name: knative-serving.packages.kadras.io.0.0.0
 spec:
+  capacityRequirementsDescription: For prototyping purposes, one-node cluster that
+    has at least 3 CPUs and 4 GB of memory. For production purposes, if you have only
+    one node, at least 6 CPUs, 6 GB of memory, and 30 GB of disk storage. If you have
+    multiple nodes, for each node at least 2 CPUs, 4 GB of memory, and 20 GB of disk
+    storage.
   licenses:
   - Apache 2.0
   refName: knative-serving.packages.kadras.io

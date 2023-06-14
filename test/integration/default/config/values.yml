@@ -6,4 +6,4 @@ metadata:
   namespace: tests
 stringData:
   values.yaml: |
-    domain_name: "sslip.io"
+    domain_name: "127.0.0.1.sslip.io"

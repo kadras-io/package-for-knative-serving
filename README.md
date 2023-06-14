@@ -30,10 +30,9 @@ Knative Serving requires the [Contour](https://github.com/kadras-io/package-for-
 Add the Kadras [package repository](https://github.com/kadras-io/kadras-packages) to your Kubernetes cluster:
 
   ```shell
-  kubectl create namespace kadras-packages
   kctrl package repository add -r kadras-packages \
     --url ghcr.io/kadras-io/kadras-packages \
-    -n kadras-packages
+    -n kadras-packages --create-namespace
   ```
 
 <details><summary>Installation without package repository</summary>
@@ -119,9 +118,14 @@ Settings for the Knative Serving ConfigMaps.
 
 | Config | Default | Description |
 |-------|-------------------|-------------|
+| `config.deployment.progress-deadline` | `600s` | The duration to wait for the deployment to be ready before considering it failed. |
+| `config.deployment.queue-sidecar-cpu-request` | `25m` | The queue proxy's CPU request. If omitted, a default value (currently '25m'), is used. |
+| `config.deployment.queue-sidecar-cpu-limit` | `1000m` | The queue proxy's CPU limit. If omitted, no value is specified and the system default is used. |
+| `config.deployment.queue-sidecar-memory-request` | `50Mi` | The queue proxy's memory request. If omitted, no value is specified and the system default is used. |
+| `config.deployment.queue-sidecar-memory-limit` | `200Mi` | The queue proxy's memory limit. If omitted, no value is specified and the system default is used. |
 | `config.network.namespace-wildcard-cert-selector` | `""` | A LabelSelector which determines which namespaces should have a wildcard certificate provisioned. |
 | `config.network.domain-template` | `{{.Name}}.{{.Namespace}}.{{.Domain}}` | The golang text template string to use when constructing the Knative Service's DNS name. |
-| `config.network.http-protocol` | `"Redirected"` | Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS. |
+| `config.network.http-protocol` | `Redirected` | Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS. |
 | `config.network.default-external-scheme` | `http` | Defines the scheme used for external URLs if autoTLS is not enabled. This can be used for making Knative report all URLs as `https`, for example, if you're fronting Knative with an external loadbalancer that deals with TLS termination and Knative doesn't know about that otherwise. |
 | `config.network.rollout-duration` | `0` | The minimal duration in seconds over which the Configuration traffic targets are rolled out to the newest revision. |
 | `config.tracing.backend` | `none` | The type of distributed tracing backend. Options: `none`, `zipkin`. |

@@ -37,7 +37,9 @@ rebaseRules:
   type: copy
   sources: [new, existing]
   resourceMatchers:
+  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: control-serving-certs}
   - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: knative-serving-certs}
+  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: routing-serving-certs}
   - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: serving-certs-ctrl-ca}
 
 #! Changes applied by users to the ConfigMaps for which this package doesn't provide overlays
