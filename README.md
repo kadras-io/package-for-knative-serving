@@ -147,7 +147,6 @@ Settings for the corporate proxy.
 |-------|-------------------|-------------|
 | `proxy.http_proxy` | `""` | The HTTP proxy to use for network traffic. |
 | `proxy.https_proxy` | `""` | The HTTPS proxy to use for network traffic. |
-| `proxy.no_proxy` | `""` | A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy. |
 
 </details>
 
