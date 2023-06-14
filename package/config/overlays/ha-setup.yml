@@ -17,6 +17,20 @@ spec:
   #@overlay/match missing_ok=True
   replicas: #@ data.values.workloads.controller.replicas
 
+#! DOMAIN MAPPING
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":"domain-mapping"}})
+---
+spec:
+  #@overlay/match missing_ok=True
+  replicas: #@ data.values.workloads.domain_mapping.replicas
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":"domainmapping-webhook"}})
+---
+spec:
+  #@overlay/match missing_ok=True
+  replicas: #@ data.values.workloads.domain_mapping_webhook.replicas
+
 #! ACTIVATOR
 
 #@overlay/match by=overlay.subset({"kind":"HorizontalPodAutoscaler", "metadata":{"name":"activator"}})

@@ -31,6 +31,14 @@ workloads:
     #@schema/desc "The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1."
     #@schema/validation min=1
     replicas: 1
+  domain_mapping:
+    #@schema/desc "The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1."
+    #@schema/validation min=1
+    replicas: 1
+  domain_mapping_webhook:
+    #@schema/desc "The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1."
+    #@schema/validation min=1
+    replicas: 1
   webhook:
     #@schema/desc "The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1."
     #@schema/validation min=1, max=5
@@ -38,6 +46,19 @@ workloads:
 
 #@schema/desc "Settings for the Knative Serving ConfigMaps."
 config:
+
+  #@schema/desc "Deployment configuration stored in the `config-deployment` ConfigMap."
+  deployment:
+    #@schema/desc "The duration to wait for the deployment to be ready before considering it failed."
+    progress-deadline: "600s"
+    #@schema/desc "The queue proxy's CPU request. If omitted, a default value (currently '25m'), is used."
+    queue-sidecar-cpu-request: "25m"
+    #@schema/desc "The queue proxy's CPU limit. If omitted, no value is specified and the system default is used."
+    queue-sidecar-cpu-limit: "1000m"
+    #@schema/desc "The queue proxy's memory request. If omitted, no value is specified and the system default is used."
+    queue-sidecar-memory-request: "50Mi"
+    #@schema/desc "The queue proxy's memory limit. If omitted, no value is specified and the system default is used."
+    queue-sidecar-memory-limit: "200Mi"
 
   #@schema/desc "Network configuration stored in the `config-network` ConfigMap."
   network:
@@ -93,5 +114,3 @@ proxy:
   https_proxy: ""
   #@schema/desc "The HTTP proxy to use for network traffic"
   http_proxy: ""
-  #@schema/desc "A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy"
-  no_proxy: ""
