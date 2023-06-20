@@ -11,7 +11,3 @@ searchRules:
       path:
         - spec
         - image
-  
-  # Resolves the image references from the specified OCI repository.
-  - valueMatcher:
-      imageRepo: gcr.io/knative-releases/knative.dev
