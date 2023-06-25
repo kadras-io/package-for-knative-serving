@@ -110,7 +110,9 @@ ingress:
 
 #@schema/desc "Settings for the corporate proxy."
 proxy:
-  #@schema/desc "The HTTPS proxy to use for network traffic"
+  #@schema/desc "The HTTPS proxy to use for network traffic."
   https_proxy: ""
-  #@schema/desc "The HTTP proxy to use for network traffic"
+  #@schema/desc "The HTTP proxy to use for network traffic."
   http_proxy: ""
+  #@schema/desc "A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy."
+  no_proxy: ""
