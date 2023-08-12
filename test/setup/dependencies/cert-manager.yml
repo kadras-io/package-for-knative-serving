@@ -2,29 +2,27 @@
 apiVersion: packaging.carvel.dev/v1alpha1
 kind: PackageInstall
 metadata:
-  name: contour
+  name: cert-manager
   namespace: tests
   annotations:
-    kapp.k14s.io/change-group: contour
+    kapp.k14s.io/change-group: cert-manager
     kapp.k14s.io/change-rule.serviceaccount: delete before deleting serviceaccount
 spec:
   serviceAccountName: kadras-install-sa
   packageRef:
-    refName: contour.packages.kadras.io
+    refName: cert-manager.packages.kadras.io
     versionSelection:
-      constraints: 1.25.2
+      constraints: 1.12.3
   values:
     - secretRef:
-        name: contour-values
+        name: cert-manager-values
 
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: contour-values
+  name: cert-manager-values
   namespace: tests
 stringData:
   values.yaml: |
-    envoy:
-      service:
-        type: NodePort
+    # Default

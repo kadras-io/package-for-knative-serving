@@ -8,7 +8,7 @@ parallel: 1
 startKIND: true
 kindContext: integration
 kindNodeCache: true
-timeout: 120
+timeout: 180
 artifactsDir: /tmp/kuttl-artifacts
 commands:
   - script: |
@@ -17,8 +17,11 @@ commands:
   - script: |
       kubectl config set-context --current --namespace=tests && \
       kapp deploy -a contour-package -y \
-        -f https://github.com/kadras-io/package-for-contour/releases/download/v1.25.0/package.yml \
-        -f https://github.com/kadras-io/package-for-contour/releases/download/v1.25.0/metadata.yml
+        -f https://github.com/kadras-io/package-for-contour/releases/download/v1.25.2/package.yml \
+        -f https://github.com/kadras-io/package-for-contour/releases/download/v1.25.2/metadata.yml
+      kapp deploy -a cert-manager-package -y \
+        -f https://github.com/kadras-io/package-for-cert-manager/releases/download/v1.12.3/package.yml \
+        -f https://github.com/kadras-io/package-for-cert-manager/releases/download/v1.12.3/metadata.yml
   - script: |
       kubectl config set-context --current --namespace=tests && \
       kapp deploy -a dependencies -y -f ./test/setup/dependencies
