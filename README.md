@@ -23,7 +23,7 @@ A Carvel package for [Knative Serving](https://knative.dev/docs/serving), a solu
 
 ### Dependencies
 
-Knative Serving requires the [Contour](https://github.com/kadras-io/package-for-contour) ingress controller. You can install it from the [Kadras package repository](https://github.com/kadras-io/kadras-packages).
+Knative Serving requires [cert-manager](https://github.com/kadras-io/package-for-cert-manager) and the [Contour](https://github.com/kadras-io/package-for-contour) ingress controller. You can install them from the [Kadras package repository](https://github.com/kadras-io/kadras-packages).
 
 ### Installation
 
@@ -120,9 +120,9 @@ Configuration stored in the `config-deployment` ConfigMap.
 |-------|-------------------|-------------|
 | `config.deployment.progress-deadline` | `600s` | The duration to wait for the deployment to be ready before considering it failed. |
 | `config.deployment.queue-sidecar-cpu-request` | `25m` | The queue proxy's CPU request. If omitted, a default value (currently '25m'), is used. |
-| `config.deployment.queue-sidecar-cpu-limit` | `1000m` | The queue proxy's CPU limit. If omitted, no value is specified and the system default is used. |
-| `config.deployment.queue-sidecar-memory-request` | `50Mi` | The queue proxy's memory request. If omitted, no value is specified and the system default is used. |
-| `config.deployment.queue-sidecar-memory-limit` | `200Mi` | The queue proxy's memory limit. If omitted, no value is specified and the system default is used. |
+| `config.deployment.queue-sidecar-cpu-limit` | `1000m` | The queue proxy's CPU limit. If omitted, a default value (currently `1000m`), is used when `queueproxy.resource-defaults` is set to `Enabled`. |
+| `config.deployment.queue-sidecar-memory-request` | `50Mi` | The queue proxy's memory request. If omitted, a default value (currently `400Mi`), is used when `queueproxy.resource-defaults` is set to `Enabled`. |
+| `config.deployment.queue-sidecar-memory-limit` | `200Mi` | The queue proxy's memory limit. If omitted, a default value (currently `800Mi`), is used when `queueproxy.resource-defaults` is set to `Enabled`. |
 
 Configuration stored in the `config-network` ConfigMap.
 

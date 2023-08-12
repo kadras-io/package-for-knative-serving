@@ -28,7 +28,6 @@ rebaseRules:
   type: copy
   sources: [new, existing]
   resourceMatchers:
-  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: domainmapping-webhook-certs}
   - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: webhook-certs}
 
 #! These Secrets are created empty and populated by Knative Serving when internal-encryption is enabled.
