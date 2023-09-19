@@ -4,7 +4,7 @@ directories:
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative/serving
-      tag: knative-v1.11.0
+      tag: knative-v1.11.1
     includePaths:
     - serving-core.yaml
     - serving-hpa.yaml
@@ -12,14 +12,14 @@ directories:
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative-extensions/net-contour
-      tag: knative-v1.11.0
+      tag: knative-v1.11.1
     includePaths:
     - net-contour.yaml
     path: net-contour
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative-extensions/net-certmanager
-      tag: knative-v1.11.0
+      tag: knative-v1.11.1
     includePaths:
     - net-certmanager.yaml
     path: net-cert-manager
