@@ -1,7 +1,7 @@
 #@ load("@ytt:data", "data")
 #@ load("@ytt:overlay", "overlay")
 
-#@ def get_auto_tls():
+#@ def get_external_domain_tls():
 #@   if data.values.ingress_issuer:
 #@     return "Enabled"
 #@   else:
@@ -25,7 +25,7 @@ data:
   certificate-class: cert-manager.certificate.networking.knative.dev
   namespace-wildcard-cert-selector: #@ data.values.config.network["namespace-wildcard-cert-selector"]
   domain-template: #@ data.values.config.network["domain-template"]
-  auto-tls: #@ get_auto_tls()
+  external-domain-tls: #@ get_external_domain_tls()
   http-protocol: #@ data.values.config.network["http-protocol"]
   rollout-duration: #@ str(data.values.config.network["rollout-duration"])
   default-external-scheme: #@ get_external_scheme()
