@@ -2,8 +2,8 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - githubRelease:
-      tag: knative-v1.12.0
-      url: https://api.github.com/repos/knative/serving/releases/126382663
+      tag: knative-v1.12.1
+      url: https://api.github.com/repos/knative/serving/releases/130644565
     path: serving
   - githubRelease:
       tag: knative-v1.12.1
