@@ -7,3 +7,4 @@ metadata:
 stringData:
   values.yaml: |
     domain_name: "127.0.0.1.sslip.io"
+    ingress_issuer: "kadras-ca-issuer"

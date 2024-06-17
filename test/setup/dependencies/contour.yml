@@ -6,13 +6,14 @@ metadata:
   namespace: tests
   annotations:
     kapp.k14s.io/change-group: contour
+    kapp.k14s.io/change-rule.cert-manager: upsert after upserting cert-manager
     kapp.k14s.io/change-rule.serviceaccount: delete before deleting serviceaccount
 spec:
   serviceAccountName: kadras-install-sa
   packageRef:
     refName: contour.packages.kadras.io
     versionSelection:
-      constraints: 1.29.0
+      constraints: 1.29.1
   values:
     - secretRef:
         name: contour-values
