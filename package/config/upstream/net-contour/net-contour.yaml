@@ -8,7 +8,7 @@ metadata:
     networking.knative.dev/ingress-provider: contour
     app.kubernetes.io/component: net-contour
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.14.2"
+    app.kubernetes.io/version: "1.15.0"
     serving.knative.dev/controller: "true"
 rules:
   - apiGroups: ["projectcontour.io"]
@@ -38,7 +38,7 @@ metadata:
     networking.knative.dev/ingress-provider: contour
     app.kubernetes.io/component: net-contour
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.14.2"
+    app.kubernetes.io/version: "1.15.0"
 data:
   _example: |
     ################################
@@ -111,7 +111,7 @@ metadata:
     networking.knative.dev/ingress-provider: contour
     app.kubernetes.io/component: net-contour
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.14.2"
+    app.kubernetes.io/version: "1.15.0"
 spec:
   replicas: 1
   selector:
@@ -123,14 +123,14 @@ spec:
         app: net-contour-controller
         app.kubernetes.io/component: net-contour
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.14.2"
+        app.kubernetes.io/version: "1.15.0"
     spec:
       serviceAccountName: controller
       containers:
         - name: controller
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/net-contour/cmd/controller@sha256:a5a1a080ee7f721768c5eb58aea9243e249423b69a7b8f071fd52da6b4efb21f
+          image: gcr.io/knative-releases/knative.dev/net-contour/cmd/controller@sha256:a97cc1433166aac63bdb41df3ef54578986048d1e1360656668f971854a8302c
           resources:
             requests:
               cpu: 40m
@@ -174,10 +174,10 @@ metadata:
     networking.knative.dev/ingress-provider: contour
     app.kubernetes.io/component: net-contour
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.14.2"
+    app.kubernetes.io/version: "1.15.0"
 spec:
   delegations:
-    - secretName: knative-serving-certs
+    - secretName: routing-serving-certs
       targetNamespaces:
         - "*"
 ---
