@@ -18,7 +18,7 @@ metadata:
   name: knative-serving
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 
 ---
 # Copyright 2023 The Knative Authors
@@ -42,7 +42,7 @@ metadata:
   namespace: knative-serving
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: [""]
@@ -59,7 +59,7 @@ metadata:
   name: knative-serving-activator-cluster
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: [""]
@@ -92,7 +92,7 @@ metadata:
   # (which should be identical, but isn't guaranteed to be installed alongside serving).
   name: knative-serving-aggregated-addressable-resolver
   labels:
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 aggregationRule:
   clusterRoleSelectors:
@@ -104,7 +104,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: knative-serving-addressable-resolver
   labels:
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
     # Labeled to facilitate aggregated cluster roles that act on Addressables.
     duck.knative.dev/addressable: "true"
@@ -143,7 +143,7 @@ metadata:
   name: knative-serving-namespaced-admin
   labels:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: ["serving.knative.dev"]
@@ -159,7 +159,7 @@ metadata:
   name: knative-serving-namespaced-edit
   labels:
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: ["serving.knative.dev"]
@@ -175,7 +175,7 @@ metadata:
   name: knative-serving-namespaced-view
   labels:
     rbac.authorization.k8s.io/aggregate-to-view: "true"
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: ["serving.knative.dev", "networking.internal.knative.dev", "autoscaling.internal.knative.dev", "caching.internal.knative.dev"]
@@ -203,7 +203,7 @@ metadata:
   name: knative-serving-core
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: [""]
@@ -267,7 +267,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: knative-serving-podspecable-binding
   labels:
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
     # Labeled to facilitate aggregated cluster roles that act on PodSpecables.
     duck.knative.dev/podspecable: "true"
@@ -306,7 +306,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -314,7 +314,7 @@ metadata:
   name: knative-serving-admin
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -327,7 +327,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 subjects:
   - kind: ServiceAccount
     name: controller
@@ -344,7 +344,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 subjects:
   - kind: ServiceAccount
     name: controller
@@ -362,7 +362,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -372,7 +372,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 subjects:
   - kind: ServiceAccount
     name: activator
@@ -389,7 +389,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 subjects:
   - kind: ServiceAccount
     name: activator
@@ -420,7 +420,7 @@ metadata:
   name: images.caching.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
 spec:
   group: caching.internal.knative.dev
@@ -593,7 +593,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -779,7 +779,7 @@ metadata:
   name: configurations.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
     duck.knative.dev/podspecable: "true"
 spec:
@@ -2279,7 +2279,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -2356,7 +2356,7 @@ metadata:
   name: domainmappings.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
 spec:
   group: serving.knative.dev
@@ -2570,7 +2570,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -2967,7 +2967,7 @@ metadata:
   name: metrics.autoscaling.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
 spec:
   group: autoscaling.internal.knative.dev
@@ -3111,7 +3111,7 @@ metadata:
   name: podautoscalers.autoscaling.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
 spec:
   group: autoscaling.internal.knative.dev
@@ -3312,7 +3312,7 @@ metadata:
   name: revisions.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
 spec:
   group: serving.knative.dev
@@ -4827,7 +4827,7 @@ metadata:
   name: routes.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
     duck.knative.dev/addressable: "true"
 spec:
@@ -5098,7 +5098,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -5323,7 +5323,7 @@ metadata:
   name: services.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     knative.dev/crd-install: "true"
     duck.knative.dev/addressable: "true"
     duck.knative.dev/podspecable: "true"
@@ -6974,11 +6974,11 @@ metadata:
   labels:
     app.kubernetes.io/component: queue-proxy
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 spec:
   # This is the Go import path for the binary that is containerized
   # and substituted here.
-  image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:d313c823f25a09326a7c3c2ec9833c5e005791bc3acb4036ebf33735cbb62bee
+  image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:56142833a9f87213e055045f0ea59c3f00f024d095c052f7669f7b9d77c55e54
 
 ---
 # Copyright 2018 The Knative Authors
@@ -7003,7 +7003,7 @@ metadata:
   labels:
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "47c2487f"
 data:
@@ -7214,7 +7214,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     networking.knative.dev/certificate-provider: cert-manager
   annotations:
     knative.dev/example-checksum: "b7a9a602"
@@ -7284,7 +7284,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "5b64ff5c"
 data:
@@ -7439,13 +7439,13 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "720ddb97"
 data:
   # This is the Go import path for the binary that is containerized
   # and substituted here.
-  queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:d313c823f25a09326a7c3c2ec9833c5e005791bc3acb4036ebf33735cbb62bee
+  queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:56142833a9f87213e055045f0ea59c3f00f024d095c052f7669f7b9d77c55e54
   _example: |-
     ################################
     #                              #
@@ -7566,7 +7566,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "26c09de5"
 data:
@@ -7631,7 +7631,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "632d47dd"
 data:
@@ -7851,7 +7851,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "aa3813a8"
 data:
@@ -7951,7 +7951,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "f4b71f57"
 data:
@@ -8011,7 +8011,7 @@ metadata:
   name: config-logging
   namespace: knative-serving
   labels:
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/component: logging
     app.kubernetes.io/name: knative-serving
   annotations:
@@ -8094,7 +8094,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "0573e07d"
 data:
@@ -8299,7 +8299,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: observability
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "54abd711"
 data:
@@ -8419,7 +8419,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: tracing
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   annotations:
     knative.dev/example-checksum: "26614636"
 data:
@@ -8476,7 +8476,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 spec:
   minReplicas: 1
   maxReplicas: 20
@@ -8504,7 +8504,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 spec:
   minAvailable: 80%
   selector:
@@ -8533,7 +8533,7 @@ metadata:
   namespace: knative-serving
   labels:
     app.kubernetes.io/component: activator
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 spec:
   selector:
@@ -8547,7 +8547,7 @@ spec:
         role: activator
         app.kubernetes.io/component: activator
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.15.0"
+        app.kubernetes.io/version: "1.15.2"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -8564,7 +8564,7 @@ spec:
         - name: activator
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:b6d7d96edd8942d679757249f6aa07373461411104ce7c93309f23fba2884f8f
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:ee130d9e7e217b4cb4d844881491688e20f3a91a0e4de750eb663ec5db30a162
           # The numbers are based on performance test results from
           # https://github.com/knative/serving/issues/1625#issuecomment-511930023
           resources:
@@ -8643,7 +8643,7 @@ metadata:
   labels:
     app: activator
     app.kubernetes.io/component: activator
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 spec:
   selector:
@@ -8690,7 +8690,7 @@ metadata:
   labels:
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 spec:
   replicas: 1
   selector:
@@ -8706,7 +8706,7 @@ spec:
         app: autoscaler
         app.kubernetes.io/component: autoscaler
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.15.0"
+        app.kubernetes.io/version: "1.15.2"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -8723,7 +8723,7 @@ spec:
         - name: autoscaler
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:119157d871eb3db5a54944464d9920ad378d35292d4c12fd4a765cd016e24f0f
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:2c6f0796b2f5c387079a4476c1bf04faae452dccb56157a43cb2a8791559fff6
           resources:
             requests:
               cpu: 100m
@@ -8782,7 +8782,7 @@ metadata:
     app: autoscaler
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   name: autoscaler
   namespace: knative-serving
 spec:
@@ -8823,7 +8823,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 spec:
   selector:
     matchLabels:
@@ -8834,7 +8834,7 @@ spec:
         app: controller
         app.kubernetes.io/component: controller
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.15.0"
+        app.kubernetes.io/version: "1.15.2"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -8851,7 +8851,7 @@ spec:
         - name: controller
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:80b9865a585900af6cecead24babe03aa79487e9e6306da1444b04148c21c96f
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:b2134eada0ef0105acb0d824f5a1803d25f0ec6079cb0dd2c2ad2296b4697d89
           resources:
             requests:
               cpu: 100m
@@ -8913,7 +8913,7 @@ metadata:
     app: controller
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
   name: controller
   namespace: knative-serving
 spec:
@@ -8951,7 +8951,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 spec:
   minReplicas: 1
   maxReplicas: 5
@@ -8977,7 +8977,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 spec:
   minAvailable: 80%
   selector:
@@ -9006,7 +9006,7 @@ metadata:
   namespace: knative-serving
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
 spec:
   selector:
@@ -9019,7 +9019,7 @@ spec:
         app: webhook
         role: webhook
         app.kubernetes.io/component: webhook
-        app.kubernetes.io/version: "1.15.0"
+        app.kubernetes.io/version: "1.15.2"
         app.kubernetes.io/name: knative-serving
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
@@ -9037,7 +9037,7 @@ spec:
         - name: webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:732d9cdf7f5fa5c6055d26b1aa5aad40e3d74ba9f2cb76a1db0f0e4d072b7cd0
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:d138fd82b127b11216c46b8afc83d6bf97d63b9828894255211c4d6afd5a0a93
           resources:
             requests:
               cpu: 100m
@@ -9104,7 +9104,7 @@ metadata:
     app: webhook
     role: webhook
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
     app.kubernetes.io/name: knative-serving
   name: webhook
   namespace: knative-serving
@@ -9146,7 +9146,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -9188,7 +9188,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -9245,7 +9245,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -9304,7 +9304,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.0"
+    app.kubernetes.io/version: "1.15.2"
 # The data is populated at install time.
 
 ---
