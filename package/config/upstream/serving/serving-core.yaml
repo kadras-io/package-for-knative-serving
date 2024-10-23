@@ -18,7 +18,7 @@ metadata:
   name: knative-serving
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 
 ---
 # Copyright 2023 The Knative Authors
@@ -42,7 +42,7 @@ metadata:
   namespace: knative-serving
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: [""]
@@ -59,7 +59,7 @@ metadata:
   name: knative-serving-activator-cluster
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: [""]
@@ -92,7 +92,7 @@ metadata:
   # (which should be identical, but isn't guaranteed to be installed alongside serving).
   name: knative-serving-aggregated-addressable-resolver
   labels:
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 aggregationRule:
   clusterRoleSelectors:
@@ -104,7 +104,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: knative-serving-addressable-resolver
   labels:
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
     # Labeled to facilitate aggregated cluster roles that act on Addressables.
     duck.knative.dev/addressable: "true"
@@ -143,7 +143,7 @@ metadata:
   name: knative-serving-namespaced-admin
   labels:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: ["serving.knative.dev"]
@@ -159,7 +159,7 @@ metadata:
   name: knative-serving-namespaced-edit
   labels:
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: ["serving.knative.dev"]
@@ -175,7 +175,7 @@ metadata:
   name: knative-serving-namespaced-view
   labels:
     rbac.authorization.k8s.io/aggregate-to-view: "true"
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: ["serving.knative.dev", "networking.internal.knative.dev", "autoscaling.internal.knative.dev", "caching.internal.knative.dev"]
@@ -203,7 +203,7 @@ metadata:
   name: knative-serving-core
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: [""]
@@ -267,7 +267,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: knative-serving-podspecable-binding
   labels:
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
     # Labeled to facilitate aggregated cluster roles that act on PodSpecables.
     duck.knative.dev/podspecable: "true"
@@ -306,7 +306,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -314,7 +314,7 @@ metadata:
   name: knative-serving-admin
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -327,7 +327,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 subjects:
   - kind: ServiceAccount
     name: controller
@@ -344,7 +344,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 subjects:
   - kind: ServiceAccount
     name: controller
@@ -362,7 +362,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -372,7 +372,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 subjects:
   - kind: ServiceAccount
     name: activator
@@ -389,7 +389,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 subjects:
   - kind: ServiceAccount
     name: activator
@@ -420,7 +420,7 @@ metadata:
   name: images.caching.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
 spec:
   group: caching.internal.knative.dev
@@ -485,9 +485,14 @@ spec:
                       name:
                         description: |-
                           Name of the referent.
-                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                          This field is effectively required, but due to backwards compatibility is
+                          allowed to be empty. Instances of this type with an empty value here are
+                          almost certainly wrong.
                           TODO: Add other useful fields. apiVersion, kind, uid?
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                          TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                         type: string
+                        default: ""
                     x-kubernetes-map-type: atomic
                 serviceAccountName:
                   description: |-
@@ -593,7 +598,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -779,7 +784,7 @@ metadata:
   name: configurations.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
     duck.knative.dev/podspecable: "true"
 spec:
@@ -915,6 +920,7 @@ spec:
                                 type: array
                                 items:
                                   type: string
+                                x-kubernetes-list-type: atomic
                               command:
                                 description: |-
                                   Entrypoint array. Not executed within a shell.
@@ -928,6 +934,7 @@ spec:
                                 type: array
                                 items:
                                   type: string
+                                x-kubernetes-list-type: atomic
                               env:
                                 description: |-
                                   List of environment variables to set in the container.
@@ -970,9 +977,14 @@ spec:
                                             name:
                                               description: |-
                                                 Name of the referent.
-                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 TODO: Add other useful fields. apiVersion, kind, uid?
+                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                               type: string
+                                              default: ""
                                             optional:
                                               description: Specify whether the ConfigMap or its key must be defined
                                               type: boolean
@@ -999,13 +1011,21 @@ spec:
                                             name:
                                               description: |-
                                                 Name of the referent.
-                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 TODO: Add other useful fields. apiVersion, kind, uid?
+                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                               type: string
+                                              default: ""
                                             optional:
                                               description: Specify whether the Secret or its key must be defined
                                               type: boolean
                                           x-kubernetes-map-type: atomic
+                                x-kubernetes-list-map-keys:
+                                  - name
+                                x-kubernetes-list-type: map
                               envFrom:
                                 description: |-
                                   List of sources to populate environment variables in the container.
@@ -1026,9 +1046,14 @@ spec:
                                         name:
                                           description: |-
                                             Name of the referent.
-                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            This field is effectively required, but due to backwards compatibility is
+                                            allowed to be empty. Instances of this type with an empty value here are
+                                            almost certainly wrong.
                                             TODO: Add other useful fields. apiVersion, kind, uid?
+                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                           type: string
+                                          default: ""
                                         optional:
                                           description: Specify whether the ConfigMap must be defined
                                           type: boolean
@@ -1043,13 +1068,19 @@ spec:
                                         name:
                                           description: |-
                                             Name of the referent.
-                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            This field is effectively required, but due to backwards compatibility is
+                                            allowed to be empty. Instances of this type with an empty value here are
+                                            almost certainly wrong.
                                             TODO: Add other useful fields. apiVersion, kind, uid?
+                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                           type: string
+                                          default: ""
                                         optional:
                                           description: Specify whether the Secret must be defined
                                           type: boolean
                                       x-kubernetes-map-type: atomic
+                                x-kubernetes-list-type: atomic
                               image:
                                 description: |-
                                   Container image name.
@@ -1087,6 +1118,7 @@ spec:
                                         type: array
                                         items:
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                   failureThreshold:
                                     description: |-
                                       Minimum consecutive failures for the probe to be considered failed after having succeeded.
@@ -1138,6 +1170,7 @@ spec:
                                             value:
                                               description: The header field value
                                               type: string
+                                        x-kubernetes-list-type: atomic
                                       path:
                                         description: Path to access on the HTTP server.
                                         type: string
@@ -1260,6 +1293,7 @@ spec:
                                         type: array
                                         items:
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                   failureThreshold:
                                     description: |-
                                       Minimum consecutive failures for the probe to be considered failed after having succeeded.
@@ -1311,6 +1345,7 @@ spec:
                                             value:
                                               description: The header field value
                                               type: string
+                                        x-kubernetes-list-type: atomic
                                       path:
                                         description: Path to access on the HTTP server.
                                         type: string
@@ -1455,12 +1490,14 @@ spec:
                                         items:
                                           description: Capability represent POSIX capabilities type
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                       drop:
                                         description: Removed capabilities
                                         type: array
                                         items:
                                           description: Capability represent POSIX capabilities type
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                   readOnlyRootFilesystem:
                                     description: |-
                                       Whether this container has a read-only root filesystem.
@@ -1546,6 +1583,7 @@ spec:
                                         type: array
                                         items:
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                   failureThreshold:
                                     description: |-
                                       Minimum consecutive failures for the probe to be considered failed after having succeeded.
@@ -1597,6 +1635,7 @@ spec:
                                             value:
                                               description: The header field value
                                               type: string
+                                        x-kubernetes-list-type: atomic
                                       path:
                                         description: Path to access on the HTTP server.
                                         type: string
@@ -1703,6 +1742,9 @@ spec:
                                         Path within the volume from which the container's volume should be mounted.
                                         Defaults to "" (volume's root).
                                       type: string
+                                x-kubernetes-list-map-keys:
+                                  - mountPath
+                                x-kubernetes-list-type: map
                               workingDir:
                                 description: |-
                                   Container's working directory.
@@ -1727,6 +1769,18 @@ spec:
                             description: This is accessible behind a feature flag - kubernetes.podspec-hostaliases
                             type: object
                             x-kubernetes-preserve-unknown-fields: true
+                        hostIPC:
+                          description: This is accessible behind a feature flag - kubernetes.podspec-hostipc
+                          type: boolean
+                          x-kubernetes-preserve-unknown-fields: true
+                        hostNetwork:
+                          description: This is accessible behind a feature flag - kubernetes.podspec-hostnetwork
+                          type: boolean
+                          x-kubernetes-preserve-unknown-fields: true
+                        hostPID:
+                          description: This is accessible behind a feature flag - kubernetes.podspec-hostpid
+                          type: boolean
+                          x-kubernetes-preserve-unknown-fields: true
                         idleTimeoutSeconds:
                           description: |-
                             IdleTimeoutSeconds is the maximum duration in seconds a request will be allowed
@@ -1749,10 +1803,18 @@ spec:
                               name:
                                 description: |-
                                   Name of the referent.
-                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
                                   TODO: Add other useful fields. apiVersion, kind, uid?
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                 type: string
+                                default: ""
                             x-kubernetes-map-type: atomic
+                          x-kubernetes-list-map-keys:
+                            - name
+                          x-kubernetes-list-type: map
                         initContainers:
                           description: |-
                             List of initialization containers belonging to the pod.
@@ -1824,6 +1886,7 @@ spec:
                             description: This is accessible behind a feature flag - kubernetes.podspec-tolerations
                             type: object
                             x-kubernetes-preserve-unknown-fields: true
+                          x-kubernetes-list-type: atomic
                         topologySpreadConstraints:
                           description: This is accessible behind a feature flag - kubernetes.podspec-topologyspreadconstraints
                           type: array
@@ -1894,12 +1957,18 @@ spec:
                                             May not contain the path element '..'.
                                             May not start with the string '..'.
                                           type: string
+                                    x-kubernetes-list-type: atomic
                                   name:
                                     description: |-
                                       Name of the referent.
-                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       TODO: Add other useful fields. apiVersion, kind, uid?
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                     type: string
+                                    default: ""
                                   optional:
                                     description: optional specify whether the ConfigMap or its keys must be defined
                                     type: boolean
@@ -1980,12 +2049,18 @@ spec:
                                                       May not contain the path element '..'.
                                                       May not start with the string '..'.
                                                     type: string
+                                              x-kubernetes-list-type: atomic
                                             name:
                                               description: |-
                                                 Name of the referent.
-                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 TODO: Add other useful fields. apiVersion, kind, uid?
+                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                               type: string
+                                              default: ""
                                             optional:
                                               description: optional specify whether the ConfigMap or its keys must be defined
                                               type: boolean
@@ -2004,7 +2079,7 @@ spec:
                                                   - path
                                                 properties:
                                                   fieldRef:
-                                                    description: 'Required: Selects a field of the pod: only annotations, labels, name and namespace are supported.'
+                                                    description: 'Required: Selects a field of the pod: only annotations, labels, name, namespace and uid are supported.'
                                                     type: object
                                                     required:
                                                       - fieldPath
@@ -2051,6 +2126,7 @@ spec:
                                                         description: 'Required: resource to select'
                                                         type: string
                                                     x-kubernetes-map-type: atomic
+                                              x-kubernetes-list-type: atomic
                                         secret:
                                           description: secret information about the secret data to project
                                           type: object
@@ -2092,12 +2168,18 @@ spec:
                                                       May not contain the path element '..'.
                                                       May not start with the string '..'.
                                                     type: string
+                                              x-kubernetes-list-type: atomic
                                             name:
                                               description: |-
                                                 Name of the referent.
-                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 TODO: Add other useful fields. apiVersion, kind, uid?
+                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                               type: string
+                                              default: ""
                                             optional:
                                               description: optional field specify whether the Secret or its key must be defined
                                               type: boolean
@@ -2130,6 +2212,7 @@ spec:
                                                 path is the path relative to the mount point of the file to project the
                                                 token into.
                                               type: string
+                                    x-kubernetes-list-type: atomic
                               secret:
                                 description: |-
                                   secret represents a secret that should populate this volume.
@@ -2184,6 +2267,7 @@ spec:
                                             May not contain the path element '..'.
                                             May not start with the string '..'.
                                           type: string
+                                    x-kubernetes-list-type: atomic
                                   optional:
                                     description: optional field specify whether the Secret or its keys must be defined
                                     type: boolean
@@ -2192,6 +2276,9 @@ spec:
                                       secretName is the name of the secret in the pod's namespace to use.
                                       More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
                                     type: string
+                          x-kubernetes-list-map-keys:
+                            - name
+                          x-kubernetes-list-type: map
             status:
               description: ConfigurationStatus communicates the observed state of the Configuration (from the controller).
               type: object
@@ -2279,7 +2366,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -2356,7 +2443,7 @@ metadata:
   name: domainmappings.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
 spec:
   group: serving.knative.dev
@@ -2570,7 +2657,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -2967,7 +3054,7 @@ metadata:
   name: metrics.autoscaling.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
 spec:
   group: autoscaling.internal.knative.dev
@@ -3111,7 +3198,7 @@ metadata:
   name: podautoscalers.autoscaling.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
 spec:
   group: autoscaling.internal.knative.dev
@@ -3312,7 +3399,7 @@ metadata:
   name: revisions.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
 spec:
   group: serving.knative.dev
@@ -3425,6 +3512,7 @@ spec:
                         type: array
                         items:
                           type: string
+                        x-kubernetes-list-type: atomic
                       command:
                         description: |-
                           Entrypoint array. Not executed within a shell.
@@ -3438,6 +3526,7 @@ spec:
                         type: array
                         items:
                           type: string
+                        x-kubernetes-list-type: atomic
                       env:
                         description: |-
                           List of environment variables to set in the container.
@@ -3480,9 +3569,14 @@ spec:
                                     name:
                                       description: |-
                                         Name of the referent.
-                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
                                         TODO: Add other useful fields. apiVersion, kind, uid?
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                       type: string
+                                      default: ""
                                     optional:
                                       description: Specify whether the ConfigMap or its key must be defined
                                       type: boolean
@@ -3509,13 +3603,21 @@ spec:
                                     name:
                                       description: |-
                                         Name of the referent.
-                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
                                         TODO: Add other useful fields. apiVersion, kind, uid?
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                       type: string
+                                      default: ""
                                     optional:
                                       description: Specify whether the Secret or its key must be defined
                                       type: boolean
                                   x-kubernetes-map-type: atomic
+                        x-kubernetes-list-map-keys:
+                          - name
+                        x-kubernetes-list-type: map
                       envFrom:
                         description: |-
                           List of sources to populate environment variables in the container.
@@ -3536,9 +3638,14 @@ spec:
                                 name:
                                   description: |-
                                     Name of the referent.
-                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     TODO: Add other useful fields. apiVersion, kind, uid?
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                   type: string
+                                  default: ""
                                 optional:
                                   description: Specify whether the ConfigMap must be defined
                                   type: boolean
@@ -3553,13 +3660,19 @@ spec:
                                 name:
                                   description: |-
                                     Name of the referent.
-                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    This field is effectively required, but due to backwards compatibility is
+                                    allowed to be empty. Instances of this type with an empty value here are
+                                    almost certainly wrong.
                                     TODO: Add other useful fields. apiVersion, kind, uid?
+                                    More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                    TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                   type: string
+                                  default: ""
                                 optional:
                                   description: Specify whether the Secret must be defined
                                   type: boolean
                               x-kubernetes-map-type: atomic
+                        x-kubernetes-list-type: atomic
                       image:
                         description: |-
                           Container image name.
@@ -3597,6 +3710,7 @@ spec:
                                 type: array
                                 items:
                                   type: string
+                                x-kubernetes-list-type: atomic
                           failureThreshold:
                             description: |-
                               Minimum consecutive failures for the probe to be considered failed after having succeeded.
@@ -3648,6 +3762,7 @@ spec:
                                     value:
                                       description: The header field value
                                       type: string
+                                x-kubernetes-list-type: atomic
                               path:
                                 description: Path to access on the HTTP server.
                                 type: string
@@ -3770,6 +3885,7 @@ spec:
                                 type: array
                                 items:
                                   type: string
+                                x-kubernetes-list-type: atomic
                           failureThreshold:
                             description: |-
                               Minimum consecutive failures for the probe to be considered failed after having succeeded.
@@ -3821,6 +3937,7 @@ spec:
                                     value:
                                       description: The header field value
                                       type: string
+                                x-kubernetes-list-type: atomic
                               path:
                                 description: Path to access on the HTTP server.
                                 type: string
@@ -3965,12 +4082,14 @@ spec:
                                 items:
                                   description: Capability represent POSIX capabilities type
                                   type: string
+                                x-kubernetes-list-type: atomic
                               drop:
                                 description: Removed capabilities
                                 type: array
                                 items:
                                   description: Capability represent POSIX capabilities type
                                   type: string
+                                x-kubernetes-list-type: atomic
                           readOnlyRootFilesystem:
                             description: |-
                               Whether this container has a read-only root filesystem.
@@ -4056,6 +4175,7 @@ spec:
                                 type: array
                                 items:
                                   type: string
+                                x-kubernetes-list-type: atomic
                           failureThreshold:
                             description: |-
                               Minimum consecutive failures for the probe to be considered failed after having succeeded.
@@ -4107,6 +4227,7 @@ spec:
                                     value:
                                       description: The header field value
                                       type: string
+                                x-kubernetes-list-type: atomic
                               path:
                                 description: Path to access on the HTTP server.
                                 type: string
@@ -4213,6 +4334,9 @@ spec:
                                 Path within the volume from which the container's volume should be mounted.
                                 Defaults to "" (volume's root).
                               type: string
+                        x-kubernetes-list-map-keys:
+                          - mountPath
+                        x-kubernetes-list-type: map
                       workingDir:
                         description: |-
                           Container's working directory.
@@ -4237,6 +4361,18 @@ spec:
                     description: This is accessible behind a feature flag - kubernetes.podspec-hostaliases
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                hostIPC:
+                  description: This is accessible behind a feature flag - kubernetes.podspec-hostipc
+                  type: boolean
+                  x-kubernetes-preserve-unknown-fields: true
+                hostNetwork:
+                  description: This is accessible behind a feature flag - kubernetes.podspec-hostnetwork
+                  type: boolean
+                  x-kubernetes-preserve-unknown-fields: true
+                hostPID:
+                  description: This is accessible behind a feature flag - kubernetes.podspec-hostpid
+                  type: boolean
+                  x-kubernetes-preserve-unknown-fields: true
                 idleTimeoutSeconds:
                   description: |-
                     IdleTimeoutSeconds is the maximum duration in seconds a request will be allowed
@@ -4259,10 +4395,18 @@ spec:
                       name:
                         description: |-
                           Name of the referent.
-                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                          This field is effectively required, but due to backwards compatibility is
+                          allowed to be empty. Instances of this type with an empty value here are
+                          almost certainly wrong.
                           TODO: Add other useful fields. apiVersion, kind, uid?
+                          More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                          TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                         type: string
+                        default: ""
                     x-kubernetes-map-type: atomic
+                  x-kubernetes-list-map-keys:
+                    - name
+                  x-kubernetes-list-type: map
                 initContainers:
                   description: |-
                     List of initialization containers belonging to the pod.
@@ -4334,6 +4478,7 @@ spec:
                     description: This is accessible behind a feature flag - kubernetes.podspec-tolerations
                     type: object
                     x-kubernetes-preserve-unknown-fields: true
+                  x-kubernetes-list-type: atomic
                 topologySpreadConstraints:
                   description: This is accessible behind a feature flag - kubernetes.podspec-topologyspreadconstraints
                   type: array
@@ -4404,12 +4549,18 @@ spec:
                                     May not contain the path element '..'.
                                     May not start with the string '..'.
                                   type: string
+                            x-kubernetes-list-type: atomic
                           name:
                             description: |-
                               Name of the referent.
-                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              This field is effectively required, but due to backwards compatibility is
+                              allowed to be empty. Instances of this type with an empty value here are
+                              almost certainly wrong.
                               TODO: Add other useful fields. apiVersion, kind, uid?
+                              More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                              TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                             type: string
+                            default: ""
                           optional:
                             description: optional specify whether the ConfigMap or its keys must be defined
                             type: boolean
@@ -4490,12 +4641,18 @@ spec:
                                               May not contain the path element '..'.
                                               May not start with the string '..'.
                                             type: string
+                                      x-kubernetes-list-type: atomic
                                     name:
                                       description: |-
                                         Name of the referent.
-                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
                                         TODO: Add other useful fields. apiVersion, kind, uid?
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                       type: string
+                                      default: ""
                                     optional:
                                       description: optional specify whether the ConfigMap or its keys must be defined
                                       type: boolean
@@ -4514,7 +4671,7 @@ spec:
                                           - path
                                         properties:
                                           fieldRef:
-                                            description: 'Required: Selects a field of the pod: only annotations, labels, name and namespace are supported.'
+                                            description: 'Required: Selects a field of the pod: only annotations, labels, name, namespace and uid are supported.'
                                             type: object
                                             required:
                                               - fieldPath
@@ -4561,6 +4718,7 @@ spec:
                                                 description: 'Required: resource to select'
                                                 type: string
                                             x-kubernetes-map-type: atomic
+                                      x-kubernetes-list-type: atomic
                                 secret:
                                   description: secret information about the secret data to project
                                   type: object
@@ -4602,12 +4760,18 @@ spec:
                                               May not contain the path element '..'.
                                               May not start with the string '..'.
                                             type: string
+                                      x-kubernetes-list-type: atomic
                                     name:
                                       description: |-
                                         Name of the referent.
-                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        This field is effectively required, but due to backwards compatibility is
+                                        allowed to be empty. Instances of this type with an empty value here are
+                                        almost certainly wrong.
                                         TODO: Add other useful fields. apiVersion, kind, uid?
+                                        More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                        TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                       type: string
+                                      default: ""
                                     optional:
                                       description: optional field specify whether the Secret or its key must be defined
                                       type: boolean
@@ -4640,6 +4804,7 @@ spec:
                                         path is the path relative to the mount point of the file to project the
                                         token into.
                                       type: string
+                            x-kubernetes-list-type: atomic
                       secret:
                         description: |-
                           secret represents a secret that should populate this volume.
@@ -4694,6 +4859,7 @@ spec:
                                     May not contain the path element '..'.
                                     May not start with the string '..'.
                                   type: string
+                            x-kubernetes-list-type: atomic
                           optional:
                             description: optional field specify whether the Secret or its keys must be defined
                             type: boolean
@@ -4702,6 +4868,9 @@ spec:
                               secretName is the name of the secret in the pod's namespace to use.
                               More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
                             type: string
+                  x-kubernetes-list-map-keys:
+                    - name
+                  x-kubernetes-list-type: map
             status:
               description: RevisionStatus communicates the observed state of the Revision (from the controller).
               type: object
@@ -4827,7 +4996,7 @@ metadata:
   name: routes.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
     duck.knative.dev/addressable: "true"
 spec:
@@ -5098,7 +5267,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -5323,7 +5492,7 @@ metadata:
   name: services.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     knative.dev/crd-install: "true"
     duck.knative.dev/addressable: "true"
     duck.knative.dev/podspecable: "true"
@@ -5479,6 +5648,7 @@ spec:
                                 type: array
                                 items:
                                   type: string
+                                x-kubernetes-list-type: atomic
                               command:
                                 description: |-
                                   Entrypoint array. Not executed within a shell.
@@ -5492,6 +5662,7 @@ spec:
                                 type: array
                                 items:
                                   type: string
+                                x-kubernetes-list-type: atomic
                               env:
                                 description: |-
                                   List of environment variables to set in the container.
@@ -5534,9 +5705,14 @@ spec:
                                             name:
                                               description: |-
                                                 Name of the referent.
-                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 TODO: Add other useful fields. apiVersion, kind, uid?
+                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                               type: string
+                                              default: ""
                                             optional:
                                               description: Specify whether the ConfigMap or its key must be defined
                                               type: boolean
@@ -5563,13 +5739,21 @@ spec:
                                             name:
                                               description: |-
                                                 Name of the referent.
-                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 TODO: Add other useful fields. apiVersion, kind, uid?
+                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                               type: string
+                                              default: ""
                                             optional:
                                               description: Specify whether the Secret or its key must be defined
                                               type: boolean
                                           x-kubernetes-map-type: atomic
+                                x-kubernetes-list-map-keys:
+                                  - name
+                                x-kubernetes-list-type: map
                               envFrom:
                                 description: |-
                                   List of sources to populate environment variables in the container.
@@ -5590,9 +5774,14 @@ spec:
                                         name:
                                           description: |-
                                             Name of the referent.
-                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            This field is effectively required, but due to backwards compatibility is
+                                            allowed to be empty. Instances of this type with an empty value here are
+                                            almost certainly wrong.
                                             TODO: Add other useful fields. apiVersion, kind, uid?
+                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                           type: string
+                                          default: ""
                                         optional:
                                           description: Specify whether the ConfigMap must be defined
                                           type: boolean
@@ -5607,13 +5796,19 @@ spec:
                                         name:
                                           description: |-
                                             Name of the referent.
-                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            This field is effectively required, but due to backwards compatibility is
+                                            allowed to be empty. Instances of this type with an empty value here are
+                                            almost certainly wrong.
                                             TODO: Add other useful fields. apiVersion, kind, uid?
+                                            More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                            TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                           type: string
+                                          default: ""
                                         optional:
                                           description: Specify whether the Secret must be defined
                                           type: boolean
                                       x-kubernetes-map-type: atomic
+                                x-kubernetes-list-type: atomic
                               image:
                                 description: |-
                                   Container image name.
@@ -5651,6 +5846,7 @@ spec:
                                         type: array
                                         items:
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                   failureThreshold:
                                     description: |-
                                       Minimum consecutive failures for the probe to be considered failed after having succeeded.
@@ -5702,6 +5898,7 @@ spec:
                                             value:
                                               description: The header field value
                                               type: string
+                                        x-kubernetes-list-type: atomic
                                       path:
                                         description: Path to access on the HTTP server.
                                         type: string
@@ -5824,6 +6021,7 @@ spec:
                                         type: array
                                         items:
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                   failureThreshold:
                                     description: |-
                                       Minimum consecutive failures for the probe to be considered failed after having succeeded.
@@ -5875,6 +6073,7 @@ spec:
                                             value:
                                               description: The header field value
                                               type: string
+                                        x-kubernetes-list-type: atomic
                                       path:
                                         description: Path to access on the HTTP server.
                                         type: string
@@ -6019,12 +6218,14 @@ spec:
                                         items:
                                           description: Capability represent POSIX capabilities type
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                       drop:
                                         description: Removed capabilities
                                         type: array
                                         items:
                                           description: Capability represent POSIX capabilities type
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                   readOnlyRootFilesystem:
                                     description: |-
                                       Whether this container has a read-only root filesystem.
@@ -6110,6 +6311,7 @@ spec:
                                         type: array
                                         items:
                                           type: string
+                                        x-kubernetes-list-type: atomic
                                   failureThreshold:
                                     description: |-
                                       Minimum consecutive failures for the probe to be considered failed after having succeeded.
@@ -6161,6 +6363,7 @@ spec:
                                             value:
                                               description: The header field value
                                               type: string
+                                        x-kubernetes-list-type: atomic
                                       path:
                                         description: Path to access on the HTTP server.
                                         type: string
@@ -6267,6 +6470,9 @@ spec:
                                         Path within the volume from which the container's volume should be mounted.
                                         Defaults to "" (volume's root).
                                       type: string
+                                x-kubernetes-list-map-keys:
+                                  - mountPath
+                                x-kubernetes-list-type: map
                               workingDir:
                                 description: |-
                                   Container's working directory.
@@ -6291,6 +6497,18 @@ spec:
                             description: This is accessible behind a feature flag - kubernetes.podspec-hostaliases
                             type: object
                             x-kubernetes-preserve-unknown-fields: true
+                        hostIPC:
+                          description: This is accessible behind a feature flag - kubernetes.podspec-hostipc
+                          type: boolean
+                          x-kubernetes-preserve-unknown-fields: true
+                        hostNetwork:
+                          description: This is accessible behind a feature flag - kubernetes.podspec-hostnetwork
+                          type: boolean
+                          x-kubernetes-preserve-unknown-fields: true
+                        hostPID:
+                          description: This is accessible behind a feature flag - kubernetes.podspec-hostpid
+                          type: boolean
+                          x-kubernetes-preserve-unknown-fields: true
                         idleTimeoutSeconds:
                           description: |-
                             IdleTimeoutSeconds is the maximum duration in seconds a request will be allowed
@@ -6313,10 +6531,18 @@ spec:
                               name:
                                 description: |-
                                   Name of the referent.
-                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  This field is effectively required, but due to backwards compatibility is
+                                  allowed to be empty. Instances of this type with an empty value here are
+                                  almost certainly wrong.
                                   TODO: Add other useful fields. apiVersion, kind, uid?
+                                  More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                  TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                 type: string
+                                default: ""
                             x-kubernetes-map-type: atomic
+                          x-kubernetes-list-map-keys:
+                            - name
+                          x-kubernetes-list-type: map
                         initContainers:
                           description: |-
                             List of initialization containers belonging to the pod.
@@ -6388,6 +6614,7 @@ spec:
                             description: This is accessible behind a feature flag - kubernetes.podspec-tolerations
                             type: object
                             x-kubernetes-preserve-unknown-fields: true
+                          x-kubernetes-list-type: atomic
                         topologySpreadConstraints:
                           description: This is accessible behind a feature flag - kubernetes.podspec-topologyspreadconstraints
                           type: array
@@ -6458,12 +6685,18 @@ spec:
                                             May not contain the path element '..'.
                                             May not start with the string '..'.
                                           type: string
+                                    x-kubernetes-list-type: atomic
                                   name:
                                     description: |-
                                       Name of the referent.
-                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      This field is effectively required, but due to backwards compatibility is
+                                      allowed to be empty. Instances of this type with an empty value here are
+                                      almost certainly wrong.
                                       TODO: Add other useful fields. apiVersion, kind, uid?
+                                      More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                      TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                     type: string
+                                    default: ""
                                   optional:
                                     description: optional specify whether the ConfigMap or its keys must be defined
                                     type: boolean
@@ -6544,12 +6777,18 @@ spec:
                                                       May not contain the path element '..'.
                                                       May not start with the string '..'.
                                                     type: string
+                                              x-kubernetes-list-type: atomic
                                             name:
                                               description: |-
                                                 Name of the referent.
-                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 TODO: Add other useful fields. apiVersion, kind, uid?
+                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                               type: string
+                                              default: ""
                                             optional:
                                               description: optional specify whether the ConfigMap or its keys must be defined
                                               type: boolean
@@ -6568,7 +6807,7 @@ spec:
                                                   - path
                                                 properties:
                                                   fieldRef:
-                                                    description: 'Required: Selects a field of the pod: only annotations, labels, name and namespace are supported.'
+                                                    description: 'Required: Selects a field of the pod: only annotations, labels, name, namespace and uid are supported.'
                                                     type: object
                                                     required:
                                                       - fieldPath
@@ -6615,6 +6854,7 @@ spec:
                                                         description: 'Required: resource to select'
                                                         type: string
                                                     x-kubernetes-map-type: atomic
+                                              x-kubernetes-list-type: atomic
                                         secret:
                                           description: secret information about the secret data to project
                                           type: object
@@ -6656,12 +6896,18 @@ spec:
                                                       May not contain the path element '..'.
                                                       May not start with the string '..'.
                                                     type: string
+                                              x-kubernetes-list-type: atomic
                                             name:
                                               description: |-
                                                 Name of the referent.
-                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                This field is effectively required, but due to backwards compatibility is
+                                                allowed to be empty. Instances of this type with an empty value here are
+                                                almost certainly wrong.
                                                 TODO: Add other useful fields. apiVersion, kind, uid?
+                                                More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                                                TODO: Drop `kubebuilder:default` when controller-gen doesn't need it https://github.com/kubernetes-sigs/kubebuilder/issues/3896.
                                               type: string
+                                              default: ""
                                             optional:
                                               description: optional field specify whether the Secret or its key must be defined
                                               type: boolean
@@ -6694,6 +6940,7 @@ spec:
                                                 path is the path relative to the mount point of the file to project the
                                                 token into.
                                               type: string
+                                    x-kubernetes-list-type: atomic
                               secret:
                                 description: |-
                                   secret represents a secret that should populate this volume.
@@ -6748,6 +6995,7 @@ spec:
                                             May not contain the path element '..'.
                                             May not start with the string '..'.
                                           type: string
+                                    x-kubernetes-list-type: atomic
                                   optional:
                                     description: optional field specify whether the Secret or its keys must be defined
                                     type: boolean
@@ -6756,6 +7004,9 @@ spec:
                                       secretName is the name of the secret in the pod's namespace to use.
                                       More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
                                     type: string
+                          x-kubernetes-list-map-keys:
+                            - name
+                          x-kubernetes-list-type: map
                 traffic:
                   description: |-
                     Traffic specifies how to distribute traffic over a collection of
@@ -6974,11 +7225,11 @@ metadata:
   labels:
     app.kubernetes.io/component: queue-proxy
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 spec:
   # This is the Go import path for the binary that is containerized
   # and substituted here.
-  image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:56142833a9f87213e055045f0ea59c3f00f024d095c052f7669f7b9d77c55e54
+  image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:c61042001b1f21c5d06bdee9b42b5e4524e4370e09d4f46347226f06db29ba0f
 
 ---
 # Copyright 2018 The Knative Authors
@@ -7003,7 +7254,7 @@ metadata:
   labels:
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
     knative.dev/example-checksum: "47c2487f"
 data:
@@ -7214,7 +7465,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     networking.knative.dev/certificate-provider: cert-manager
   annotations:
     knative.dev/example-checksum: "b7a9a602"
@@ -7284,7 +7535,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
     knative.dev/example-checksum: "5b64ff5c"
 data:
@@ -7439,13 +7690,13 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
     knative.dev/example-checksum: "720ddb97"
 data:
   # This is the Go import path for the binary that is containerized
   # and substituted here.
-  queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:56142833a9f87213e055045f0ea59c3f00f024d095c052f7669f7b9d77c55e54
+  queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:c61042001b1f21c5d06bdee9b42b5e4524e4370e09d4f46347226f06db29ba0f
   _example: |-
     ################################
     #                              #
@@ -7566,7 +7817,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
     knative.dev/example-checksum: "26c09de5"
 data:
@@ -7631,9 +7882,9 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
-    knative.dev/example-checksum: "632d47dd"
+    knative.dev/example-checksum: "9ff569ad"
 data:
   _example: |-
     ################################
@@ -7749,6 +8000,24 @@ data:
     # See: https://knative.dev/docs/serving/configuration/feature-flags/#kubernetes-share-process-namespace
     kubernetes.podspec-shareprocessnamespace: "disabled"
 
+    # Indicates whether hostIPC support is enabled
+    #
+    # WARNING: Cannot safely be disabled once enabled.
+    # See https://knative.dev/docs/serving/configuration/feature-flags/#kubernetes-host-ipc
+    kubernetes.podspec-hostipc: "disabled"
+
+    # Indicates whether hostPID support is enabled
+    #
+    # WARNING: Cannot safely be disabled once enabled.
+    # See https://knative.dev/docs/serving/configuration/feature-flags/#kubernetes-host-pid
+    kubernetes.podspec-hostpid: "disabled"
+
+    # Indicates whether hostNetwork support is enabled
+    #
+    # WARNING: Cannot safely be disabled once enabled.
+    # See See https://knative.dev/docs/serving/configuration/feature-flags/#kubernetes-host-network
+    kubernetes.podspec-hostnetwork: "disabled"
+
     # Indicates whether Kubernetes PriorityClassName support is enabled
     #
     # WARNING: Cannot safely be disabled once enabled.
@@ -7851,7 +8120,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
     knative.dev/example-checksum: "aa3813a8"
 data:
@@ -7951,7 +8220,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
     knative.dev/example-checksum: "f4b71f57"
 data:
@@ -8011,7 +8280,7 @@ metadata:
   name: config-logging
   namespace: knative-serving
   labels:
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/component: logging
     app.kubernetes.io/name: knative-serving
   annotations:
@@ -8094,7 +8363,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
     knative.dev/example-checksum: "0573e07d"
 data:
@@ -8299,7 +8568,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: observability
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
     knative.dev/example-checksum: "54abd711"
 data:
@@ -8419,7 +8688,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: tracing
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   annotations:
     knative.dev/example-checksum: "26614636"
 data:
@@ -8476,7 +8745,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 spec:
   minReplicas: 1
   maxReplicas: 20
@@ -8504,7 +8773,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 spec:
   minAvailable: 80%
   selector:
@@ -8533,7 +8802,7 @@ metadata:
   namespace: knative-serving
   labels:
     app.kubernetes.io/component: activator
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 spec:
   selector:
@@ -8547,7 +8816,7 @@ spec:
         role: activator
         app.kubernetes.io/component: activator
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.15.2"
+        app.kubernetes.io/version: "1.16.0"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -8564,7 +8833,7 @@ spec:
         - name: activator
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:ee130d9e7e217b4cb4d844881491688e20f3a91a0e4de750eb663ec5db30a162
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:24c19cbee078925b91cd2e85082b581d53b218b410c083b1005dc06dc549b1d3
           # The numbers are based on performance test results from
           # https://github.com/knative/serving/issues/1625#issuecomment-511930023
           resources:
@@ -8643,7 +8912,7 @@ metadata:
   labels:
     app: activator
     app.kubernetes.io/component: activator
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 spec:
   selector:
@@ -8690,7 +8959,7 @@ metadata:
   labels:
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 spec:
   replicas: 1
   selector:
@@ -8706,7 +8975,7 @@ spec:
         app: autoscaler
         app.kubernetes.io/component: autoscaler
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.15.2"
+        app.kubernetes.io/version: "1.16.0"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -8723,7 +8992,7 @@ spec:
         - name: autoscaler
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:2c6f0796b2f5c387079a4476c1bf04faae452dccb56157a43cb2a8791559fff6
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:5e9236452d89363957d4e7e249d57740a8fcd946aed23f8518d94962bf440250
           resources:
             requests:
               cpu: 100m
@@ -8782,7 +9051,7 @@ metadata:
     app: autoscaler
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   name: autoscaler
   namespace: knative-serving
 spec:
@@ -8823,7 +9092,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 spec:
   selector:
     matchLabels:
@@ -8834,7 +9103,7 @@ spec:
         app: controller
         app.kubernetes.io/component: controller
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.15.2"
+        app.kubernetes.io/version: "1.16.0"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -8851,7 +9120,7 @@ spec:
         - name: controller
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:b2134eada0ef0105acb0d824f5a1803d25f0ec6079cb0dd2c2ad2296b4697d89
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:5fb22b052e6bc98a1a6bbb68c0282ddb50744702acee6d83110302bc990666e9
           resources:
             requests:
               cpu: 100m
@@ -8913,7 +9182,7 @@ metadata:
     app: controller
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
   name: controller
   namespace: knative-serving
 spec:
@@ -8951,7 +9220,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 spec:
   minReplicas: 1
   maxReplicas: 5
@@ -8977,7 +9246,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 spec:
   minAvailable: 80%
   selector:
@@ -9006,7 +9275,7 @@ metadata:
   namespace: knative-serving
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
 spec:
   selector:
@@ -9019,7 +9288,7 @@ spec:
         app: webhook
         role: webhook
         app.kubernetes.io/component: webhook
-        app.kubernetes.io/version: "1.15.2"
+        app.kubernetes.io/version: "1.16.0"
         app.kubernetes.io/name: knative-serving
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
@@ -9037,7 +9306,7 @@ spec:
         - name: webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:d138fd82b127b11216c46b8afc83d6bf97d63b9828894255211c4d6afd5a0a93
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:0fb5a4245aa4737d443658754464cd0a076de959fe14623fb9e9d31318ccce24
           resources:
             requests:
               cpu: 100m
@@ -9104,7 +9373,7 @@ metadata:
     app: webhook
     role: webhook
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
     app.kubernetes.io/name: knative-serving
   name: webhook
   namespace: knative-serving
@@ -9146,7 +9415,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -9188,7 +9457,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -9245,7 +9514,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -9304,7 +9573,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.15.2"
+    app.kubernetes.io/version: "1.16.0"
 # The data is populated at install time.
 
 ---

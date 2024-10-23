@@ -2,12 +2,12 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - githubRelease:
-      tag: knative-v1.15.2
-      url: https://api.github.com/repos/knative/serving/releases/168885727
+      tag: knative-v1.16.0
+      url: https://api.github.com/repos/knative/serving/releases/181167999
     path: serving
   - githubRelease:
-      tag: knative-v1.15.1
-      url: https://api.github.com/repos/knative-extensions/net-contour/releases/167811492
+      tag: knative-v1.16.0
+      url: https://api.github.com/repos/knative-extensions/net-contour/releases/181157992
     path: net-contour
   path: config/upstream
 kind: LockConfig
