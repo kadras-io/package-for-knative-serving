@@ -18,7 +18,7 @@ metadata:
   name: knative-serving
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 
 ---
 # Copyright 2023 The Knative Authors
@@ -42,7 +42,7 @@ metadata:
   namespace: knative-serving
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: [""]
@@ -59,7 +59,7 @@ metadata:
   name: knative-serving-activator-cluster
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: [""]
@@ -92,7 +92,7 @@ metadata:
   # (which should be identical, but isn't guaranteed to be installed alongside serving).
   name: knative-serving-aggregated-addressable-resolver
   labels:
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 aggregationRule:
   clusterRoleSelectors:
@@ -104,7 +104,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: knative-serving-addressable-resolver
   labels:
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
     # Labeled to facilitate aggregated cluster roles that act on Addressables.
     duck.knative.dev/addressable: "true"
@@ -143,7 +143,7 @@ metadata:
   name: knative-serving-namespaced-admin
   labels:
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: ["serving.knative.dev"]
@@ -159,7 +159,7 @@ metadata:
   name: knative-serving-namespaced-edit
   labels:
     rbac.authorization.k8s.io/aggregate-to-edit: "true"
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: ["serving.knative.dev"]
@@ -175,7 +175,7 @@ metadata:
   name: knative-serving-namespaced-view
   labels:
     rbac.authorization.k8s.io/aggregate-to-view: "true"
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: ["serving.knative.dev", "networking.internal.knative.dev", "autoscaling.internal.knative.dev", "caching.internal.knative.dev"]
@@ -203,7 +203,7 @@ metadata:
   name: knative-serving-core
   labels:
     serving.knative.dev/controller: "true"
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 rules:
   - apiGroups: [""]
@@ -267,7 +267,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: knative-serving-podspecable-binding
   labels:
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
     # Labeled to facilitate aggregated cluster roles that act on PodSpecables.
     duck.knative.dev/podspecable: "true"
@@ -306,7 +306,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 ---
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
@@ -314,7 +314,7 @@ metadata:
   name: knative-serving-admin
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -327,7 +327,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 subjects:
   - kind: ServiceAccount
     name: controller
@@ -344,7 +344,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 subjects:
   - kind: ServiceAccount
     name: controller
@@ -362,7 +362,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -372,7 +372,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 subjects:
   - kind: ServiceAccount
     name: activator
@@ -389,7 +389,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 subjects:
   - kind: ServiceAccount
     name: activator
@@ -420,7 +420,7 @@ metadata:
   name: images.caching.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
 spec:
   group: caching.internal.knative.dev
@@ -596,7 +596,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -782,7 +782,7 @@ metadata:
   name: configurations.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
     duck.knative.dev/podspecable: "true"
 spec:
@@ -1097,7 +1097,7 @@ spec:
                                 type: object
                                 properties:
                                   exec:
-                                    description: Exec specifies the action to take.
+                                    description: Exec specifies a command to execute in the container.
                                     type: object
                                     properties:
                                       command:
@@ -1118,7 +1118,7 @@ spec:
                                     type: integer
                                     format: int32
                                   grpc:
-                                    description: GRPC specifies an action involving a GRPC port.
+                                    description: GRPC specifies a GRPC HealthCheckRequest.
                                     type: object
                                     properties:
                                       port:
@@ -1134,7 +1134,7 @@ spec:
                                         type: string
                                         default: ""
                                   httpGet:
-                                    description: HTTPGet specifies the http request to perform.
+                                    description: HTTPGet specifies an HTTP GET request to perform.
                                     type: object
                                     properties:
                                       host:
@@ -1196,7 +1196,7 @@ spec:
                                     type: integer
                                     format: int32
                                   tcpSocket:
-                                    description: TCPSocket specifies an action involving a TCP port.
+                                    description: TCPSocket specifies a connection to a TCP port.
                                     type: object
                                     properties:
                                       host:
@@ -1265,7 +1265,7 @@ spec:
                                 type: object
                                 properties:
                                   exec:
-                                    description: Exec specifies the action to take.
+                                    description: Exec specifies a command to execute in the container.
                                     type: object
                                     properties:
                                       command:
@@ -1286,7 +1286,7 @@ spec:
                                     type: integer
                                     format: int32
                                   grpc:
-                                    description: GRPC specifies an action involving a GRPC port.
+                                    description: GRPC specifies a GRPC HealthCheckRequest.
                                     type: object
                                     properties:
                                       port:
@@ -1302,7 +1302,7 @@ spec:
                                         type: string
                                         default: ""
                                   httpGet:
-                                    description: HTTPGet specifies the http request to perform.
+                                    description: HTTPGet specifies an HTTP GET request to perform.
                                     type: object
                                     properties:
                                       host:
@@ -1364,7 +1364,7 @@ spec:
                                     type: integer
                                     format: int32
                                   tcpSocket:
-                                    description: TCPSocket specifies an action involving a TCP port.
+                                    description: TCPSocket specifies a connection to a TCP port.
                                     type: object
                                     properties:
                                       host:
@@ -1530,7 +1530,7 @@ spec:
                                 type: object
                                 properties:
                                   exec:
-                                    description: Exec specifies the action to take.
+                                    description: Exec specifies a command to execute in the container.
                                     type: object
                                     properties:
                                       command:
@@ -1551,7 +1551,7 @@ spec:
                                     type: integer
                                     format: int32
                                   grpc:
-                                    description: GRPC specifies an action involving a GRPC port.
+                                    description: GRPC specifies a GRPC HealthCheckRequest.
                                     type: object
                                     properties:
                                       port:
@@ -1567,7 +1567,7 @@ spec:
                                         type: string
                                         default: ""
                                   httpGet:
-                                    description: HTTPGet specifies the http request to perform.
+                                    description: HTTPGet specifies an HTTP GET request to perform.
                                     type: object
                                     properties:
                                       host:
@@ -1629,7 +1629,7 @@ spec:
                                     type: integer
                                     format: int32
                                   tcpSocket:
-                                    description: TCPSocket specifies an action involving a TCP port.
+                                    description: TCPSocket specifies a connection to a TCP port.
                                     type: object
                                     properties:
                                       host:
@@ -1687,6 +1687,10 @@ spec:
                                       description: |-
                                         Path within the container at which the volume should be mounted.  Must
                                         not contain ':'.
+                                      type: string
+                                    mountPropagation:
+                                      description: |-
+                                        This is accessible behind a feature flag - kubernetes.podspec-volumes-mount-propagation
                                       type: string
                                     name:
                                       description: This must match the Name of a Volume.
@@ -1925,6 +1929,10 @@ spec:
                                     description: optional specify whether the ConfigMap or its keys must be defined
                                     type: boolean
                                 x-kubernetes-map-type: atomic
+                              csi:
+                                description: This is accessible behind a feature flag - kubernetes.podspec-volumes-csi
+                                type: object
+                                x-kubernetes-preserve-unknown-fields: true
                               emptyDir:
                                 description: |-
                                   This is accessible behind a feature flag - kubernetes.podspec-volumes-emptydir
@@ -2325,7 +2333,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -2402,7 +2410,7 @@ metadata:
   name: domainmappings.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
 spec:
   group: serving.knative.dev
@@ -2614,7 +2622,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -3002,7 +3010,7 @@ metadata:
   name: metrics.autoscaling.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
 spec:
   group: autoscaling.internal.knative.dev
@@ -3146,7 +3154,7 @@ metadata:
   name: podautoscalers.autoscaling.internal.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
 spec:
   group: autoscaling.internal.knative.dev
@@ -3347,7 +3355,7 @@ metadata:
   name: revisions.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
 spec:
   group: serving.knative.dev
@@ -3638,7 +3646,7 @@ spec:
                         type: object
                         properties:
                           exec:
-                            description: Exec specifies the action to take.
+                            description: Exec specifies a command to execute in the container.
                             type: object
                             properties:
                               command:
@@ -3659,7 +3667,7 @@ spec:
                             type: integer
                             format: int32
                           grpc:
-                            description: GRPC specifies an action involving a GRPC port.
+                            description: GRPC specifies a GRPC HealthCheckRequest.
                             type: object
                             properties:
                               port:
@@ -3675,7 +3683,7 @@ spec:
                                 type: string
                                 default: ""
                           httpGet:
-                            description: HTTPGet specifies the http request to perform.
+                            description: HTTPGet specifies an HTTP GET request to perform.
                             type: object
                             properties:
                               host:
@@ -3737,7 +3745,7 @@ spec:
                             type: integer
                             format: int32
                           tcpSocket:
-                            description: TCPSocket specifies an action involving a TCP port.
+                            description: TCPSocket specifies a connection to a TCP port.
                             type: object
                             properties:
                               host:
@@ -3806,7 +3814,7 @@ spec:
                         type: object
                         properties:
                           exec:
-                            description: Exec specifies the action to take.
+                            description: Exec specifies a command to execute in the container.
                             type: object
                             properties:
                               command:
@@ -3827,7 +3835,7 @@ spec:
                             type: integer
                             format: int32
                           grpc:
-                            description: GRPC specifies an action involving a GRPC port.
+                            description: GRPC specifies a GRPC HealthCheckRequest.
                             type: object
                             properties:
                               port:
@@ -3843,7 +3851,7 @@ spec:
                                 type: string
                                 default: ""
                           httpGet:
-                            description: HTTPGet specifies the http request to perform.
+                            description: HTTPGet specifies an HTTP GET request to perform.
                             type: object
                             properties:
                               host:
@@ -3905,7 +3913,7 @@ spec:
                             type: integer
                             format: int32
                           tcpSocket:
-                            description: TCPSocket specifies an action involving a TCP port.
+                            description: TCPSocket specifies a connection to a TCP port.
                             type: object
                             properties:
                               host:
@@ -4071,7 +4079,7 @@ spec:
                         type: object
                         properties:
                           exec:
-                            description: Exec specifies the action to take.
+                            description: Exec specifies a command to execute in the container.
                             type: object
                             properties:
                               command:
@@ -4092,7 +4100,7 @@ spec:
                             type: integer
                             format: int32
                           grpc:
-                            description: GRPC specifies an action involving a GRPC port.
+                            description: GRPC specifies a GRPC HealthCheckRequest.
                             type: object
                             properties:
                               port:
@@ -4108,7 +4116,7 @@ spec:
                                 type: string
                                 default: ""
                           httpGet:
-                            description: HTTPGet specifies the http request to perform.
+                            description: HTTPGet specifies an HTTP GET request to perform.
                             type: object
                             properties:
                               host:
@@ -4170,7 +4178,7 @@ spec:
                             type: integer
                             format: int32
                           tcpSocket:
-                            description: TCPSocket specifies an action involving a TCP port.
+                            description: TCPSocket specifies a connection to a TCP port.
                             type: object
                             properties:
                               host:
@@ -4228,6 +4236,10 @@ spec:
                               description: |-
                                 Path within the container at which the volume should be mounted.  Must
                                 not contain ':'.
+                              type: string
+                            mountPropagation:
+                              description: |-
+                                This is accessible behind a feature flag - kubernetes.podspec-volumes-mount-propagation
                               type: string
                             name:
                               description: This must match the Name of a Volume.
@@ -4466,6 +4478,10 @@ spec:
                             description: optional specify whether the ConfigMap or its keys must be defined
                             type: boolean
                         x-kubernetes-map-type: atomic
+                      csi:
+                        description: This is accessible behind a feature flag - kubernetes.podspec-volumes-csi
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
                       emptyDir:
                         description: |-
                           This is accessible behind a feature flag - kubernetes.podspec-volumes-emptydir
@@ -4904,7 +4920,7 @@ metadata:
   name: routes.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
     duck.knative.dev/addressable: "true"
 spec:
@@ -5175,7 +5191,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
 spec:
   group: networking.internal.knative.dev
@@ -5399,7 +5415,7 @@ metadata:
   name: services.serving.knative.dev
   labels:
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     knative.dev/crd-install: "true"
     duck.knative.dev/addressable: "true"
     duck.knative.dev/podspecable: "true"
@@ -5732,7 +5748,7 @@ spec:
                                 type: object
                                 properties:
                                   exec:
-                                    description: Exec specifies the action to take.
+                                    description: Exec specifies a command to execute in the container.
                                     type: object
                                     properties:
                                       command:
@@ -5753,7 +5769,7 @@ spec:
                                     type: integer
                                     format: int32
                                   grpc:
-                                    description: GRPC specifies an action involving a GRPC port.
+                                    description: GRPC specifies a GRPC HealthCheckRequest.
                                     type: object
                                     properties:
                                       port:
@@ -5769,7 +5785,7 @@ spec:
                                         type: string
                                         default: ""
                                   httpGet:
-                                    description: HTTPGet specifies the http request to perform.
+                                    description: HTTPGet specifies an HTTP GET request to perform.
                                     type: object
                                     properties:
                                       host:
@@ -5831,7 +5847,7 @@ spec:
                                     type: integer
                                     format: int32
                                   tcpSocket:
-                                    description: TCPSocket specifies an action involving a TCP port.
+                                    description: TCPSocket specifies a connection to a TCP port.
                                     type: object
                                     properties:
                                       host:
@@ -5900,7 +5916,7 @@ spec:
                                 type: object
                                 properties:
                                   exec:
-                                    description: Exec specifies the action to take.
+                                    description: Exec specifies a command to execute in the container.
                                     type: object
                                     properties:
                                       command:
@@ -5921,7 +5937,7 @@ spec:
                                     type: integer
                                     format: int32
                                   grpc:
-                                    description: GRPC specifies an action involving a GRPC port.
+                                    description: GRPC specifies a GRPC HealthCheckRequest.
                                     type: object
                                     properties:
                                       port:
@@ -5937,7 +5953,7 @@ spec:
                                         type: string
                                         default: ""
                                   httpGet:
-                                    description: HTTPGet specifies the http request to perform.
+                                    description: HTTPGet specifies an HTTP GET request to perform.
                                     type: object
                                     properties:
                                       host:
@@ -5999,7 +6015,7 @@ spec:
                                     type: integer
                                     format: int32
                                   tcpSocket:
-                                    description: TCPSocket specifies an action involving a TCP port.
+                                    description: TCPSocket specifies a connection to a TCP port.
                                     type: object
                                     properties:
                                       host:
@@ -6165,7 +6181,7 @@ spec:
                                 type: object
                                 properties:
                                   exec:
-                                    description: Exec specifies the action to take.
+                                    description: Exec specifies a command to execute in the container.
                                     type: object
                                     properties:
                                       command:
@@ -6186,7 +6202,7 @@ spec:
                                     type: integer
                                     format: int32
                                   grpc:
-                                    description: GRPC specifies an action involving a GRPC port.
+                                    description: GRPC specifies a GRPC HealthCheckRequest.
                                     type: object
                                     properties:
                                       port:
@@ -6202,7 +6218,7 @@ spec:
                                         type: string
                                         default: ""
                                   httpGet:
-                                    description: HTTPGet specifies the http request to perform.
+                                    description: HTTPGet specifies an HTTP GET request to perform.
                                     type: object
                                     properties:
                                       host:
@@ -6264,7 +6280,7 @@ spec:
                                     type: integer
                                     format: int32
                                   tcpSocket:
-                                    description: TCPSocket specifies an action involving a TCP port.
+                                    description: TCPSocket specifies a connection to a TCP port.
                                     type: object
                                     properties:
                                       host:
@@ -6322,6 +6338,10 @@ spec:
                                       description: |-
                                         Path within the container at which the volume should be mounted.  Must
                                         not contain ':'.
+                                      type: string
+                                    mountPropagation:
+                                      description: |-
+                                        This is accessible behind a feature flag - kubernetes.podspec-volumes-mount-propagation
                                       type: string
                                     name:
                                       description: This must match the Name of a Volume.
@@ -6560,6 +6580,10 @@ spec:
                                     description: optional specify whether the ConfigMap or its keys must be defined
                                     type: boolean
                                 x-kubernetes-map-type: atomic
+                              csi:
+                                description: This is accessible behind a feature flag - kubernetes.podspec-volumes-csi
+                                type: object
+                                x-kubernetes-preserve-unknown-fields: true
                               emptyDir:
                                 description: |-
                                   This is accessible behind a feature flag - kubernetes.podspec-volumes-emptydir
@@ -7091,11 +7115,11 @@ metadata:
   labels:
     app.kubernetes.io/component: queue-proxy
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 spec:
   # This is the Go import path for the binary that is containerized
   # and substituted here.
-  image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:4682baab5634dca1917cdde5ea64e830181d745acb3cc88bd271618170f422db
+  image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:cab5d14e0910c5e2e2f2be736e44724ecb38c72c211ac43c9e7977468f4934cc
 
 ---
 # Copyright 2018 The Knative Authors
@@ -7120,7 +7144,7 @@ metadata:
   labels:
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
     knative.dev/example-checksum: "47c2487f"
 data:
@@ -7331,7 +7355,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     networking.knative.dev/certificate-provider: cert-manager
   annotations:
     knative.dev/example-checksum: "b7a9a602"
@@ -7401,7 +7425,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
     knative.dev/example-checksum: "5b64ff5c"
 data:
@@ -7556,13 +7580,13 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
     knative.dev/example-checksum: "720ddb97"
 data:
   # This is the Go import path for the binary that is containerized
   # and substituted here.
-  queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:4682baab5634dca1917cdde5ea64e830181d745acb3cc88bd271618170f422db
+  queue-sidecar-image: gcr.io/knative-releases/knative.dev/serving/cmd/queue@sha256:cab5d14e0910c5e2e2f2be736e44724ecb38c72c211ac43c9e7977468f4934cc
   _example: |-
     ################################
     #                              #
@@ -7683,7 +7707,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
     knative.dev/example-checksum: "26c09de5"
 data:
@@ -7748,9 +7772,9 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
-    knative.dev/example-checksum: "63a13754"
+    knative.dev/example-checksum: "82cbbba9"
 data:
   _example: |-
     ################################
@@ -7936,6 +7960,11 @@ data:
     # 2. Disabled: disabling HostPath volume support
     kubernetes.podspec-volumes-hostpath: "disabled"
 
+    # Controls whether volume support for CSI is enabled or not.
+    # 1. Enabled: enabling CSI volume support
+    # 2. Disabled: disabling CSI volume support
+    kubernetes.podspec-volumes-csi: "disabled"
+
     # Controls whether init containers support is enabled or not.
     # 1. Enabled: enabling init containers support
     # 2. Disabled: disabling init containers support
@@ -7950,6 +7979,11 @@ data:
     # 1. Enabled: enabling write access for persistent volumes
     # 2. Disabled: disabling write access for persistent volumes
     kubernetes.podspec-persistent-volume-write: "disabled"
+
+    # Controls whether volume mount propagation support is enabled or not.
+    # 1. Enabled: enabling volume mount propagation support
+    # 2. Disabled: disabling volume mount propagation support
+    kubernetes.podspec-volumes-mount-propagation: "disabled"
 
     # Controls if the queue proxy podInfo feature is enabled, allowed or disabled
     #
@@ -7994,7 +8028,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
     knative.dev/example-checksum: "aa3813a8"
 data:
@@ -8094,7 +8128,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: controller
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
     knative.dev/example-checksum: "f4b71f57"
 data:
@@ -8154,7 +8188,7 @@ metadata:
   name: config-logging
   namespace: knative-serving
   labels:
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/component: logging
     app.kubernetes.io/name: knative-serving
   annotations:
@@ -8237,7 +8271,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: networking
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
     knative.dev/example-checksum: "0573e07d"
 data:
@@ -8442,7 +8476,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: observability
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
     knative.dev/example-checksum: "54abd711"
 data:
@@ -8562,7 +8596,7 @@ metadata:
   labels:
     app.kubernetes.io/name: knative-serving
     app.kubernetes.io/component: tracing
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   annotations:
     knative.dev/example-checksum: "26614636"
 data:
@@ -8619,7 +8653,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 spec:
   minReplicas: 1
   maxReplicas: 20
@@ -8647,7 +8681,7 @@ metadata:
   labels:
     app.kubernetes.io/component: activator
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 spec:
   minAvailable: 80%
   selector:
@@ -8676,7 +8710,7 @@ metadata:
   namespace: knative-serving
   labels:
     app.kubernetes.io/component: activator
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 spec:
   selector:
@@ -8690,7 +8724,7 @@ spec:
         role: activator
         app.kubernetes.io/component: activator
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.17.0"
+        app.kubernetes.io/version: "1.18.0"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -8707,7 +8741,7 @@ spec:
         - name: activator
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:cd4bb3af998f4199ea760718a309f50d1bcc9d5c4a1c5446684a6a0115a7aad5
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/activator@sha256:80b2e4bf6df496c692f8e148b3a72afcb88165cb7428e52b788fa53075989655
           # The numbers are based on performance test results from
           # https://github.com/knative/serving/issues/1625#issuecomment-511930023
           resources:
@@ -8786,7 +8820,7 @@ metadata:
   labels:
     app: activator
     app.kubernetes.io/component: activator
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 spec:
   selector:
@@ -8833,7 +8867,7 @@ metadata:
   labels:
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 spec:
   replicas: 1
   selector:
@@ -8849,7 +8883,7 @@ spec:
         app: autoscaler
         app.kubernetes.io/component: autoscaler
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.17.0"
+        app.kubernetes.io/version: "1.18.0"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -8866,7 +8900,7 @@ spec:
         - name: autoscaler
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:ac1a83ba7c278ce9482b7bbfffe00e266f657b7d2356daed88ffe666bc68978e
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler@sha256:6ff1f7816c67954f4533edd7a7e35882e2d52613cc3343594ff3eddfd0c1fca2
           resources:
             requests:
               cpu: 100m
@@ -8925,7 +8959,7 @@ metadata:
     app: autoscaler
     app.kubernetes.io/component: autoscaler
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   name: autoscaler
   namespace: knative-serving
 spec:
@@ -8966,7 +9000,7 @@ metadata:
   labels:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 spec:
   selector:
     matchLabels:
@@ -8977,7 +9011,7 @@ spec:
         app: controller
         app.kubernetes.io/component: controller
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.17.0"
+        app.kubernetes.io/version: "1.18.0"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -8994,7 +9028,7 @@ spec:
         - name: controller
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:df24c6d3e20bc22a691fcd8db6df25a66c67498abd38a8a56e8847cb6bfb875b
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/controller@sha256:d4c6a0f926509e8d34795003635fdb8625dd3d4648ec55fe2ce781e0b8750e04
           resources:
             requests:
               cpu: 100m
@@ -9056,7 +9090,7 @@ metadata:
     app: controller
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
   name: controller
   namespace: knative-serving
 spec:
@@ -9094,7 +9128,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 spec:
   minReplicas: 1
   maxReplicas: 5
@@ -9120,7 +9154,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 spec:
   minAvailable: 80%
   selector:
@@ -9149,7 +9183,7 @@ metadata:
   namespace: knative-serving
   labels:
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
 spec:
   selector:
@@ -9162,7 +9196,7 @@ spec:
         app: webhook
         role: webhook
         app.kubernetes.io/component: webhook
-        app.kubernetes.io/version: "1.17.0"
+        app.kubernetes.io/version: "1.18.0"
         app.kubernetes.io/name: knative-serving
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
@@ -9180,7 +9214,7 @@ spec:
         - name: webhook
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:d842f05a1b05b1805021b9c0657783b4721e79dc96c5b58dc206998c7062d9d9
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/webhook@sha256:6fb473eb7641c3f7174ed4064e6c3f5eeeb05e1420f5af425bbec33af53f4f92
           resources:
             requests:
               cpu: 100m
@@ -9247,7 +9281,7 @@ metadata:
     app: webhook
     role: webhook
     app.kubernetes.io/component: webhook
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
     app.kubernetes.io/name: knative-serving
   name: webhook
   namespace: knative-serving
@@ -9289,7 +9323,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -9331,7 +9365,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -9388,7 +9422,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 webhooks:
   - admissionReviewVersions: ["v1", "v1beta1"]
     clientConfig:
@@ -9447,7 +9481,7 @@ metadata:
   labels:
     app.kubernetes.io/component: webhook
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.17.0"
+    app.kubernetes.io/version: "1.18.0"
 # The data is populated at install time.
 
 ---
