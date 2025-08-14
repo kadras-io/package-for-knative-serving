@@ -17,6 +17,9 @@ domain_name: ""
 #@schema/examples ("Kadras private CA", "kadras-ca-issuer")
 ingress_issuer: ""
 
+#@schema/desc "The minimum Kubernetes version that this package will accept as valid. If not set, Knative Serving will accept the last 3 minor versions of Kubernetes."
+min_kubernetes_version: ""
+
 #@schema/desc "Settings for the Knative Serving workloads."
 workloads:
   activator:

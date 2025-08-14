@@ -1,0 +1,15 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+
+#@overlay/match by=overlay.subset({"kind":"Deployment"}), expects="6+"
+---
+spec:
+  template:
+    spec:
+      #@overlay/match missing_ok=True
+      containers:
+        #@overlay/match by=overlay.all
+        - env:
+          #@ if/end data.values.min_kubernetes_version != "":
+          - name: KUBERNETES_MIN_VERSION
+            value: #@ data.values.min_kubernetes_version

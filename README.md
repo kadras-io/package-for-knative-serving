@@ -104,6 +104,7 @@ The Knative Serving package has the following configurable properties.
 | `policies.include` | `false` | Whether to include the out-of-the-box Kyverno policies to validate and secure the package installation. |
 | `domain_name` | `""` | Domain name for Knative Services. It must be a valid DNS name. |
 | `ingress_issuer` | `""` | A reference to the ClusterIssuer to use if you want to enable autoTLS. |
+| `min_kubernetes_version` | `""` | The minimum Kubernetes version that this package will accept as valid. If not set, Knative Serving will accept the last 3 minor versions of Kubernetes. |
 
 Settings for the Knative Serving workloads.
 
