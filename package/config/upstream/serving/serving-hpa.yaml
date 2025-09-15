@@ -21,7 +21,7 @@ metadata:
     autoscaling.knative.dev/autoscaler-provider: hpa
     app.kubernetes.io/component: autoscaler-hpa
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.19.0"
+    app.kubernetes.io/version: "1.19.5"
 spec:
   selector:
     matchLabels:
@@ -32,7 +32,7 @@ spec:
         app: autoscaler-hpa
         app.kubernetes.io/component: autoscaler-hpa
         app.kubernetes.io/name: knative-serving
-        app.kubernetes.io/version: "1.19.0"
+        app.kubernetes.io/version: "1.19.5"
     spec:
       # To avoid node becoming SPOF, spread our replicas to different nodes.
       affinity:
@@ -49,7 +49,7 @@ spec:
         - name: autoscaler-hpa
           # This is the Go import path for the binary that is containerized
           # and substituted here.
-          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa@sha256:072fb8bd234f47eda5c869ca5331a264d873c14e4d1bc35e4b25383803f9795e
+          image: gcr.io/knative-releases/knative.dev/serving/cmd/autoscaler-hpa@sha256:fd3c5ede427da171f0c0ae66ce3191f9ac00e6cbab721ef9e15e251e06afa0e6
           resources:
             requests:
               cpu: 30m
@@ -108,7 +108,7 @@ metadata:
     autoscaling.knative.dev/autoscaler-provider: hpa
     app.kubernetes.io/component: autoscaler-hpa
     app.kubernetes.io/name: knative-serving
-    app.kubernetes.io/version: "1.19.0"
+    app.kubernetes.io/version: "1.19.5"
   name: autoscaler-hpa
   namespace: knative-serving
 spec:
