@@ -16,12 +16,12 @@ commands:
         -f https://github.com/carvel-dev/kapp-controller/releases/latest/download/release.yml
   - script: |
       kubectl config set-context --current --namespace=tests && \
+      kapp deploy -a cert-manager-package -y \
+        -f https://github.com/kadras-io/package-for-cert-manager/releases/download/v1.19.3/package.yml \
+        -f https://github.com/kadras-io/package-for-cert-manager/releases/download/v1.19.3/metadata.yml && \
       kapp deploy -a contour-package -y \
         -f https://github.com/kadras-io/package-for-contour/releases/download/v1.33.1/package.yml \
         -f https://github.com/kadras-io/package-for-contour/releases/download/v1.33.1/metadata.yml
-      kapp deploy -a cert-manager-package -y \
-        -f https://github.com/kadras-io/package-for-cert-manager/releases/download/v1.19.2/package.yml \
-        -f https://github.com/kadras-io/package-for-cert-manager/releases/download/v1.19.2/metadata.yml
   - script: |
       kubectl config set-context --current --namespace=tests && \
       kapp deploy -a dependencies -y -f ./test/setup/dependencies

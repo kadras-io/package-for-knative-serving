@@ -113,6 +113,8 @@ Settings for the Knative Serving workloads.
 | `workloads.activator.minReplicas` | `1` | The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1. |
 | `workloads.autoscaler.replicas` | `1` | The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1. |
 | `workloads.controller.replicas` | `1` | The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1. |
+| `workloads.domain_mapping.replicas` | `1` | The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1. |
+| `workloads.domain_mapping_webhook.replicas` | `1` | The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1. |
 | `workloads.webhook.minReplicas` | `1` | The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1. |
 
 Configuration stored in the `config-deployment` ConfigMap.
