@@ -38,20 +38,20 @@ metadata:
 spec:
   minReplicas: 1
 
-# Prometheus Annotations
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: knative-serving
-spec:
-  template:
-    metadata:
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/scheme: "http"
-        prometheus.io/port: "metrics"
-        prometheus.io/path: "/metrics"
+# # Prometheus Annotations
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   namespace: knative-serving
+# spec:
+#   template:
+#     metadata:
+#       annotations:
+#         prometheus.io/scrape: "true"
+#         prometheus.io/scheme: "http"
+#         prometheus.io/port: "metrics"
+#         prometheus.io/path: "/metrics"
 
 # Image Pull Secret
 ---
