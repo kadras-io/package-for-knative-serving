@@ -137,14 +137,18 @@ Configuration stored in the `config-network` ConfigMap.
 | `config.network.default-external-scheme` | `http` | Defines the scheme used for external URLs if autoTLS is not enabled. This can be used for making Knative report all URLs as `https`, for example, if you're fronting Knative with an external loadbalancer that deals with TLS termination and Knative doesn't know about that otherwise. |
 | `config.network.rollout-duration` | `0` | The minimal duration in seconds over which the Configuration traffic targets are rolled out to the newest revision. |
 
-Configuration stored in the `config-tracing` ConfigMap.
+Configuration stored in the `config-observability` ConfigMap.
 
 | Config | Default | Description |
 |-------|-------------------|-------------|
-| `config.tracing.backend` | `none` | The type of distributed tracing backend. Options: `none`, `zipkin`. |
-| `config.tracing.zipkin-endpoint` | `http://tempo.observability-system.svc.cluster.local:9411/api/v2/spans` | The Zipkin collector endpoint where traces are sent. |
-| `config.tracing.debug` | `false` | Enable the Zipkin debug mode. This allows all spans to be sent to the server bypassing sampling. |
-| `config.tracing.sample-rate` | `0.1` | The percentage (0-1) of requests to trace. |
+| `config.observability.metrics-protocol` | `none` | The protocol used when exporting metrics. Options: `none`, `http/protobuf`, `grpc`, `prometheus`. |
+| `config.observability.metrics-endpoint` | `""` | The destination metrics should be exported to. Required when `metrics-protocol` is `http/protobuf` or `grpc`. |
+| `config.observability.request-metrics-protocol` | `none` | The protocol used when exporting queue-proxy metrics. Options: `none`, `http/protobuf`, `grpc`, `prometheus`. |
+| `config.observability.request-metrics-endpoint` | `""` | The destination queue-proxy metrics should be exported to. Required when `request-metrics-protocol` is `http/protobuf` or `grpc`. |
+| `config.observability.request-metrics-export-interval` | `60s` | The global metrics reporting period for the queue-proxy. |
+| `config.observability.tracing-protocol` | `none` | The protocol used when exporting traces. Options: `none`, `http/protobuf`, `grpc`, `stdout`. |
+| `config.observability.tracing-endpoint` | `""` | The destination traces should be exported to. Required when `tracing-protocol` is `http/protobuf` or `grpc`. |
+| `config.observability.tracing-sampling-rate` | `1` | The percentage of requests to trace. The value should be between 0 (never sample) to 1 (always sample). |
 
 Settings for the Ingress controller.
 
@@ -158,8 +162,8 @@ Settings for the corporate proxy.
 
 | Config | Default | Description |
 |-------|-------------------|-------------|
-| `proxy.http_proxy` | `""` | The HTTP proxy to use for network traffic. |
 | `proxy.https_proxy` | `""` | The HTTPS proxy to use for network traffic. |
+| `proxy.http_proxy` | `""` | The HTTP proxy to use for network traffic. |
 | `proxy.no_proxy` | `""` | A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy. |
 
 </details>

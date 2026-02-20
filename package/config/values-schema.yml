@@ -79,20 +79,31 @@ config:
     #@schema/validation min=0
     rollout-duration: 0
   
-  #@schema/desc "Network configuration stored in the `config-tracing` ConfigMap."
-  tracing:
-    #@schema/desc "The type of distributed tracing backend."
-    #@schema/validation one_of=["zipkin", "none"]
-    backend: "none"
-    #@schema/desc "The Zipkin collector endpoint where traces are sent."
-    #@schema/validation min_len=24, when=lambda _, ctx: ctx.parent["backend"] == "zipkin"
-    zipkin-endpoint: "http://tempo.observability-system.svc.cluster.local:9411/api/v2/spans"
-    #@schema/desc "Enable the Zipkin debug mode. This allows all spans to be sent to the server bypassing sampling."
-    #@schema/validation one_of=["true", "false"]
-    debug: "false"
-    #@schema/desc "The percentage (0-1) of requests to trace."
+  #@schema/desc "Observability configuration stored in the `config-observability` ConfigMap."
+  observability:
+    #@schema/desc "the protocol used when exporting metrics."
+    #@schema/validation one_of=["none", "http/protobuf", "grpc", "prometheus"]
+    metrics-protocol: "none"
+    #@schema/desc "The destination metrics should be exporter to."
+    #@schema/validation min_len=1, when=lambda _, ctx: ctx.parent["metrics-protocol"] == "http/protobuf" or ctx.parent["metrics-protocol"] == "grpc"
+    metrics-endpoint: ""
+    #@schema/desc "the protocol used when exporting queue-proxy metrics."
+    #@schema/validation one_of=["none", "http/protobuf", "grpc", "prometheus"]
+    request-metrics-protocol: "none"
+    #@schema/desc "The destination queue-proxy metrics should be exporter to."
+    #@schema/validation min_len=1, when=lambda _, ctx: ctx.parent["request-metrics-protocol"] == "http/protobuf" or ctx.parent["request-metrics-protocol"] == "grpc"
+    request-metrics-endpoint: ""
+    #@schema/desc "the global metrics reporting period for the queue-proxy."
+    request-metrics-export-interval: 60s
+    #@schema/desc "The protocol used when exporting traces."
+    #@schema/validation one_of=["none", "http/protobuf", "grpc", "stdout"]
+    tracing-protocol: "none"
+    #@schema/desc "The destination traces should be exporter to."
+    #@schema/validation min_len=1, when=lambda _, ctx: ctx.parent["tracing-protocol"] == "http/protobuf" or ctx.parent["tracing-protocol"] == "grpc"
+    tracing-endpoint: ""
+    #@schema/desc "The percentage of requests to trace. The value should be between 0 (never sample) to 1 (always sample)."
     #@schema/validation min_len=1, max_len=3
-    sample-rate: "0.1"
+    tracing-sampling-rate: "1"
 
 #@schema/desc "Settings for the Ingress controller."
 ingress:
@@ -119,8 +130,3 @@ proxy:
   http_proxy: ""
   #@schema/desc "A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy."
   no_proxy: ""
-
-#@schema/desc "Settings for Prometheus metrics."
-prometheus:
-  #@schema/desc "Whether to enable Prometheus annotations for automatic scraping of Knative Serving metrics."
-  enabled: true
