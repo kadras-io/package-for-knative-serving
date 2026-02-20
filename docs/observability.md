@@ -4,7 +4,7 @@ Monitor and observe the operation of Knative Serving using logs, metrics, and tr
 
 ## Logs
 
-For more information, check the Knative Serving documentation for [logs](https://knative.dev/docs/serving/observability/logging/config-logging/).
+For more information, check the [`config-observability`](https://github.com/knative/serving/blob/main/config/core/configmaps/observability.yaml) ConfigMap.
 
 ## Metrics
 
@@ -20,7 +20,7 @@ config:
     request-metrics-export-interval: 60s
 ```
 
-For more information, check the Knative Serving documentation for [metrics](https://knative.dev/docs/serving/observability/metrics/serving-metrics).
+For more information, check the Knative Serving documentation for [metrics](https://knative.dev/docs/serving/observability/metrics/collecting-metrics/) and the the [`config-observability`](https://github.com/knative/serving/blob/main/config/core/configmaps/observability.yaml) ConfigMap.
 
 ## Traces
 
@@ -36,8 +36,8 @@ config:
     tracing-sampling-rate: "1"
 ```
 
-For more information, check the [`config-tracing`](https://github.com/knative/serving/blob/main/pkg/reconciler/revision/config/testdata/config-tracing.yaml) ConfigMap.
+For more information, check the [`config-observability`](https://github.com/knative/serving/blob/main/config/core/configmaps/observability.yaml) ConfigMap.
 
 ## Dashboards
 
-If you use the Grafana observability stack, you can refer to these [dashboards](https://github.com/knative-sandbox/monitoring/tree/main/grafana) as a foundation to build your own.
+If you use the Grafana observability stack, you can refer to these [dashboards](https://github.com/knative-extensions/monitoring/tree/main/dashboards) as a foundation to build your own.
