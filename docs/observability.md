@@ -10,6 +10,13 @@ For more information, check the Knative Serving documentation for [logs](https:/
 
 Metrics configuration for all Knative Serving components is enabled by default using the Prometheus format. This package comes pre-configured with the necessary annotations to let Prometheus scrape metrics automatically from all Knative Serving components.
 
+If you'd like to remove the Prometheus annotations and therefore disable automatic scraping of Knative Serving metrics, you can apply the following configuration:
+
+```yaml
+prometheus:
+  enabled: false
+```
+
 For more information, check the Knative Serving documentation for [metrics](https://knative.dev/docs/serving/observability/metrics/serving-metrics).
 
 ## Traces

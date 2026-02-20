@@ -119,3 +119,8 @@ proxy:
   http_proxy: ""
   #@schema/desc "A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy."
   no_proxy: ""
+
+#@schema/desc "Settings for Prometheus metrics."
+prometheus:
+  #@schema/desc "Whether to enable Prometheus annotations for automatic scraping of Knative Serving metrics."
+  enabled: true
