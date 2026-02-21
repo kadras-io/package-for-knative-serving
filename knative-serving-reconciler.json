@@ -1,0 +1,626 @@
+{
+    "description": "Dashboard for Knative Serving Control Plane Reconciler Metrics\n(https://github.com/knative/serving)\n",
+    "graphTooltip": 1,
+    "panels": [
+        {
+            "collapsed": false,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 1,
+            "panels": [
+
+            ],
+            "title": "Knative Service",
+            "type": "row"
+        },
+        {
+            "datasource": {
+                "type": "datasource",
+                "uid": "-- Mixed --"
+            },
+            "description": "Reconciler queue depth",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "fillOpacity": 10,
+                        "gradientMode": "hue",
+                        "showPoints": "never"
+                    },
+                    "decimals": 0,
+                    "unit": "short"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 0,
+                "y": 1
+            },
+            "id": 2,
+            "interval": "5s",
+            "options": {
+                "legend": {
+                    "calcs": [
+                        "last",
+                        "max"
+                    ],
+                    "displayMode": "table"
+                }
+            },
+            "pluginVersion": "v11.4.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "sum by (pod) (kn_workqueue_depth{name=\"knative.dev.serving.pkg.reconciler.service.Reconciler\"})",
+                    "legendFormat": "{{name}}"
+                }
+            ],
+            "title": "Queue Depth",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "datasource",
+                "uid": "-- Mixed --"
+            },
+            "description": "Time it takes to process items in the queue",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "drawStyle": "bars",
+                        "fillOpacity": 10,
+                        "gradientMode": "hue",
+                        "showPoints": "never"
+                    },
+                    "unit": "s"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byRegexp",
+                            "options": "/mean/i"
+                        },
+                        "properties": [
+                            {
+                                "id": "custom.fillOpacity",
+                                "value": 0
+                            },
+                            {
+                                "id": "custom.lineStyle",
+                                "value": {
+                                    "dash": [
+                                        8,
+                                        10
+                                    ],
+                                    "fill": "dash"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 8,
+                "y": 1
+            },
+            "id": 3,
+            "interval": "5s",
+            "options": {
+                "legend": {
+                    "calcs": [
+                        "last",
+                        "max"
+                    ],
+                    "displayMode": "table"
+                }
+            },
+            "pluginVersion": "v11.4.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.5, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.service.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P50"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.90000000000000002, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.service.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P90"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.98999999999999999, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.service.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P99"
+                }
+            ],
+            "title": "Queue Processing Times",
+            "type": "timeseries"
+        },
+        {
+            "collapsed": false,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 9
+            },
+            "id": 4,
+            "panels": [
+
+            ],
+            "title": "Knative Route",
+            "type": "row"
+        },
+        {
+            "datasource": {
+                "type": "datasource",
+                "uid": "-- Mixed --"
+            },
+            "description": "Reconciler queue depth",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "fillOpacity": 10,
+                        "gradientMode": "hue",
+                        "showPoints": "never"
+                    },
+                    "decimals": 0,
+                    "unit": "short"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 0,
+                "y": 10
+            },
+            "id": 5,
+            "interval": "5s",
+            "options": {
+                "legend": {
+                    "calcs": [
+                        "last",
+                        "max"
+                    ],
+                    "displayMode": "table"
+                }
+            },
+            "pluginVersion": "v11.4.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "sum by (pod) (kn_workqueue_depth{name=\"knative.dev.serving.pkg.reconciler.route.Reconciler\"})",
+                    "legendFormat": "{{name}}"
+                }
+            ],
+            "title": "Queue Depth",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "datasource",
+                "uid": "-- Mixed --"
+            },
+            "description": "Time it takes to process items in the queue",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "drawStyle": "bars",
+                        "fillOpacity": 10,
+                        "gradientMode": "hue",
+                        "showPoints": "never"
+                    },
+                    "unit": "s"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byRegexp",
+                            "options": "/mean/i"
+                        },
+                        "properties": [
+                            {
+                                "id": "custom.fillOpacity",
+                                "value": 0
+                            },
+                            {
+                                "id": "custom.lineStyle",
+                                "value": {
+                                    "dash": [
+                                        8,
+                                        10
+                                    ],
+                                    "fill": "dash"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 8,
+                "y": 10
+            },
+            "id": 6,
+            "interval": "5s",
+            "options": {
+                "legend": {
+                    "calcs": [
+                        "last",
+                        "max"
+                    ],
+                    "displayMode": "table"
+                }
+            },
+            "pluginVersion": "v11.4.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.5, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.route.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P50"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.90000000000000002, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.route.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P90"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.98999999999999999, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.route.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P99"
+                }
+            ],
+            "title": "Queue Processing Times",
+            "type": "timeseries"
+        },
+        {
+            "collapsed": false,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 18
+            },
+            "id": 7,
+            "panels": [
+
+            ],
+            "title": "Knative Configuration",
+            "type": "row"
+        },
+        {
+            "datasource": {
+                "type": "datasource",
+                "uid": "-- Mixed --"
+            },
+            "description": "Reconciler queue depth",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "fillOpacity": 10,
+                        "gradientMode": "hue",
+                        "showPoints": "never"
+                    },
+                    "decimals": 0,
+                    "unit": "short"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 0,
+                "y": 19
+            },
+            "id": 8,
+            "interval": "5s",
+            "options": {
+                "legend": {
+                    "calcs": [
+                        "last",
+                        "max"
+                    ],
+                    "displayMode": "table"
+                }
+            },
+            "pluginVersion": "v11.4.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "sum by (pod) (kn_workqueue_depth{name=\"knative.dev.serving.pkg.reconciler.configuration.Reconciler\"})",
+                    "legendFormat": "{{name}}"
+                }
+            ],
+            "title": "Queue Depth",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "datasource",
+                "uid": "-- Mixed --"
+            },
+            "description": "Time it takes to process items in the queue",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "drawStyle": "bars",
+                        "fillOpacity": 10,
+                        "gradientMode": "hue",
+                        "showPoints": "never"
+                    },
+                    "unit": "s"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byRegexp",
+                            "options": "/mean/i"
+                        },
+                        "properties": [
+                            {
+                                "id": "custom.fillOpacity",
+                                "value": 0
+                            },
+                            {
+                                "id": "custom.lineStyle",
+                                "value": {
+                                    "dash": [
+                                        8,
+                                        10
+                                    ],
+                                    "fill": "dash"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 8,
+                "y": 19
+            },
+            "id": 9,
+            "interval": "5s",
+            "options": {
+                "legend": {
+                    "calcs": [
+                        "last",
+                        "max"
+                    ],
+                    "displayMode": "table"
+                }
+            },
+            "pluginVersion": "v11.4.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.5, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.configuration.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P50"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.90000000000000002, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.configuration.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P90"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.98999999999999999, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.configuration.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P99"
+                }
+            ],
+            "title": "Queue Processing Times",
+            "type": "timeseries"
+        },
+        {
+            "collapsed": false,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 27
+            },
+            "id": 10,
+            "panels": [
+
+            ],
+            "title": "Knative Revision",
+            "type": "row"
+        },
+        {
+            "datasource": {
+                "type": "datasource",
+                "uid": "-- Mixed --"
+            },
+            "description": "Reconciler queue depth",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "fillOpacity": 10,
+                        "gradientMode": "hue",
+                        "showPoints": "never"
+                    },
+                    "decimals": 0,
+                    "unit": "short"
+                }
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 0,
+                "y": 28
+            },
+            "id": 11,
+            "interval": "5s",
+            "options": {
+                "legend": {
+                    "calcs": [
+                        "last",
+                        "max"
+                    ],
+                    "displayMode": "table"
+                }
+            },
+            "pluginVersion": "v11.4.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "sum by (pod) (kn_workqueue_depth{name=\"knative.dev.serving.pkg.reconciler.revision.Reconciler\"})",
+                    "legendFormat": "{{name}}"
+                }
+            ],
+            "title": "Queue Depth",
+            "type": "timeseries"
+        },
+        {
+            "datasource": {
+                "type": "datasource",
+                "uid": "-- Mixed --"
+            },
+            "description": "Time it takes to process items in the queue",
+            "fieldConfig": {
+                "defaults": {
+                    "custom": {
+                        "drawStyle": "bars",
+                        "fillOpacity": 10,
+                        "gradientMode": "hue",
+                        "showPoints": "never"
+                    },
+                    "unit": "s"
+                },
+                "overrides": [
+                    {
+                        "matcher": {
+                            "id": "byRegexp",
+                            "options": "/mean/i"
+                        },
+                        "properties": [
+                            {
+                                "id": "custom.fillOpacity",
+                                "value": 0
+                            },
+                            {
+                                "id": "custom.lineStyle",
+                                "value": {
+                                    "dash": [
+                                        8,
+                                        10
+                                    ],
+                                    "fill": "dash"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 8,
+                "y": 28
+            },
+            "id": 12,
+            "interval": "5s",
+            "options": {
+                "legend": {
+                    "calcs": [
+                        "last",
+                        "max"
+                    ],
+                    "displayMode": "table"
+                }
+            },
+            "pluginVersion": "v11.4.0",
+            "targets": [
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.5, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.revision.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P50"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.90000000000000002, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.revision.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P90"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "$datasource"
+                    },
+                    "expr": "histogram_quantile(0.98999999999999999, sum by (le) (rate(kn_workqueue_queue_duration_seconds_bucket{name=\"knative.dev.serving.pkg.reconciler.revision.Reconciler\"}[$__rate_interval])))",
+                    "legendFormat": "P99"
+                }
+            ],
+            "title": "Queue Processing Times",
+            "type": "timeseries"
+        }
+    ],
+    "schemaVersion": 39,
+    "templating": {
+        "list": [
+            {
+                "name": "datasource",
+                "query": "prometheus",
+                "type": "datasource"
+            }
+        ]
+    },
+    "time": {
+        "from": "now-6h",
+        "to": "now"
+    },
+    "timezone": "utc",
+    "title": "Knative Serving - Reconciler"
+}

@@ -1,7 +1,7 @@
 #@ load("@ytt:data", "data")
 #@ load("@ytt:overlay", "overlay")
 
-#@ if data.values.config.observability["metrics-protocol"] == "prometheus":
+#@ if data.values.config.observability["metrics-protocol"] == "prometheus" or data.values.config.observability["request-metrics-protocol"] == "prometheus":
 #@overlay/match by=overlay.subset({"kind":"Deployment","metadata":{"namespace":"knative-serving"}}), expects="6+"
 ---
 spec:

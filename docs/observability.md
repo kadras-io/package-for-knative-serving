@@ -10,6 +10,17 @@ For more information, check the [`config-observability`](https://github.com/knat
 
 Prometheus and OpenTelemetry instrumentation is provided for Knative Serving. By default, the instrumentation is disabled. Via the `config.observability.*` properties, you can enable the generation of metrics and configure how they are exported to a metrics backend.
 
+If you want to use Prometheus and enable the inclusion of Prometheus annotations for automatic scraping of Knative Serving metrics, you can set the `metrics-protocol` and `request-metrics-protocol` to `prometheus`:
+
+```yaml
+config:
+  observability:
+    metrics-protocol: "prometheus"
+    request-metrics-protocol: "prometheus"
+```
+
+If you want to use OpenTelemetry and export metrics to an OpenTelemetry Collector, you can set the `metrics-protocol` and `request-metrics-protocol` to `http/protobuf` or `grpc` and configure the `metrics-endpoint` and `request-metrics-endpoint` properties to point to your OpenTelemetry Collector. Both HTTP/Protobuf and gRPC protocols are supported.
+
 ```yaml
 config:
   observability:
@@ -26,7 +37,7 @@ For more information, check the Knative Serving documentation for [metrics](http
 
 OpenTelemetry instrumentation is provided for Knative Serving. By default, the instrumentation is disabled. Via the `config.observability.*` properties, you can enable the generation of traces and configure how they are exported to a distributed tracing backend.
 
-Knative Serving supports exporting traces to Zipkin.
+Knative Serving supports exporting traces to an OpenTelemetry Collector using either the HTTP/Protobuf or gRPC protocol. To enable exporting traces to an OpenTelemetry Collector, you can set the `tracing-protocol` property to `http/protobuf` or `grpc` and configure the `tracing-endpoint` property to point to your OpenTelemetry Collector:
 
 ```yaml
 config:
