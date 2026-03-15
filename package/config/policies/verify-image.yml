@@ -32,7 +32,7 @@ spec:
         attestors:
         - entries:
           - keyless:
-              #! https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/#verifying-image-signatures
-              subject: "signer@knative-nightly.iam.gserviceaccount.com"
+              #! https://knative.dev/docs/reference/security/verifying-images/#knative-slsa-provenance-signed
+              subject: "signer@knative-releases.iam.gserviceaccount.com"
               issuer: "https://accounts.google.com"
 #@ end
