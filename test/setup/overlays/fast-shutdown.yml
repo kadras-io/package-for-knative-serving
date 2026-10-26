@@ -1,0 +1,30 @@
+#@ load("@ytt:overlay", "overlay")
+
+#! The activator and webhook Pods drain for up to a minute when deleted, and the namespace controller
+#! waits for their termination grace period (up to 10 minutes) before checking again whether the namespace is empty.
+#! Shortening it keeps the uninstall of the package fast in the tests.
+
+#@overlay/match by=overlay.subset({"metadata":{"name":"knative-serving"}, "kind":"PackageInstall"})
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    #@overlay/match missing_ok=True
+    ext.packaging.carvel.dev/ytt-paths-from-secret-name.0: knative-serving-test-overlays
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: knative-serving-test-overlays
+  namespace: tests
+stringData:
+  fast-shutdown.yml: |
+    #@ load("@ytt:overlay", "overlay")
+    #@ deployment = lambda name: overlay.subset({"kind": "Deployment", "metadata": {"name": name, "namespace": "knative-serving"}})
+    #@overlay/match by=overlay.or_op(deployment("activator"), deployment("webhook")), expects=2
+    ---
+    spec:
+      template:
+        spec:
+          #@overlay/match missing_ok=True
+          terminationGracePeriodSeconds: 30

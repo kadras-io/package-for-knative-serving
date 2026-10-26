@@ -1,0 +1,22 @@
+---
+ingress:
+  domain: kadras.io
+config:
+  autoscaler:
+    max-scale: 10
+    enable-scale-to-zero: false
+  deployment:
+    queue-sidecar-memory-limit: 500Mi
+  domain:
+    example.org:
+      selector:
+        app: nonprofit
+  features:
+    kubernetes.podspec-affinity: enabled
+  network:
+    http-protocol: Redirected
+  gateway:
+    local-gateways:
+      - class: envoy
+        gateway: ingress/cluster-local
+        service: ingress/envoy-cluster-local

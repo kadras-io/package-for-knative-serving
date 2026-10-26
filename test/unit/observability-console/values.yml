@@ -1,0 +1,12 @@
+---
+ingress:
+  domain: kadras.io
+observability:
+  metrics:
+    enabled: false
+    endpoint: http://ignored:4317
+  request_metrics:
+    enabled: true
+  tracing:
+    enabled: true
+    exporter: console

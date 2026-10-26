@@ -1,0 +1,20 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+
+#! Annotates the control plane Pods for Prometheus scraping. Request metrics exposed by the
+#! queue-proxy belong to the Knative Services Pods, so they are not covered here.
+
+#@ metrics = data.values.observability.metrics
+#@ if metrics.enabled and metrics.exporter == "prometheus":
+#@overlay/match by=overlay.subset({"kind": "Deployment", "metadata": {"namespace": "knative-serving"}}), expects="5+"
+---
+spec:
+  template:
+    #@overlay/match-child-defaults missing_ok=True
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/scheme: "http"
+        prometheus.io/port: "9090"
+        prometheus.io/path: "/metrics"
+#@ end

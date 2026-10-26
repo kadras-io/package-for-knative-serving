@@ -1,0 +1,10 @@
+# The Gateway terminates TLS and redirects HTTP requests: Knative Services get https URLs.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-network
+  namespace: knative-serving
+data:
+  external-domain-tls: Disabled
+  http-protocol: Redirected
+  default-external-scheme: https

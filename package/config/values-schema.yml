@@ -1,126 +1,137 @@
+#@ load("/lib/validation.star", "is_dns_label", "is_dns_name", "is_otlp_enabled")
+
 #@data/values-schema
 ---
+
+#! =============================================
+#! Ingress
+#! =============================================
+
+#! `ingress.domain` and `ca_cert_data` are shared across Kadras packages and set by the Kadras Engineering Platform.
+#! Keep their names and shapes aligned in all packages.
+
+#@schema/desc "Settings for exposing Knative Services via the Gateway API, through the Gateways of the Kadras Envoy Gateway package (https://github.com/kadras-io/package-for-envoy-gateway)."
+ingress:
+  #@schema/desc "The default domain name for all Knative Services, which are served as `<name>.<namespace>.<domain>`. Stored in the `config-domain` ConfigMap. Additional domains with label selectors can be configured via `config.domain`."
+  #@schema/examples ("Custom domain", "example.com"), ("Local development with sslip.io", "127.0.0.1.sslip.io")
+  #@schema/validation ("a valid DNS name", is_dns_name), min_len=1
+  domain: ""
+  #@schema/desc "Whether the external Gateway serves the Knative Services over HTTPS, and redirects HTTP requests to HTTPS. Knative Services then get `https` URLs. TLS is terminated on the Gateway, which needs a certificate for each namespace with Knative Services (`*.<namespace>.<domain>`)."
+  https: false
+  #@schema/desc "The Gateways routing the traffic to Knative Services. The defaults are the ones of the Kadras Envoy Gateway package. Their routes must be allowed from any namespace."
+  gateways:
+    #@schema/desc "The Gateway for the traffic from outside the cluster, exposed by the `envoy-<name>` Service in the same namespace."
+    external:
+      #@schema/desc "The name of the Gateway."
+      #@schema/validation ("a valid DNS label", is_dns_label)
+      name: external
+      #@schema/desc "The namespace of the Gateway."
+      #@schema/validation ("a valid DNS label", is_dns_label)
+      namespace: envoy-gateway-system
+    #@schema/desc "The Gateway for the cluster-local traffic, exposed by the `envoy-<name>` Service in the same namespace."
+    internal:
+      #@schema/desc "The name of the Gateway."
+      #@schema/validation ("a valid DNS label", is_dns_label)
+      name: internal
+      #@schema/desc "The namespace of the Gateway."
+      #@schema/validation ("a valid DNS label", is_dns_label)
+      namespace: envoy-gateway-system
 
 #@schema/desc "PEM-encoded certificate data to trust TLS connections with a custom CA."
 ca_cert_data: ""
 
-#@schema/desc "Settings for the Kyverno policies."
-policies:
-  #@schema/desc "Whether to include the out-of-the-box Kyverno policies to validate and secure the package installation."
-  include: false
+#! =============================================
+#! High Availability
+#! =============================================
 
-#@schema/desc "Domain name for Knative Services. It must be a valid DNS name. Stored in the `config-domain` ConfigMap."
-#@schema/validation min_len=4
-domain_name: ""
-
-#@schema/desc "A reference to the ClusterIssuer to use if you want to enable autoTLS. Stored in the `config-certmanager` ConfigMap."
-#@schema/examples ("Kadras private CA", "kadras-ca-issuer")
-ingress_issuer: ""
-
-#@schema/desc "The minimum Kubernetes version that this package will accept as valid. If not set, Knative Serving will accept the last 3 minor versions of Kubernetes."
-min_kubernetes_version: ""
-
-#@schema/desc "Settings for the Knative Serving workloads."
+#@schema/desc "Settings for the Knative Serving workloads. Set `replicas` greater than 1 to enable high availability."
 workloads:
   activator:
-    #@schema/desc "The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1."
-    #@schema/validation min=1, max=20
-    minReplicas: 1
+    #@schema/desc "The minimum number of replicas, as controlled by a HorizontalPodAutoscaler."
+    #@schema/validation min=1
+    replicas: 1
   autoscaler:
-    #@schema/desc "The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1."
+    #@schema/desc "The number of replicas. Additional replicas are standby via leader election. With more than 1 replica, a PodDisruptionBudget is created."
     #@schema/validation min=1
     replicas: 1
   controller:
-    #@schema/desc "The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1."
+    #@schema/desc "The number of replicas. Additional replicas are standby via leader election. With more than 1 replica, a PodDisruptionBudget is created."
     #@schema/validation min=1
     replicas: 1
-  domain_mapping:
-    #@schema/desc "The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1."
-    #@schema/validation min=1
-    replicas: 1
-  domain_mapping_webhook:
-    #@schema/desc "The number of replicas for this Deployment. In order to enable high availability, it should be greater than 1."
+  ingress_controller:
+    #@schema/desc "The number of replicas of the networking layer: `net-gateway-api-controller` and `net-gateway-api-webhook`. Additional controller replicas are standby via leader election. With more than 1 replica, PodDisruptionBudgets are created."
     #@schema/validation min=1
     replicas: 1
   webhook:
-    #@schema/desc "The minimum number of replicas as controlled by a HorizontalPodAutoscaler. In order to enable high availability, it should be greater than 1."
-    #@schema/validation min=1, max=5
-    minReplicas: 1
+    #@schema/desc "The minimum number of replicas, as controlled by a HorizontalPodAutoscaler."
+    #@schema/validation min=1
+    replicas: 1
 
-#@schema/desc "Settings for the Knative Serving ConfigMaps."
-config:
+#! =============================================
+#! Observability
+#! =============================================
 
-  #@schema/desc "Deployment configuration stored in the `config-deployment` ConfigMap."
-  deployment:
-    #@schema/desc "The duration to wait for the deployment to be ready before considering it failed."
-    progress-deadline: "600s"
-    #@schema/desc "The queue proxy's CPU request. If omitted, a default value (currently '25m'), is used."
-    queue-sidecar-cpu-request: "25m"
-    #@schema/desc "The queue proxy's CPU limit. If omitted, a default value (currently `1000m`), is used when `queueproxy.resource-defaults` is set to `Enabled`."
-    queue-sidecar-cpu-limit: "1000m"
-    #@schema/desc "The queue proxy's memory request. If omitted, a default value (currently `400Mi`), is used when `queueproxy.resource-defaults` is set to `Enabled`."
-    queue-sidecar-memory-request: "50Mi"
-    #@schema/desc "The queue proxy's memory limit. If omitted, a default value (currently `800Mi`), is used when `queueproxy.resource-defaults` is set to `Enabled`."
-    queue-sidecar-memory-limit: "200Mi"
+#@schema/desc "Settings for logs, metrics, and traces. Stored in the `config-observability` and `config-logging` ConfigMaps."
+observability:
+  logging:
+    #@schema/desc "The log level for all Knative Serving components."
+    #@schema/validation one_of=["debug", "info", "warn", "error"]
+    level: info
+    #@schema/desc "Whether the queue-proxy logs the requests received by Knative Services."
+    request_logs: false
+  #@schema/desc "Metrics for the Knative Serving control plane."
+  metrics:
+    #@schema/desc "Whether to produce metrics."
+    enabled: true
+    #@schema/desc "How the metrics are exported. With `prometheus`, the components expose them on port 9090, and their Pods are annotated for scraping. With `otlp`, they push them via OTLP to `endpoint`."
+    #@schema/validation one_of=["prometheus", "otlp"]
+    exporter: prometheus
+    #@schema/desc "The OTLP transport protocol, with the `otlp` exporter."
+    #@schema/validation one_of=["grpc", "http/protobuf"]
+    protocol: grpc
+    #@schema/desc "The OTLP endpoint metrics are exported to. Required with the `otlp` exporter. With `http/protobuf`, include the signal path."
+    #@schema/examples ("OTLP/gRPC", "http://otel-collector.observability.svc:4317"), ("OTLP/HTTP", "http://otel-collector.observability.svc:4318/v1/metrics")
+    #@schema/validation min_len=1, when=lambda _, ctx: is_otlp_enabled(ctx.parent)
+    endpoint: ""
+    #@schema/desc "The metrics reporting period."
+    export_interval: 60s
+  #@schema/desc "Metrics for the requests handled by the queue-proxy in the Pods of Knative Services."
+  request_metrics:
+    #@schema/desc "Whether to produce request metrics."
+    enabled: false
+    #@schema/desc "How the request metrics are exported. With `prometheus`, the queue-proxy exposes them on port 9091. With `otlp`, it pushes them via OTLP to `endpoint`."
+    #@schema/validation one_of=["prometheus", "otlp"]
+    exporter: prometheus
+    #@schema/desc "The OTLP transport protocol, with the `otlp` exporter."
+    #@schema/validation one_of=["grpc", "http/protobuf"]
+    protocol: grpc
+    #@schema/desc "The OTLP endpoint request metrics are exported to. Required with the `otlp` exporter. With `http/protobuf`, include the signal path."
+    #@schema/examples ("OTLP/gRPC", "http://otel-collector.observability.svc:4317"), ("OTLP/HTTP", "http://otel-collector.observability.svc:4318/v1/metrics")
+    #@schema/validation min_len=1, when=lambda _, ctx: is_otlp_enabled(ctx.parent)
+    endpoint: ""
+    #@schema/desc "The request metrics reporting period."
+    export_interval: 60s
+  #@schema/desc "Traces for the Knative Serving control plane and the requests handled by the queue-proxy."
+  tracing:
+    #@schema/desc "Whether to produce traces."
+    enabled: false
+    #@schema/desc "How the traces are exported. With `otlp`, they are pushed via OTLP to `endpoint`. With `console`, they are written to the standard output, for debugging."
+    #@schema/validation one_of=["otlp", "console"]
+    exporter: otlp
+    #@schema/desc "The OTLP transport protocol, with the `otlp` exporter."
+    #@schema/validation one_of=["grpc", "http/protobuf"]
+    protocol: grpc
+    #@schema/desc "The OTLP endpoint traces are exported to. Required with the `otlp` exporter. With `http/protobuf`, include the signal path."
+    #@schema/examples ("OTLP/gRPC", "http://otel-collector.observability.svc:4317"), ("OTLP/HTTP", "http://otel-collector.observability.svc:4318/v1/traces")
+    #@schema/validation min_len=1, when=lambda _, ctx: is_otlp_enabled(ctx.parent)
+    endpoint: ""
+    #@schema/desc "The fraction of requests to trace, from 0 (never) to 1 (always)."
+    #@schema/validation min=0.0, max=1.0
+    sampling_rate: 1.0
 
-  #@schema/desc "Network configuration stored in the `config-network` ConfigMap."
-  network:
-    #@schema/desc "A LabelSelector which determines which namespaces should have a wildcard certificate provisioned."
-    namespace-wildcard-cert-selector: ""
-    #@schema/desc "The golang text template string to use when constructing the Knative Service's DNS name."
-    domain-template: "{{.Name}}.{{.Namespace}}.{{.Domain}}"
-    #@schema/desc "Controls the behavior of the HTTP endpoint for the Knative ingress. `Enabled`: The Knative ingress will be able to serve HTTP connection. `Redirected`: The Knative ingress will send a 301 redirect for all http connections, asking the clients to use HTTPS."
-    #@schema/validation one_of=["Enabled", "Redirected"]
-    http-protocol: "Redirected"
-    #@schema/desc "Defines the scheme used for external URLs if autoTLS is not enabled. This can be used for making Knative report all URLs as `https`, for example, if you're fronting Knative with an external loadbalancer that deals with TLS termination and Knative doesn't know about that otherwise."
-    #@schema/validation one_of=["http", "https"]
-    default-external-scheme: "http"
-    #@schema/desc "The minimal duration in seconds over which the Configuration traffic targets are rolled out to the newest revision."
-    #@schema/validation min=0
-    rollout-duration: 0
-  
-  #@schema/desc "Observability configuration stored in the `config-observability` ConfigMap."
-  observability:
-    #@schema/desc "the protocol used when exporting metrics."
-    #@schema/validation one_of=["none", "http/protobuf", "grpc", "prometheus"]
-    metrics-protocol: "none"
-    #@schema/desc "The destination metrics should be exporter to."
-    #@schema/validation min_len=1, when=lambda _, ctx: ctx.parent["metrics-protocol"] == "http/protobuf" or ctx.parent["metrics-protocol"] == "grpc"
-    metrics-endpoint: ""
-    #@schema/desc "the protocol used when exporting queue-proxy metrics."
-    #@schema/validation one_of=["none", "http/protobuf", "grpc", "prometheus"]
-    request-metrics-protocol: "none"
-    #@schema/desc "The destination queue-proxy metrics should be exporter to."
-    #@schema/validation min_len=1, when=lambda _, ctx: ctx.parent["request-metrics-protocol"] == "http/protobuf" or ctx.parent["request-metrics-protocol"] == "grpc"
-    request-metrics-endpoint: ""
-    #@schema/desc "the global metrics reporting period for the queue-proxy."
-    request-metrics-export-interval: 60s
-    #@schema/desc "The protocol used when exporting traces."
-    #@schema/validation one_of=["none", "http/protobuf", "grpc", "stdout"]
-    tracing-protocol: "none"
-    #@schema/desc "The destination traces should be exporter to."
-    #@schema/validation min_len=1, when=lambda _, ctx: ctx.parent["tracing-protocol"] == "http/protobuf" or ctx.parent["tracing-protocol"] == "grpc"
-    tracing-endpoint: ""
-    #@schema/desc "The percentage of requests to trace. The value should be between 0 (never sample) to 1 (always sample)."
-    #@schema/validation min_len=1, max_len=3
-    tracing-sampling-rate: "1"
-
-#@schema/desc "Settings for the Ingress controller."
-ingress:
-  #@schema/desc "Ingress configuration stored in the `config-contour` ConfigMap."
-  contour:
-    #@schema/desc "If auto-TLS is disabled, fallback to this certificate. An operator is required to setup a TLSCertificateDelegation for this Secret to be used."
-    default-tls-secret: ""
-    #@schema/desc "Configuration for the external Ingress controller"
-    external:
-      #@schema/desc "The namespace where the external Ingress controller is installed."
-      #@schema/validation min_len=1
-      namespace: projectcontour
-    #@schema/desc "Configuration for the internal Ingress controller"
-    internal:
-      #@schema/desc "The namespace where the internal Ingress controller is installed."
-      #@schema/validation min_len=1
-      namespace: projectcontour
+#! =============================================
+#! Corporate Proxy and Policies
+#! =============================================
 
 #@schema/desc "Settings for the corporate proxy."
 proxy:
@@ -130,3 +141,59 @@ proxy:
   http_proxy: ""
   #@schema/desc "A comma-separated list of hostnames, IP addresses, or IP ranges in CIDR format that should not use a proxy."
   no_proxy: ""
+
+#@schema/desc "Settings for the Kyverno policies."
+policies:
+  #@schema/desc "Whether to include Kyverno policies verifying the signatures of the Knative Serving images. Kyverno 1.19 or later must be installed in the cluster."
+  enabled: false
+
+#! =============================================
+#! Knative ConfigMaps
+#! =============================================
+
+#! Each entry maps to the `config-<name>` ConfigMap in the `knative-serving` namespace.
+#! Keys are merged on top of the ones computed from the settings above, so they take precedence.
+#! Non-string values are converted: maps and lists are encoded as YAML, other values as strings.
+
+#@schema/desc "Data for the Knative Serving ConfigMaps, keyed by ConfigMap name without the `config-` prefix. Keys set here override the ones computed by the package. See https://knative.dev/docs/serving/configuration/config-defaults for the available options."
+config:
+  #@schema/desc "Data for the `config-autoscaler` ConfigMap."
+  #@schema/type any=True
+  autoscaler: {}
+  #@schema/desc "Data for the `config-certmanager` ConfigMap."
+  #@schema/type any=True
+  certmanager: {}
+  #@schema/desc "Data for the `config-defaults` ConfigMap."
+  #@schema/type any=True
+  defaults: {}
+  #@schema/desc "Data for the `config-deployment` ConfigMap."
+  #@schema/type any=True
+  deployment:
+    queue-sidecar-cpu-request: 25m
+    queue-sidecar-cpu-limit: 1000m
+    queue-sidecar-memory-request: 50Mi
+    queue-sidecar-memory-limit: 200Mi
+  #@schema/desc "Data for the `config-domain` ConfigMap."
+  #@schema/type any=True
+  domain: {}
+  #@schema/desc "Data for the `config-features` ConfigMap."
+  #@schema/type any=True
+  features: {}
+  #@schema/desc "Data for the `config-gateway` ConfigMap."
+  #@schema/type any=True
+  gateway: {}
+  #@schema/desc "Data for the `config-gc` ConfigMap."
+  #@schema/type any=True
+  gc: {}
+  #@schema/desc "Data for the `config-leader-election` ConfigMap."
+  #@schema/type any=True
+  leader-election: {}
+  #@schema/desc "Data for the `config-logging` ConfigMap."
+  #@schema/type any=True
+  logging: {}
+  #@schema/desc "Data for the `config-network` ConfigMap."
+  #@schema/type any=True
+  network: {}
+  #@schema/desc "Data for the `config-observability` ConfigMap."
+  #@schema/type any=True
+  observability: {}

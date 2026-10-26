@@ -1,0 +1,106 @@
+# The upstream maximum is kept when higher than the minimum.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: activator
+  namespace: knative-serving
+spec:
+  minReplicas: 3
+  maxReplicas: 20
+---
+# The upstream maximum (5) is raised to the minimum.
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: webhook
+  namespace: knative-serving
+spec:
+  minReplicas: 7
+  maxReplicas: 7
+---
+# The upstream PodDisruptionBudgets are kept for the workloads scaled by a HorizontalPodAutoscaler.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: activator-pdb
+  namespace: knative-serving
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: webhook-pdb
+  namespace: knative-serving
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoscaler
+  namespace: knative-serving
+spec:
+  replicas: 2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller
+  namespace: knative-serving
+spec:
+  replicas: 2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-gateway-api-controller
+  namespace: knative-serving
+spec:
+  replicas: 2
+---
+# The workloads using leader election get a PodDisruptionBudget.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: autoscaler-pdb
+  namespace: knative-serving
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: autoscaler
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: controller-pdb
+  namespace: knative-serving
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: controller
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: net-gateway-api-controller-pdb
+  namespace: knative-serving
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: net-gateway-api-controller
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-gateway-api-webhook
+  namespace: knative-serving
+spec:
+  replicas: 2
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: net-gateway-api-webhook-pdb
+  namespace: knative-serving
+spec:
+  minAvailable: 1

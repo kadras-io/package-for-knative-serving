@@ -1,0 +1,10 @@
+---
+ingress:
+  domain: kadras.io
+  gateways:
+    external:
+      name: public
+      namespace: ingress
+    internal:
+      name: private
+      namespace: ingress

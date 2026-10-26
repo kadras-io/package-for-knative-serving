@@ -1,0 +1,46 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+
+#! Trusts additional certificate authorities on top of the system ones, for example to reach a private container registry.
+#! The controller is the only component reaching external services, to resolve image digests from registries.
+#! See: https://knative.dev/docs/serving/tag-resolution
+
+#@ ca_certs_directory = "/etc/ssl/certs-extra"
+#@ ca_certs_secret_name = "knative-serving-ca-certificates"
+
+#@ if data.values.ca_cert_data:
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: #@ ca_certs_secret_name
+  namespace: knative-serving
+stringData:
+  ca.crt: #@ data.values.ca_cert_data
+
+#@overlay/match by=overlay.subset({"kind": "Deployment", "metadata": {"name": "controller", "namespace": "knative-serving"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+        #@overlay/match by="name"
+        - name: controller
+          #@overlay/match missing_ok=True
+          volumeMounts:
+            - name: ca-certificates
+              mountPath: #@ ca_certs_directory
+              readOnly: true
+          #@overlay/match missing_ok=True
+          env:
+            #! Go still loads the system bundle file, so the system certificate authorities stay trusted.
+            - name: SSL_CERT_DIR
+              value: #@ ca_certs_directory
+      #@overlay/match missing_ok=True
+      volumes:
+        - name: ca-certificates
+          secret:
+            secretName: #@ ca_certs_secret_name
+
+#@ end

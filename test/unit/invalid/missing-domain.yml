@@ -1,0 +1,4 @@
+# expected: must be: length >= 1
+---
+ingress:
+  domain: ""

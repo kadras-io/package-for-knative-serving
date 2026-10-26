@@ -1,0 +1,28 @@
+# With a single replica, no PodDisruptionBudget blocks node drains.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+---
+apiVersion: policies.kyverno.io/v1
+kind: NamespacedImageValidatingPolicy
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: knative-serving-ca-certificates
+  namespace: knative-serving
+---
+# net-gateway-api is the only networking layer.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-contour-controller
+  namespace: knative-serving
+---
+# Only the control plane metrics are enabled by default.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-observability
+  namespace: knative-serving
+data:
+  (contains(keys(@), 'metrics-endpoint')): true

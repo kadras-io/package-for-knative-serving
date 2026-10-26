@@ -1,0 +1,19 @@
+---
+ingress:
+  domain: kadras.io
+observability:
+  logging:
+    level: debug
+    request_logs: true
+  metrics:
+    exporter: otlp
+    endpoint: http://otel-collector.observability:4317
+  request_metrics:
+    enabled: true
+    exporter: otlp
+    protocol: http/protobuf
+    endpoint: http://otel-collector.observability:4318/v1/metrics
+  tracing:
+    enabled: true
+    endpoint: http://otel-collector.observability:4317
+    sampling_rate: 0.25

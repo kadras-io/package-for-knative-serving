@@ -1,0 +1,7 @@
+# expected: must be: a value <= 1
+---
+ingress:
+  domain: kadras.io
+observability:
+  tracing:
+    sampling_rate: 5

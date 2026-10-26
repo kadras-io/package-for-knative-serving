@@ -1,0 +1,7 @@
+# expected: observability.tracing.endpoint
+---
+ingress:
+  domain: kadras.io
+observability:
+  tracing:
+    enabled: true

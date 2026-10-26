@@ -1,0 +1,12 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("/lib/configmaps.star", "configmap_names", "configmap_data")
+
+#! Merges the package configuration into the data of each Knative Serving ConfigMap.
+#! Upstream keys not set by the package (e.g. `queue-sidecar-image`, `_example`) are preserved.
+
+#@ for name in configmap_names():
+#@overlay/match by=overlay.subset({"kind": "ConfigMap", "metadata": {"name": "config-" + name, "namespace": "knative-serving"}})
+---
+#@overlay/match-child-defaults missing_ok=True
+data: #@ configmap_data(name)
+#@ end

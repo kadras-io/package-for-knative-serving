@@ -1,0 +1,7 @@
+# expected: one of ["otlp", "console"]
+---
+ingress:
+  domain: kadras.io
+observability:
+  tracing:
+    exporter: prometheus

@@ -6,6 +6,8 @@ metadata:
   namespace: tests
 stringData:
   values.yaml: |
-    domain_name: "127.0.0.1.sslip.io"
-    ingress_issuer: "kadras-ca-issuer"
-    min_kubernetes_version: "1.30.0"
+    ingress:
+      domain: "127.0.0.1.sslip.io"
+      https: true
+    policies:
+      enabled: true

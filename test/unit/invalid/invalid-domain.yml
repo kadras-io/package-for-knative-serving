@@ -1,0 +1,4 @@
+# expected: must be: a valid DNS name
+---
+ingress:
+  domain: Kadras_IO

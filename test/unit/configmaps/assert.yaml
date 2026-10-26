@@ -1,0 +1,61 @@
+# Non-string values are converted to strings.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-autoscaler
+  namespace: knative-serving
+data:
+  max-scale: "10"
+  enable-scale-to-zero: "false"
+---
+# Overriding one key keeps the package defaults for the others.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-deployment
+  namespace: knative-serving
+data:
+  queue-sidecar-memory-limit: 500Mi
+  queue-sidecar-memory-request: 50Mi
+---
+# Maps are encoded as YAML, next to the default domain.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-domain
+  namespace: knative-serving
+data:
+  kadras.io: ""
+  (parse_yaml("example.org")):
+    selector:
+      app: nonprofit
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-features
+  namespace: knative-serving
+data:
+  kubernetes.podspec-affinity: enabled
+---
+# Keys set in config.<name> override the computed ones.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-network
+  namespace: knative-serving
+data:
+  http-protocol: Redirected
+  external-domain-tls: Disabled
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-gateway
+  namespace: knative-serving
+data:
+  (parse_yaml("external-gateways")):
+  - gateway: envoy-gateway-system/external
+  (parse_yaml("local-gateways")):
+  - gateway: ingress/cluster-local
+    service: ingress/envoy-cluster-local

@@ -1,0 +1,61 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+#@ load("@ytt:struct", "struct")
+
+#! Scales the Knative Serving workloads. With more than 1 replica, a PodDisruptionBudget
+#! keeps at least one of them running during voluntary disruptions, like node drains.
+#! See: https://knative.dev/docs/serving/config-ha
+
+#! Workloads scaled by a HorizontalPodAutoscaler and protected by an upstream PodDisruptionBudget.
+#@ hpa_workloads = ["activator", "webhook"]
+
+#! The networking layer (net-gateway-api) has a controller and a webhook.
+#@ def deployment_names(key):
+#@   return ["net-gateway-api-controller", "net-gateway-api-webhook"] if key == "ingress_controller" else [key]
+#@ end
+
+#@ for key, workload in struct.decode(data.values.workloads).items():
+#@   replicas = workload["replicas"]
+#@   if key in hpa_workloads:
+
+#@overlay/match by=overlay.subset({"kind": "HorizontalPodAutoscaler", "metadata": {"name": key, "namespace": "knative-serving"}})
+---
+spec:
+  minReplicas: #@ replicas
+  #! Raise the upstream maximum if it is lower than the requested minimum.
+  #@overlay/replace via=lambda left, right: max(left, right)
+  maxReplicas: #@ replicas
+
+#! With a single replica, the PodDisruptionBudget would block node drains.
+#@     if replicas < 2:
+#@overlay/match by=overlay.subset({"kind": "PodDisruptionBudget", "metadata": {"name": key + "-pdb", "namespace": "knative-serving"}})
+#@overlay/remove
+---
+#@     end
+#@   else:
+#@     for name in deployment_names(key):
+
+#@overlay/match by=overlay.subset({"kind": "Deployment", "metadata": {"name": name, "namespace": "knative-serving"}})
+---
+spec:
+  #@overlay/match missing_ok=True
+  replicas: #@ replicas
+
+#@       if replicas > 1:
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: #@ name + "-pdb"
+  namespace: knative-serving
+  labels:
+    app.kubernetes.io/name: knative-serving
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: #@ name
+#@       end
+#@     end
+#@   end
+#@ end

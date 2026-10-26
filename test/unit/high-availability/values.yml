@@ -1,0 +1,14 @@
+---
+ingress:
+  domain: kadras.io
+workloads:
+  activator:
+    replicas: 3
+  autoscaler:
+    replicas: 2
+  controller:
+    replicas: 2
+  ingress_controller:
+    replicas: 2
+  webhook:
+    replicas: 7

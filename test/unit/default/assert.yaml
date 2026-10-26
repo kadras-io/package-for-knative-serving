@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-domain
+  namespace: knative-serving
+data:
+  kadras.io: ""
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-network
+  namespace: knative-serving
+data:
+  ingress-class: gateway-api.ingress.networking.knative.dev
+  external-domain-tls: Disabled
+  http-protocol: Enabled
+  default-external-scheme: http
+---
+# The package defaults are merged with the upstream keys, which are preserved.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-deployment
+  namespace: knative-serving
+data:
+  queue-sidecar-memory-request: 50Mi
+  (contains(keys(@), 'queue-sidecar-image')): true
+---
+# The external and cluster-local traffic go through the Gateways of the Kadras Envoy Gateway package.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-gateway
+  namespace: knative-serving
+data:
+  (parse_yaml("external-gateways")):
+  - class: envoy
+    gateway: envoy-gateway-system/external
+    service: envoy-gateway-system/envoy-external
+    supported-features:
+    - HTTPRouteRequestTimeout
+  (parse_yaml("local-gateways")):
+  - class: envoy
+    gateway: envoy-gateway-system/internal
+    service: envoy-gateway-system/envoy-internal
+    supported-features:
+    - HTTPRouteRequestTimeout
+  (contains(keys(@), '_example')): true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-logging
+  namespace: knative-serving
+data:
+  loglevel.net-gateway-api-controller: info
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-gateway-api-controller
+  namespace: knative-serving
+spec:
+  replicas: 1
+  template:
+    spec:
+      imagePullSecrets:
+        - name: canonical-registry-credentials
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: canonical-registry-credentials
+  namespace: knative-serving
+  annotations:
+    secretgen.carvel.dev/image-pull-secret: ""
+type: kubernetes.io/dockerconfigjson
+---
+# The control plane metrics are exposed to Prometheus by default.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-observability
+  namespace: knative-serving
+data:
+  metrics-protocol: prometheus
+  request-metrics-protocol: none
+  tracing-protocol: none
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller
+  namespace: knative-serving
+spec:
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+        prometheus.io/path: /metrics
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-gateway-api-controller
+  namespace: knative-serving
+spec:
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: knative-serving
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted

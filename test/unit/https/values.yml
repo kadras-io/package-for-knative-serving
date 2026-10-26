@@ -1,0 +1,4 @@
+---
+ingress:
+  domain: kadras.io
+  https: true

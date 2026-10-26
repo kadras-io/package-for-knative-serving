@@ -7,7 +7,7 @@ directories:
     path: serving
   - githubRelease:
       tag: knative-v1.23.0
-      url: https://api.github.com/repos/knative-extensions/net-contour/releases/361063591
-    path: net-contour
+      url: https://api.github.com/repos/knative-extensions/net-gateway-api/releases/360979774
+    path: net-gateway-api
   path: config/upstream
 kind: LockConfig

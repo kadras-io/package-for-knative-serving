@@ -1,0 +1,7 @@
+# expected: must be: a valid DNS label
+---
+ingress:
+  domain: kadras.io
+  gateways:
+    external:
+      namespace: Envoy_Gateway

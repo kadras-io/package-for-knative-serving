@@ -7,15 +7,14 @@ directories:
       tag: knative-v1.23.0
     includePaths:
     - serving-core.yaml
-    - serving-hpa.yaml
     path: serving
   - githubRelease:
       disableAutoChecksumValidation: true
-      slug: knative-extensions/net-contour
+      slug: knative-extensions/net-gateway-api
       tag: knative-v1.23.0
     includePaths:
-    - net-contour.yaml
-    path: net-contour
+    - net-gateway-api.yaml
+    path: net-gateway-api
   path: config/upstream
 kind: Config
 minimumRequiredVersion: 0.32.0

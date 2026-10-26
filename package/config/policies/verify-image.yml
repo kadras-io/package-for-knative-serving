@@ -1,9 +1,9 @@
 #@ load("@ytt:data", "data")
 
-#@ if data.values.policies.include:
+#@ if data.values.policies.enabled:
 ---
-apiVersion: kyverno.io/v1
-kind: Policy
+apiVersion: policies.kyverno.io/v1
+kind: NamespacedImageValidatingPolicy
 metadata:
   name: knative-serving-verify-image
   namespace: knative-serving
@@ -12,27 +12,40 @@ metadata:
     policies.kyverno.io/category: Software Supply Chain Security
     policies.kyverno.io/severity: high
     policies.kyverno.io/subject: Pod
-    policies.kyverno.io/minversion: 1.9.0
+    policies.kyverno.io/minversion: 1.19.0
     policies.kyverno.io/description: >-
       Using the Cosign project, this policy checks all container images used by this package
-      to ensure they have been signed by verifying their signatures against the provided public key. 
+      to ensure they have been signed by verifying their keyless signatures against the Knative release identity.
 spec:
-  validationFailureAction: Enforce
-  webhookTimeoutSeconds: 30
-  rules:
-    - name: verify-signature
-      match:
-        any:
-        - resources:
-            kinds:
-              - Pod
-      verifyImages:
-      - imageReferences:
-        - "gcr.io/knative-releases/knative.dev/*"
-        attestors:
-        - entries:
-          - keyless:
-              #! https://knative.dev/docs/reference/security/verifying-images/#knative-slsa-provenance-signed
-              subject: "signer@knative-releases.iam.gserviceaccount.com"
-              issuer: "https://accounts.google.com"
+  webhookConfiguration:
+    timeoutSeconds: 30
+  #! Image verification only makes sense when Pods are admitted.
+  evaluation:
+    background:
+      enabled: false
+  validationActions:
+    - Deny
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+  #! The images of Knative Serving and of its networking layer (net-gateway-api).
+  matchImageReferences:
+    - glob: "gcr.io/knative-releases/knative.dev/serving/*"
+    - glob: "gcr.io/knative-releases/knative.dev/net-gateway-api/*"
+  attestors:
+    - name: knative
+      cosign:
+        #! The Knative images are signed keyless, with the signatures recorded in the Rekor transparency log.
+        #! https://knative.dev/docs/reference/security/verifying-images
+        keyless:
+          identities:
+            - subject: signer@knative-releases.iam.gserviceaccount.com
+              issuer: https://accounts.google.com
+  validations:
+    - expression: >-
+        images.containers.map(image, verifyImageSignatures(image, [attestors.knative])).all(e, e > 0)
+      message: The Knative Serving images must be signed by the Knative release identity.
 #@ end

@@ -1,77 +1,27 @@
-# High Availability (Leader Election)
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: serving.knative.dev/v1
+kind: Service
 metadata:
-  name: autoscaler
-  namespace: knative-serving
-spec:
-  replicas: 1
+  name: hello
+  namespace: tests
 status:
-  readyReplicas: 1
+  latestReadyRevisionName: hello-00001
+  url: https://hello.tests.127.0.0.1.sslip.io
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: controller
-  namespace: knative-serving
-spec:
-  replicas: 1
-status:
-  readyReplicas: 1
-
-# High Availability (HorizontalPodAutoscaler)
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: activator
-  namespace: knative-serving
-spec:
-  minReplicas: 1
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: webhook
-  namespace: knative-serving
-spec:
-  minReplicas: 1
-
-# # Prometheus Annotations
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   namespace: knative-serving
-# spec:
-#   template:
-#     metadata:
-#       annotations:
-#         prometheus.io/scrape: "true"
-#         prometheus.io/scheme: "http"
-#         prometheus.io/port: "metrics"
-#         prometheus.io/path: "/metrics"
-
-# Image Pull Secret
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: canonical-registry-credentials
-  namespace: knative-serving
-  annotations:
-    secretgen.carvel.dev/image-pull-secret: ""
-type: kubernetes.io/dockerconfigjson
-data:
-  .dockerconfigjson: e30K
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  namespace: knative-serving
-spec:
-  template:
-    spec:
-      imagePullSecrets:
-        - name: canonical-registry-credentials
+apiVersion: kuttl.dev/v1beta1
+kind: TestAssert
+commands:
+  # The external Gateway redirects HTTP requests to HTTPS, and serves the Knative Service over HTTPS.
+  - timeout: 30
+    script: ../../setup/scripts/probe.sh envoy-external http://hello.tests.127.0.0.1.sslip.io 301
+  - timeout: 30
+    script: ../../setup/scripts/probe.sh envoy-external https://hello.tests.127.0.0.1.sslip.io 200
+  # The cluster-local traffic goes through the internal Gateway.
+  - timeout: 30
+    script: |
+      kubectl exec -n tests curl -- curl -s --max-time 5 -o /dev/null -w '%{http_code}' http://hello.tests.svc.cluster.local | grep -q 200
+  # A new controller Pod is admitted with the Kyverno policies in place, so its image signature and provenance are verified.
+  - timeout: 150
+    script: |
+      kubectl rollout restart deployment/controller -n knative-serving
+      kubectl rollout status deployment/controller -n knative-serving --timeout=120s

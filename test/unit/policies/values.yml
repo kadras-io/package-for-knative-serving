@@ -1,0 +1,5 @@
+---
+ingress:
+  domain: kadras.io
+policies:
+  enabled: true

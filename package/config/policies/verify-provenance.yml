@@ -1,0 +1,64 @@
+#@ load("@ytt:data", "data")
+
+#@ if data.values.policies.enabled:
+---
+apiVersion: policies.kyverno.io/v1
+kind: NamespacedImageValidatingPolicy
+metadata:
+  name: knative-serving-verify-provenance
+  namespace: knative-serving
+  annotations:
+    policies.kyverno.io/title: Verify SLSA Provenance
+    policies.kyverno.io/category: Software Supply Chain Security
+    policies.kyverno.io/severity: high
+    policies.kyverno.io/subject: Pod
+    policies.kyverno.io/minversion: 1.19.0
+    policies.kyverno.io/description: >-
+      Using the Cosign project, this policy checks all container images used by this package
+      to ensure they have a SLSA provenance attestation signed by the Knative release identity,
+      stating that they were built by the Knative release infrastructure from the Knative source repositories.
+spec:
+  webhookConfiguration:
+    timeoutSeconds: 30
+  #! Provenance verification only makes sense when Pods are admitted.
+  evaluation:
+    background:
+      enabled: false
+  validationActions:
+    - Deny
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["pods"]
+  #! The images of Knative Serving and of its networking layer (net-gateway-api).
+  matchImageReferences:
+    - glob: "gcr.io/knative-releases/knative.dev/serving/*"
+    - glob: "gcr.io/knative-releases/knative.dev/net-gateway-api/*"
+  attestors:
+    - name: knative
+      cosign:
+        #! The Knative attestations are signed keyless, and recorded in the Rekor transparency log.
+        #! https://knative.dev/docs/reference/security/verifying-images/#knative-slsa-provenance-signed
+        keyless:
+          identities:
+            - subject: signer@knative-releases.iam.gserviceaccount.com
+              issuer: https://accounts.google.com
+  attestations:
+    - name: slsa
+      intoto:
+        type: https://slsa.dev/provenance/v0.2
+  validations:
+    - expression: >-
+        images.containers.map(image, verifyAttestationSignatures(image, attestations.slsa, [attestors.knative])).all(e, e > 0)
+      message: The Knative Serving images must have a SLSA provenance attestation signed by the Knative release identity.
+    - expression: >-
+        images.containers.map(image, extractPayload(image, attestations.slsa).predicate.builder.id == 'https://prow.knative.dev').all(e, e)
+      message: The Knative Serving images must be built by the Knative release infrastructure (https://prow.knative.dev).
+    - expression: >-
+        images.containers.map(image, extractPayload(image, attestations.slsa).predicate.materials.exists(m,
+          m.uri == 'git+https://github.com/knative/serving' ||
+          m.uri.startsWith('git+https://github.com/knative-extensions/net-'))).all(e, e)
+      message: The Knative Serving images must be built from the Knative Serving or networking layer source repositories.
+#@ end

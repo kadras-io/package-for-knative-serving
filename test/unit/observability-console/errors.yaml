@@ -1,0 +1,16 @@
+# No endpoint is set without the otlp exporter, since Knative rejects one when not needed.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-observability
+  namespace: knative-serving
+data:
+  (contains(keys(@), 'metrics-endpoint') || contains(keys(@), 'request-metrics-endpoint') || contains(keys(@), 'tracing-endpoint')): true
+---
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"

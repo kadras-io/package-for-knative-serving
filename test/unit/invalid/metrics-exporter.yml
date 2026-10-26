@@ -1,0 +1,7 @@
+# expected: one of ["prometheus", "otlp"]
+---
+ingress:
+  domain: kadras.io
+observability:
+  metrics:
+    exporter: grpc

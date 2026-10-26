@@ -1,0 +1,29 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+
+#! Routes the outbound traffic through a corporate proxy.
+#! The controller is the only component reaching external services, to resolve image digests from registries.
+#! See: https://knative.dev/docs/serving/tag-resolution
+
+#@ proxy = data.values.proxy
+#@ if proxy.http_proxy or proxy.https_proxy or proxy.no_proxy:
+#@overlay/match by=overlay.subset({"kind": "Deployment", "metadata": {"name": "controller", "namespace": "knative-serving"}})
+---
+spec:
+  template:
+    spec:
+      containers:
+        #@overlay/match by="name"
+        - name: controller
+          #@overlay/match missing_ok=True
+          env:
+          #@ if/end proxy.http_proxy:
+          - name: HTTP_PROXY
+            value: #@ proxy.http_proxy
+          #@ if/end proxy.https_proxy:
+          - name: HTTPS_PROXY
+            value: #@ proxy.https_proxy
+          #@ if/end proxy.no_proxy:
+          - name: NO_PROXY
+            value: #@ proxy.no_proxy
+#@ end

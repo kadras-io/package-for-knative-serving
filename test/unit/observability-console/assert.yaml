@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-observability
+  namespace: knative-serving
+data:
+  metrics-protocol: none
+  request-metrics-protocol: prometheus
+  tracing-protocol: stdout

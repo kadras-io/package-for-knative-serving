@@ -1,0 +1,8 @@
+# With the otlp exporter, the Pods aren't annotated for Prometheus scraping.
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"

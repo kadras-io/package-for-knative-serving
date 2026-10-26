@@ -1,5 +1,3 @@
-#@ load("@ytt:data", "data")
-
 ---
 apiVersion: kapp.k14s.io/v1alpha1
 kind: Config
@@ -19,7 +17,7 @@ rebaseRules:
   - kindNamespaceNameMatcher: {kind: Deployment, namespace: knative-serving, name: activator}
   - kindNamespaceNameMatcher: {kind: Deployment, namespace: knative-serving, name: webhook}
 
-#! Some Secrets are created empty and populated at install time by Knative Serving with TLS certificates.
+#! The webhook Secrets are created empty and populated at runtime by Knative Serving with TLS certificates.
 #! We prefer the manifest configuration, but allow the one set on the cluster.
 - paths:
   - [data, ca-cert.pem]
@@ -28,42 +26,8 @@ rebaseRules:
   type: copy
   sources: [new, existing]
   resourceMatchers:
-  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: webhook-certs}
-
-#! These Secrets are created empty and populated by Knative Serving when system-internal-tls is enabled.
-#! They don't follow the standard naming conventions for TLS certificates, so we need a dedicate rule for them.
-- path: [data]
-  type: copy
-  sources: [new, existing]
-  resourceMatchers:
-  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: net-certmanager-webhook-certs}
-
-#! Changes applied by users to the ConfigMaps for which this package doesn't provide overlays
-#! are persisted between upgrades.
-- path: [data]
-  type: copy
-  sources: [existing, new]
-  resourceMatchers:
-  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-autoscaler}
-  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-defaults}
-  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-deployment}
-  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-features}
-  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-gc}
-  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-leader-election}
-  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-logging}
-  - kindNamespaceNameMatcher: {kind: ConfigMap, namespace: knative-serving, name: config-observability}
-
-#! When upgrading one of the ConfigMaps above, we prefer the changes applied to the cluster,
-#! but we want to get the new example values from the new version.
-- path: [data, _example]
-  type: remove
-  resourceMatchers:
-  - apiVersionKindMatcher: {apiVersion: v1, kind: ConfigMap}
-- path: [data, _example]
-  type: copy
-  sources: [new]
-  resourceMatchers:
-  - apiVersionKindMatcher: {apiVersion: v1, kind: ConfigMap}
+  - kindNamespaceNameMatcher: {kind: Secret, namespace: knative-serving, name: webhook-certs}
+  - kindNamespaceNameMatcher: {kind: Secret, namespace: knative-serving, name: net-gateway-api-webhook-certs}
 
 #! These webhook configurations are populated by Knative Serving.
 #! We want to persist those changes between upgrades.

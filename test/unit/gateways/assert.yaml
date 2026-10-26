@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-gateway
+  namespace: knative-serving
+data:
+  (parse_yaml("external-gateways")):
+  - gateway: ingress/public
+    service: ingress/envoy-public
+  (parse_yaml("local-gateways")):
+  - gateway: ingress/private
+    service: ingress/envoy-private

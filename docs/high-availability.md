@@ -1,35 +1,31 @@
 # Configuring High Availability
 
-High availability for Knative Serving can be configured using different strategies for the control plane and the data plane.
-
-## High availability for the control plane
-
-The `autoscaler` and `controller` components support high availability following an active/active model based on the leader election strategy. Work is distributed among replicas based on buckets.
-
-The leader election configuration is provided via the `config-leader-election` ConfigMap. By default, only one replica for each component is deployed, meaning high availability is disabled. To enable high availability, it's recommended to configure at least 3 replicas for each component.
-
-```yaml
-workloads:
-  autoscaler:
-    replicas: 3
-  controller:
-    replicas: 3
-```
-
-You can disable high availability for those components by scaling them down to 1 replica.
-
-## High availability for the data plane
-
-High availability for the `activator` and `webhook` components is controlled by a `HorizontalPodAutoscaler`, and requires [Metrics Server](https://github.com/kadras-io/package-for-metrics-server) to be installed in your Kubernetes cluster.
-
-The following configuration enables the high availability by specifying a minimum number of replicas ensured by the `HorizontalPodAutoscaler`. When more than 1 replica is configured, a `PodDisruptionBudget` is automatically created to prevent downtime during node unavailability.
+By default, one replica of each Knative Serving component is deployed. Configure the number of replicas to enable high availability.
 
 ```yaml
 workloads:
   activator:
-    minReplicas: 3
+    replicas: 3
+  autoscaler:
+    replicas: 2
+  controller:
+    replicas: 2
+  ingress_controller:
+    replicas: 2
   webhook:
-    minReplicas: 2
+    replicas: 2
 ```
+
+## Control plane
+
+The `autoscaler`, `controller`, and `ingress_controller` components use leader election. Additional replicas take over when the leader becomes unavailable, and work is distributed among replicas based on buckets. The leader election can be tuned via `config.leader-election`. With more than 1 replica, a `PodDisruptionBudget` keeps at least one of them running during node maintenance.
+
+The `ingress_controller` replicas apply to the [networking layer](ingress.md): `net-gateway-api-controller` and `net-gateway-api-webhook`.
+
+## Data plane
+
+The `activator` and `webhook` components are scaled by a `HorizontalPodAutoscaler`, which requires [Metrics Server](https://github.com/kadras-io/package-for-metrics-server) to be installed in your Kubernetes cluster. The number of replicas configures the minimum ensured by the `HorizontalPodAutoscaler`. The maximum is raised accordingly if needed.
+
+With more than 1 replica, a `PodDisruptionBudget` prevents downtime during node maintenance. With 1 replica, it is removed so that it doesn't block draining nodes.
 
 For more information, check the Knative Serving documentation for [configuring high availability components](https://knative.dev/docs/serving/config-ha).

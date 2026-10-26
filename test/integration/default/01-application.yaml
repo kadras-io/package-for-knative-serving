@@ -1,0 +1,26 @@
+---
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: hello
+  namespace: tests
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/knative-samples/helloworld-go
+          env:
+            - name: TARGET
+              value: World
+---
+# A client to send requests from inside the cluster (see test/setup/scripts/probe.sh).
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curl
+  namespace: tests
+spec:
+  containers:
+  - name: curl
+    image: curlimages/curl:8.11.1
+    command: ["sleep", "infinity"]

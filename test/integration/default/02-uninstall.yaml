@@ -1,0 +1,18 @@
+---
+# The package is deleted with kapp, as kapp-controller does when deleting the PackageInstall:
+# `kctrl dev --delete` doesn't delete the resources of a local installation.
+# The termination grace period of the activator and webhook is shortened by the overlay in test/setup/overlays,
+# so that the knative-serving namespace is deleted quickly.
+apiVersion: kuttl.dev/v1beta1
+kind: TestStep
+delete:
+  - apiVersion: serving.knative.dev/v1
+    kind: Service
+    name: hello
+    namespace: tests
+  - apiVersion: v1
+    kind: Pod
+    name: curl
+    namespace: tests
+commands:
+  - script: kapp delete -a knative-serving.app -n tests -y

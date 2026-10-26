@@ -1,0 +1,125 @@
+# Workloads (Leader Election)
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autoscaler
+  namespace: knative-serving
+spec:
+  replicas: 1
+status:
+  readyReplicas: 1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller
+  namespace: knative-serving
+spec:
+  replicas: 1
+status:
+  readyReplicas: 1
+
+# Workloads (HorizontalPodAutoscaler)
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: activator
+  namespace: knative-serving
+spec:
+  minReplicas: 1
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: webhook
+  namespace: knative-serving
+spec:
+  minReplicas: 1
+
+# ConfigMaps
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-domain
+  namespace: knative-serving
+data:
+  127.0.0.1.sslip.io: ""
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-network
+  namespace: knative-serving
+data:
+  ingress-class: gateway-api.ingress.networking.knative.dev
+  external-domain-tls: Disabled
+  http-protocol: Redirected
+  default-external-scheme: https
+
+# Networking layer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-gateway-api-controller
+  namespace: knative-serving
+status:
+  readyReplicas: 1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-gateway-api-webhook
+  namespace: knative-serving
+status:
+  readyReplicas: 1
+
+# Image Pull Secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: canonical-registry-credentials
+  namespace: knative-serving
+  annotations:
+    secretgen.carvel.dev/image-pull-secret: ""
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: e30K
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: knative-serving
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: canonical-registry-credentials
+
+# Policies (Kyverno): the Pods above are admitted, so their image signatures and SLSA provenance are verified.
+---
+apiVersion: policies.kyverno.io/v1
+kind: NamespacedImageValidatingPolicy
+metadata:
+  name: knative-serving-verify-image
+  namespace: knative-serving
+
+---
+apiVersion: policies.kyverno.io/v1
+kind: NamespacedImageValidatingPolicy
+metadata:
+  name: knative-serving-verify-provenance
+  namespace: knative-serving
+
+# Security: the workloads run in a namespace enforcing the restricted Pod Security Standard.
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: knative-serving
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
