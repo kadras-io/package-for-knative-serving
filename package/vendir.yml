@@ -4,14 +4,14 @@ directories:
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative/serving
-      tag: knative-v1.23.0
+      tag: knative-v1.24.0
     includePaths:
     - serving-core.yaml
     path: serving
   - githubRelease:
       disableAutoChecksumValidation: true
       slug: knative-extensions/net-gateway-api
-      tag: knative-v1.23.0
+      tag: knative-v1.24.0
     includePaths:
     - net-gateway-api.yaml
     path: net-gateway-api
